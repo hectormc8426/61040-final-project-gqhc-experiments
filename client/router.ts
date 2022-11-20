@@ -14,17 +14,7 @@ const router = new VueRouter({routes});
  * Navigation guards to prevent user from accessing wrong pages.
  */
 router.beforeEach((to, from, next) => {
-  if (router.app.$store) {
-    if (to.name === 'Login' && router.app.$store.state.username) {
-      next({name: 'Account'}); // Go to Account page if user navigates to Login and are signed in
-      return;
-    }
-
-    if ((to.name === 'Account' || to.name === 'Reflection') && !router.app.$store.state.username) {
-      next({name: 'Login'}); // Go to Login page if user navigates to Account/Reflection and are not signed in
-      return;
-    }
-  }
+  // Fill this function if we need to!
 
   next();
 });
