@@ -1,5 +1,6 @@
 import type { HydratedDocument, Types } from 'mongoose';
 import CosmeticCollection from 'server/cosmetic/collection';
+import CosmeticModel from 'server/cosmetic/model';
 import type { User } from './model';
 import UserModel from './model';
 
@@ -24,7 +25,7 @@ class UserCollection {
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
 
-    const user = new UserModel({ username, password, dateJoined, musicCoins: 0 });
+    const user = new UserModel({ username, password, dateJoined, musicCoins: 0, allCosmetics: [] });
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -36,7 +37,7 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
    */
   static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({ _id: userId });
+    return UserModel.findOne({ _id: userId }).populate('allCosmetics').populate('profileCosmetic').populate('bannerCosmetic').populate('backgroundCosmetic');
   }
 
   /**
@@ -46,7 +47,7 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
    */
   static async findOneByUsername(username: string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({ username: new RegExp(`^${username.trim()}$`, 'i') });
+    return UserModel.findOne({ username: new RegExp(`^${username.trim()}$`, 'i') }).populate('allCosmetics').populate('profileCosmetic').populate('bannerCosmetic').populate('backgroundCosmetic');
   }
 
   /**
@@ -60,18 +61,18 @@ class UserCollection {
     return UserModel.findOne({
       username: new RegExp(`^${username.trim()}$`, 'i'),
       password
-    });
+    }).populate('allCosmetics').populate('profileCosmetic').populate('bannerCosmetic').populate('backgroundCosmetic');
   }
 
   /**
    * Update user's information
    *
    * @param {string} userId - The userId of the user to update
-   * @param {Object} userDetails - An object with the user's updated credentials
+   * @param {UserDetails} userDetails - An object with the user's updated credentials
    * @return {Promise<HydratedDocument<User>>} - The updated user
    */
   static async updateOne(userId: Types.ObjectId | string, userDetails: UserDetails): Promise<HydratedDocument<User>> {
-    const user = await UserModel.findOne({ _id: userId })
+    const user = await UserModel.findOne({ _id: userId });
     if (userDetails.password) {
       user.password = userDetails.password;
     }
@@ -97,7 +98,29 @@ class UserCollection {
     }
 
     await user.save();
-    return user;
+
+    // this feels kinda jank but should work for now 
+    return (await (await (await user.populate('allCosmetics')).populate('profileCosmetic')).populate('bannerCosmetic')).populate('backgroundCosmetic');
+  }
+
+  /**
+   * Add cosmetic to user's list of owned cosmetics
+   * 
+   * @param {string} userId - The userId of the user to add cosmetic to
+   * @param {string} cosmeticId - Id of cosmetic to add to user's list of owned cosmetics
+   */
+  static async addCosmetic(userId: Types.ObjectId | string, cosmeticId: Types.ObjectId | string) {
+    const user = await UserModel.findOne({ _id: userId });
+    const cosmetic = await CosmeticModel.findOne({ _id: cosmeticId });
+    if (!cosmetic)
+      return;
+
+    user.allCosmetics.push(cosmetic.id);
+
+    await user.save();
+
+    // this feels kinda jank but should work for now 
+    return (await (await (await user.populate('allCosmetics')).populate('profileCosmetic')).populate('bannerCosmetic')).populate('backgroundCosmetic');
   }
 
   /**

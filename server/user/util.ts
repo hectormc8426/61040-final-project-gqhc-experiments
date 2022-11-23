@@ -1,6 +1,8 @@
-import type {HydratedDocument} from 'mongoose';
+import type { HydratedDocument } from 'mongoose';
 import moment from 'moment';
-import type {User} from './model';
+import type { PopulatedUser, User } from './model';
+import { CosmeticResponse, constructCosmeticResponse } from 'server/cosmetic/util';
+import { Cosmetic } from 'server/cosmetic/model';
 
 // Update this if you add a property to the User type!
 type UserResponse = {
@@ -8,9 +10,10 @@ type UserResponse = {
   username: string;
   dateJoined: string;
   musicCoins: number;
-  profileCosmeticId: string;
-  backgroundCosmeticId: string;
-  bannerCosmeticId: string;
+  profileCosmetic: CosmeticResponse;
+  backgroundCosmetic: CosmeticResponse;
+  bannerCosmetic: CosmeticResponse;
+  allCosmetics: CosmeticResponse[];
 };
 
 /**
@@ -30,18 +33,28 @@ const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:
  * @returns {UserResponse} - The user object without the password
  */
 const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
-  const userCopy: User = {
+  const userCopy: PopulatedUser = {
     ...user.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
   delete userCopy.password;
+
   return {
-    ...userCopy,
     _id: userCopy._id.toString(),
-    dateJoined: formatDate(user.dateJoined)
+    username: userCopy.username,
+    dateJoined: formatDate(user.dateJoined),
+    musicCoins: user.musicCoins,
+    profileCosmetic: convertCosmetic(userCopy.profileCosmeticId),
+    bannerCosmetic: convertCosmetic(userCopy.bannerCosmeticId),
+    backgroundCosmetic: convertCosmetic(userCopy.backgroundCosmeticId),
+    allCosmetics: userCopy.allCosmetics.map((cosmetic) => convertCosmetic(cosmetic))
   };
 };
+
+const convertCosmetic = (cosmetic: Cosmetic): CosmeticResponse => {
+  return { ...cosmetic, _id: cosmetic.toString() }
+}
 
 export {
   constructUserResponse

@@ -1,4 +1,5 @@
-import type {Request, Response, NextFunction} from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import CosmeticCollection from 'server/cosmetic/collection';
 import UserCollection from '../user/collection';
 
 /**
@@ -56,10 +57,10 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
  * Checks if a user with username and password in req.body exists
  */
 const isAccountExists = async (req: Request, res: Response, next: NextFunction) => {
-  const {username, password} = req.body as {username: string; password: string};
+  const { username, password } = req.body as { username: string; password: string };
 
   if (!username || !password) {
-    res.status(400).json({error: `Missing ${username ? 'password' : 'username'} credentials for sign in.`});
+    res.status(400).json({ error: `Missing ${username ? 'password' : 'username'} credentials for sign in.` });
     return;
   }
 
@@ -70,7 +71,7 @@ const isAccountExists = async (req: Request, res: Response, next: NextFunction) 
   if (user) {
     next();
   } else {
-    res.status(401).json({error: 'Invalid user login credentials provided.'});
+    res.status(401).json({ error: 'Invalid user login credentials provided.' });
   }
 };
 
@@ -145,6 +146,30 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   next();
 };
 
+/**
+ * Checks if current logged in user owns the cosmetic in request body
+ */
+const doesUserOwnCosmetic = async (req: Request, res: Response, next: NextFunction) => {
+  const user = await UserCollection.findOneByUserId(req.session.userId);
+  const cosmetic = await CosmeticCollection.findOneById(req.body.cosmeticId);
+
+  if (!cosmetic) {
+    res.status(404).json({
+      error: `A cosmetic with id ${req.body.cosmeticId as string} does not exist.`
+    });
+    return;
+  }
+
+  if (!user.allCosmetics.includes(cosmetic._id)) {
+    res.status(409).json({
+      error: `The logged in user does not own cosmetic ${cosmetic.name}`
+    });
+    return;
+  }
+
+  next();
+}
+
 export {
   isCurrentSessionUserExists,
   isUserLoggedIn,
@@ -153,5 +178,6 @@ export {
   isAccountExists,
   isAuthorExists,
   isValidUsername,
-  isValidPassword
+  isValidPassword,
+  doesUserOwnCosmetic
 };
