@@ -3,12 +3,13 @@ import VueRouter from 'vue-router';
 
 import NotFound from './NotFound.vue';
 import LoginPage from './components/Login/LoginPage.vue';
+import HomePage from './components/Home/HomePage.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   // TODO: Fill the component section -> e.g., make a Vue home page and replace 'None' with it
-  { path: '/', name: 'Home', component: /* TODO: Fill THIS IN */ 11111111111 }, // temp value is 11111...1 to not see that red error line :(
+  { path: '/', name: 'Home', component: HomePage },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '*', name: 'Not Found', component: NotFound }
 ];
