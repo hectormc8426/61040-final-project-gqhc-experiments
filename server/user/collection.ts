@@ -1,4 +1,5 @@
 import type { HydratedDocument, Types } from 'mongoose';
+import CosmeticCollection from 'server/cosmetic/collection';
 import type { User } from './model';
 import UserModel from './model';
 
@@ -10,6 +11,8 @@ import UserModel from './model';
  * Note: HydratedDocument<User> is the output of the UserModel() constructor,
  * and contains all the information in User. https://mongoosejs.com/docs/typescript.html
  */
+
+type UserDetails = { password?: string; username?: string; profileCosmeticId?: string | Types.ObjectId; backgroundCosmeticId?: string | Types.ObjectId; bannerCosmeticId?: string | Types.ObjectId }
 class UserCollection {
   /**
    * Add a new user
@@ -21,7 +24,7 @@ class UserCollection {
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
 
-    const user = new UserModel({ username, password, dateJoined, musicCoins: 0, profileCosmeticId: "", backgroundCosmeticId: "", bannerCosmeticId: "" });
+    const user = new UserModel({ username, password, dateJoined, musicCoins: 0 });
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -67,14 +70,30 @@ class UserCollection {
    * @param {Object} userDetails - An object with the user's updated credentials
    * @return {Promise<HydratedDocument<User>>} - The updated user
    */
-  static async updateOne(userId: Types.ObjectId | string, userDetails: { password?: string; username?: string }): Promise<HydratedDocument<User>> {
-    const user = await UserModel.findOne({ _id: userId });
+  static async updateOne(userId: Types.ObjectId | string, userDetails: UserDetails): Promise<HydratedDocument<User>> {
+    const user = await UserModel.findOne({ _id: userId })
     if (userDetails.password) {
       user.password = userDetails.password;
     }
 
     if (userDetails.username) {
       user.username = userDetails.username;
+    }
+
+    // set profile cosmetic id
+    if (userDetails.profileCosmeticId) {
+      const profileCosmetic = await CosmeticCollection.findOneById(userDetails.profileCosmeticId);
+      user.profileCosmeticId = profileCosmetic.id;
+    }
+
+    if (userDetails.backgroundCosmeticId) {
+      const backgroundCosmetic = await CosmeticCollection.findOneById(userDetails.backgroundCosmeticId);
+      user.backgroundCosmeticId = backgroundCosmetic.id;
+    }
+
+    if (userDetails.bannerCosmeticId) {
+      const bannerCosmetic = await CosmeticCollection.findOneById(userDetails.bannerCosmeticId);
+      user.bannerCosmeticId = bannerCosmetic.id;
     }
 
     await user.save();
