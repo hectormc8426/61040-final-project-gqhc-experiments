@@ -1,6 +1,6 @@
 import type { HydratedDocument, Types } from 'mongoose';
-import CosmeticCollection from 'server/cosmetic/collection';
-import CosmeticModel from 'server/cosmetic/model';
+import CosmeticCollection from '../cosmetic/collection';
+import CosmeticModel from '../cosmetic/model';
 import type { User } from './model';
 import UserModel from './model';
 
@@ -37,7 +37,7 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
    */
   static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({ _id: userId }).populate('allCosmetics').populate('profileCosmetic').populate('bannerCosmetic').populate('backgroundCosmetic');
+    return UserModel.findOne({ _id: userId }).populate('allCosmetics').populate('profileCosmeticId').populate('bannerCosmeticId').populate('backgroundCosmeticId');
   }
 
   /**
@@ -47,7 +47,7 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
    */
   static async findOneByUsername(username: string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({ username: new RegExp(`^${username.trim()}$`, 'i') }).populate('allCosmetics').populate('profileCosmetic').populate('bannerCosmetic').populate('backgroundCosmetic');
+    return UserModel.findOne({ username: new RegExp(`^${username.trim()}$`, 'i') }).populate('allCosmetics').populate('profileCosmeticId').populate('bannerCosmeticId').populate('backgroundCosmeticId');
   }
 
   /**
@@ -61,7 +61,7 @@ class UserCollection {
     return UserModel.findOne({
       username: new RegExp(`^${username.trim()}$`, 'i'),
       password
-    }).populate('allCosmetics').populate('profileCosmetic').populate('bannerCosmetic').populate('backgroundCosmetic');
+    }).populate('allCosmetics').populate('profileCosmeticId').populate('bannerCosmeticId').populate('backgroundCosmeticId');
   }
 
   /**
@@ -100,7 +100,7 @@ class UserCollection {
     await user.save();
 
     // this feels kinda jank but should work for now 
-    return (await (await (await user.populate('allCosmetics')).populate('profileCosmetic')).populate('bannerCosmetic')).populate('backgroundCosmetic');
+    return (await (await (await user.populate('allCosmetics')).populate('profileCosmeticId')).populate('bannerCosmeticId')).populate('backgroundCosmeticId');
   }
 
   /**
@@ -120,7 +120,7 @@ class UserCollection {
     await user.save();
 
     // this feels kinda jank but should work for now 
-    return (await (await (await user.populate('allCosmetics')).populate('profileCosmetic')).populate('bannerCosmetic')).populate('backgroundCosmetic');
+    return (await (await (await user.populate('allCosmetics')).populate('profileCosmeticId')).populate('bannerCosmeticId')).populate('backgroundCosmeticId');
   }
 
   /**

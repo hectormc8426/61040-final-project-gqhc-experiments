@@ -8,7 +8,7 @@ import logger from 'morgan';
 import http from 'http';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { userRouter } from 'server/user/router';
+import { userRouter } from '../server/user/router';
 
 // Load environmental variables
 dotenv.config({});

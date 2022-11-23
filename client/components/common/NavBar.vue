@@ -1,7 +1,7 @@
 <template>
     <nav>
         <div class="left">
-            <img src="../../public/logo.svg">
+            <!-- <img src="../../public/logo.svg"> -->
             <h1 class="title">
                 Music Mentors
             </h1>
@@ -10,26 +10,15 @@
             <router-link to="/" class=link>
                 Home
             </router-link>
-            <router-link
-                v-if="$store.state.username"
-                to="/account"
-            >
-                Account
+            <router-link v-if="$store.state.username" to="/user">
+                {{ $store.state.username }}
             </router-link>
-            <router-link
-                v-else
-                to="/login"
-                class=link
-            >
+            <router-link v-else to="/login" class=link>
                 Login
             </router-link>
         </div>
         <section class="alerts">
-            <article
-                v-for="(status, alert, index) in $store.state.alerts"
-                :key="index"
-                :class="status"
-            >
+            <article v-for="(status, alert, index) in $store.state.alerts" :key="index" :class="status">
                 <p>{{ alert }}</p>
             </article>
         </section>
@@ -57,8 +46,8 @@ img {
 }
 
 .left {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .right {

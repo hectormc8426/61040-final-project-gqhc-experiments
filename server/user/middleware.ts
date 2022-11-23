@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import CosmeticCollection from 'server/cosmetic/collection';
+import CosmeticCollection from '../cosmetic/collection';
 import UserCollection from '../user/collection';
 
 /**
@@ -162,7 +162,7 @@ const doesUserOwnCosmetic = async (req: Request, res: Response, next: NextFuncti
 
   if (!user.allCosmetics.includes(cosmetic._id)) {
     res.status(409).json({
-      error: `The logged in user does not own cosmetic ${cosmetic.name}`
+      error: `The logged in user does not own cosmetic ${cosmetic.cosmeticName}`
     });
     return;
   }

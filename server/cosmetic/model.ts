@@ -5,7 +5,7 @@ import { Schema, model } from 'mongoose';
 // Type definition for cosmetic on the backend
 export type Cosmetic = {
     _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-    name: string;
+    cosmeticName: string;
     filepath: string;
     cosmeticType: string;
 };
@@ -15,13 +15,13 @@ export type Cosmetic = {
 // type given by the type property, inside MongoDB
 const CosmeticSchema = new Schema({
     // name of cosmetic 
-    name: {
-        types: String,
+    cosmeticName: {
+        type: String,
         required: true
     },
     // filepath to the cosmetic file
     filepath: {
-        types: String,
+        type: String,
         required: true
     },
     // type of cosmetic (profile, banner, background)

@@ -1,1 +1,11 @@
-// placeholder file to upload this folder to the git repo
+<template>
+    <main>
+        Placeholder
+    </main>
+</template>
+
+<script>
+export default {
+    name: 'UserPage'
+}
+</script>

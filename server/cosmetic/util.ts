@@ -3,7 +3,7 @@ import { Cosmetic } from './model';
 
 export type CosmeticResponse = {
     _id: string,
-    name: string,
+    cosmeticName: string,
     filepath: string,
     cosmeticType: string
 }

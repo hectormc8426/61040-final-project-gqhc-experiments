@@ -1,8 +1,8 @@
 import type { HydratedDocument } from 'mongoose';
 import moment from 'moment';
 import type { PopulatedUser, User } from './model';
-import { CosmeticResponse, constructCosmeticResponse } from 'server/cosmetic/util';
-import { Cosmetic } from 'server/cosmetic/model';
+import { CosmeticResponse, constructCosmeticResponse } from '../cosmetic/util';
+import { Cosmetic } from '../cosmetic/model';
 
 // Update this if you add a property to the User type!
 type UserResponse = {
@@ -10,9 +10,9 @@ type UserResponse = {
   username: string;
   dateJoined: string;
   musicCoins: number;
-  profileCosmetic: CosmeticResponse;
-  backgroundCosmetic: CosmeticResponse;
-  bannerCosmetic: CosmeticResponse;
+  profileCosmetic: CosmeticResponse | null;
+  backgroundCosmetic: CosmeticResponse | null;
+  bannerCosmetic: CosmeticResponse | null;
   allCosmetics: CosmeticResponse[];
 };
 
@@ -53,7 +53,9 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
 };
 
 const convertCosmetic = (cosmetic: Cosmetic): CosmeticResponse => {
-  return { ...cosmetic, _id: cosmetic.toString() }
+  if (!cosmetic)
+    return null;
+  return { ...cosmetic, _id: cosmetic._id.toString() }
 }
 
 export {

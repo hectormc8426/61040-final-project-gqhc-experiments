@@ -10,6 +10,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
+    username: null, // Username of the logged in user
+
     // TODO: Fill this with appropriate states
   },
   mutations: {
@@ -22,7 +24,14 @@ const store = new Vuex.Store({
         Vue.delete(state.alerts, payload.message);
       }, 3000);
     },
-    
+    setUsername(state, username) {
+      /**
+       * Update the stored username to the specified one.
+       * @param username - new username to set
+       */
+      state.username = username;
+    },
+
     // TODO: Fill this with appropriate mutations
   },
   // Store data across page refreshes, only discard on browser close

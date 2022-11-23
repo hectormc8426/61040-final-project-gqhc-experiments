@@ -1,6 +1,6 @@
 import type { Types } from 'mongoose';
 import { Schema, model } from 'mongoose';
-import { Cosmetic } from 'server/cosmetic/model';
+import { Cosmetic } from '../cosmetic/model';
 
 
 // Type definition for User on the backend
