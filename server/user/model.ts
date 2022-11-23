@@ -1,10 +1,6 @@
 import type { Types } from 'mongoose';
 import { Schema, model } from 'mongoose';
 
-/**
- * This file defines the properties stored in a User
- * DO NOT implement operations here ---> use collection file
- */
 
 // Type definition for User on the backend
 export type User = {
@@ -13,9 +9,9 @@ export type User = {
     password: string;
     dateJoined: Date;
     musicCoins: number;
-    profileCosmeticId: string;
-    backgroundCosmeticId: string;
-    bannerCosmeticId: string;
+    profileCosmeticId: Types.ObjectId;
+    backgroundCosmeticId: Types.ObjectId;
+    bannerCosmeticId: Types.ObjectId;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -37,21 +33,25 @@ const UserSchema = new Schema({
         type: Date,
         required: true
     },
+    // The amount of Music Coins the user has
     musicCoins: {
         type: Number,
         required: true
     },
+    // The id of the user's selected profile cosmetic 
     profileCosmeticId: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        required: false
     },
+    // The id of the user's selected background cosmetic 
     backgroundCosmeticId: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        required: false
     },
+    // The id of the user's selected banner cosmetic 
     bannerCosmeticId: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        required: false
     },
 
 
