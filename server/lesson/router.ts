@@ -1,4 +1,4 @@
-import type {NextFunction, Request, Response} from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
 import LessonCollection from './collection';
 
@@ -72,7 +72,7 @@ router.delete(
         res.status(200).json({
             message: 'Your lesson was deleted successfully.'
         });
-    }  
+    }
 );
 
 /**
@@ -95,4 +95,4 @@ router.put(
     }
 )
 
-export {router as lessonRouter}
+export { router as lessonRouter }
