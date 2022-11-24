@@ -11,7 +11,7 @@ const store = new Vuex.Store({
   state: {
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     username: null, // Username of the logged in user
-
+    user: null,
     // TODO: Fill this with appropriate states
   },
   mutations: {
@@ -31,6 +31,13 @@ const store = new Vuex.Store({
        */
       state.username = username;
     },
+    setUser(state, user) {
+      /**
+       * Update the stored user to the specified one.
+       * @param user - new user to set
+       */
+      state.user = user
+    }
 
     // TODO: Fill this with appropriate mutations
   },
