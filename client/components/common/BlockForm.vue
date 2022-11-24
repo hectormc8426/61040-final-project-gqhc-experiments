@@ -79,6 +79,7 @@ export default {
           const text = await r.text();
           const res = text ? JSON.parse(text) : { user: null };
           this.$store.commit('setUsername', res.user ? res.user.username : null);
+          this.$store.commit('setCoins', res.user ? res.user.musicCoins : null);
           this.$store.commit('setUser', res.user);
         }
 

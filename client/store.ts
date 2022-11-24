@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     username: null, // Username of the logged in user
     user: null,
+    coins: null // Music Coins owned by the user
     // TODO: Fill this with appropriate states
   },
   mutations: {
@@ -36,7 +37,25 @@ const store = new Vuex.Store({
        * Update the stored user to the specified one.
        * @param user - new user to set
        */
-      state.user = user
+      state.user = user;
+    },
+    setCoins(state, coins) {
+      /**
+       * Update the stored user to the specified one.
+       * @param user - new user to set
+       */
+      state.coins = coins;
+    },
+    async refreshAccount(state) {
+      /**
+       * Request the server for the current account session details.
+       */
+      const url = `/api/users/session`;
+      const res = await fetch(url).then(async r => r.json());
+
+      state.username = res.user.username;
+      state.coins = res.user.musicCoins;
+
     }
 
     // TODO: Fill this with appropriate mutations
