@@ -2,8 +2,10 @@ import type {Request, Response} from 'express';
 import express from 'express';
 
 import RatingCollection from "./collection";
+import {constructRatingResponse} from './util'
 
 import * as UserValidator from '../user/middleware';
+import * as RatingValidator from './middleware';
 
 const router = express.Router();
 
@@ -24,7 +26,11 @@ const router = express.Router();
 router.post(
   '/:contentId?',
   [
+    RatingValidator.isValidScore, // 400
+    RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
+    // TODO content exists
+    RatingValidator.hasUserNotRatedContent // 409
   ],
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
@@ -35,7 +41,7 @@ router.post(
 
     res.status(201).json({
       message: 'You have successfully rated the content',
-      rating // TODO util.
+      rating: constructRatingResponse(rating) // TODO util.
     });
   }
 );
@@ -55,7 +61,11 @@ router.post(
 router.patch(
   '/:contentId?',
   [
-    UserValidator.isUserLoggedIn, // 403
+    RatingValidator.isValidScore, // 400
+    RatingValidator.isValidCategory, // 400
+    UserValidator.isUserLoggedIn,  // 403
+    // TODO content exists
+    RatingValidator.hasUserRatedContent // 409
   ],
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
@@ -66,7 +76,7 @@ router.patch(
 
     res.status(200).json({
       message: 'You have successfully updated rating',
-      rating
+      rating: constructRatingResponse(rating)
     });
   }
 );
@@ -82,7 +92,7 @@ router.patch(
 router.get(
   '/:contentId?',
   [
-
+    // TODO content exists
   ],
   async (req: Request, res: Response) => {
     // TODO
@@ -90,7 +100,7 @@ router.get(
 );
 
 /**
- * Delete a user's rating on content
+ * Delete all user's rating on content
  *
  * @param contentId - id of content
  *
@@ -101,7 +111,10 @@ router.get(
 router.delete(
   '/:contentId?',
   [
-    UserValidator.isUserLoggedIn, // 403
+    RatingValidator.isValidCategory, // 400
+    UserValidator.isUserLoggedIn,  // 403
+    // TODO content exists
+    RatingValidator.hasUserNotRatedContent // 409
   ],
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
