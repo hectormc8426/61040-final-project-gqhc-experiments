@@ -97,3 +97,48 @@ But thank you!
 **Throws**
 
 - `403` if the user is not logged in
+
+
+
+# Rating
+
+#### 'POST /api/rating/:contentId' - Create a rating for content
+
+**Body**
+
+- `rating` Rating Json mapping rating category to integer in [0, 100]
+
+**Returns**
+
+- `200` Success message
+
+**Throws**
+
+- `403` User is not logged in
+- `404` Content does not exist
+
+
+#### 'GET /api/rating/:contentId' - Get net rating for content
+
+**Returns**
+
+- `200` Success message
+- `rating` Rating Json mapping rating category to integer in [0, 100].
+This represents the content's rating in each category
+
+**Throws**
+
+- `403` User is not logged in
+- `404` Content does not exist
+
+#### 'DELETE /api/rating/:contentId' - Delete user's rating on content
+
+**Returns**
+
+- `200` Success message
+
+**Throws**
+
+- `403` User is not logged in
+- `404` Content does not exist
+- `404` User has not rated content
