@@ -111,7 +111,7 @@ But thank you!
 
 **Returns**
 
-- `200` Success message
+- `201` Successful creation message
 
 **Throws**
 
@@ -150,10 +150,9 @@ This represents the content's rating in each category
 
 **Throws**
 
-- `403` User is not logged in
 - `404` Content does not exist
 
-#### 'DELETE /api/rating/:contentId' - Delete user's rating on content
+#### 'DELETE /api/rating/:contentId' - Delete *all* user's rating on content
 
 **Returns**
 
