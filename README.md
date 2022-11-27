@@ -106,7 +106,8 @@ But thank you!
 
 **Body**
 
-- `rating` Rating Json mapping rating category to integer in [0, 100]
+- `category`(string) - The category to rate
+- `score`(int) - The user's score of content's category
 
 **Returns**
 
@@ -114,9 +115,30 @@ But thank you!
 
 **Throws**
 
+- `400` Score not in range [0, 100]
+- `400` Category not valid
 - `403` User is not logged in
 - `404` Content does not exist
+- `409` User has already rated content
 
+#### 'PATCH /api/rating/:contentId' - Change rating for content
+
+**Body**
+
+- `category`(string) - The category to rate
+- `score`(int) - The user's score of content's category
+
+**Returns**
+
+- `200` Success message
+
+**Throws**
+
+- `400` Score not in range [0, 100]
+- `400` Category not valid
+- `403` User is not logged in
+- `404` Content does not exist
+- `409` User has not rated content
 
 #### 'GET /api/rating/:contentId' - Get net rating for content
 

@@ -6,6 +6,7 @@ export type Rating = {
   userId: Types.ObjectId; // User who roted
   contentId: Types.ObjectId; // id of content being rated
   category: string; // category of the rating, #TODO will this be used? Should we predefine them?
+  score: number;
 }
 
 const RatingSchema = new Schema({
@@ -19,6 +20,10 @@ const RatingSchema = new Schema({
   },
   category: {
     type: String,
+    required: true
+  },
+  score: {
+    type: Number,
     required: true
   }
 })
