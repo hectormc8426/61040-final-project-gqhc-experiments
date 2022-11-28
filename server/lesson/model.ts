@@ -1,5 +1,5 @@
-import {Types, PopulatedDoc, Document} from 'mongoose';
-import {Schema, model} from 'mongoose';
+import { Types, PopulatedDoc, Document } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 export type LessonChunk = {
     type: String, // type of content; e.g., text, image, video -> this will tell us where to look for this chunk of lesson
@@ -34,7 +34,7 @@ const LessonSchema = new Schema<Lesson>({
         required: true
     },
     content: {
-        type: [{type: String, contentId: Types.ObjectId}],
+        type: [{ type: String, contentId: Types.ObjectId }],
         required: true
     }
 })

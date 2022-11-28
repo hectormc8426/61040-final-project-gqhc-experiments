@@ -1,6 +1,7 @@
-import type { NextFunction, Request, Response } from 'express';
+import { application, NextFunction, Request, Response } from 'express';
 import express from 'express';
 import LessonCollection from './collection';
+import { uploadLesson, lessonVideoBucket } from '../../api/index';
 
 const router = express.Router();
 
@@ -94,5 +95,28 @@ router.put(
         });
     }
 )
+
+
+// // for dealing with files
+
+// router.get(
+//     "/api/lessons/videos/:videoName",
+//     async (req, res) => {
+//         const file = lessonVideoBucket.find({
+//             filename: req.params.videoName
+//         });
+//     }
+// );
+
+// router.post(// TODO: Make sure the name matches in the form
+//     '/api/lessons/videos/',
+//     uploadLesson.single("videoFile"),
+//     async (req, res) => {
+//         res.status(200).json({
+//             message: 'Video uploaded successfully'
+//         });
+//     }
+// );
+
 
 export { router as lessonRouter }
