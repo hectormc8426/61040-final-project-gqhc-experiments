@@ -25,6 +25,4 @@
 export default {
     name: 'HomePage'
 }
-
-// console.log(this.$store);
 </script>

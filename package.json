@@ -22,11 +22,13 @@
         "dev": "nodemon api/index.ts -e js,ts,json"
     },
     "dependencies": {
+        "codemirror": "^6.0.1",
         "connect-history-api-fallback": "^1.6.0",
         "connect-mongo": "^4.6.0",
         "cookie-parser": "~1.4.3",
         "debug": "~4.3.4",
         "dotenv": "^16.0.2",
+        "easymde": "^2.18.0",
         "express": "^4.18.1",
         "express-handlebars": "^6.0.6",
         "express-session": "^1.17.3",
@@ -36,6 +38,7 @@
         "nanoid": "^3.3.4",
         "simplemde": "^1.11.2",
         "vue": "^2.7.13",
+        "vue-easymde": "^2.0.0",
         "vue-router": "^3.6.5",
         "vuex": "^3.6.2",
         "vuex-persistedstate": "^4.1.0",

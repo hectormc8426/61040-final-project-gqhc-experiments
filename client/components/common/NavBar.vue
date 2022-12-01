@@ -10,6 +10,9 @@
             <router-link to="/" class=link>
                 Home
             </router-link>
+            <router-link to="/showcases" class=link>
+                Showcases
+            </router-link>
             <router-link v-if="$store.state.username" to="/user">
                 {{ $store.state.username }}
             </router-link>
