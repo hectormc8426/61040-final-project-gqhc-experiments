@@ -1,10 +1,10 @@
 <template>
     <form enctype="multipart/form-data" @submit.prevent="submit">
-        <div class="field">
-            <label for="file" class="label">Upload Video Segments</label>
+        <section class="field">
+            <label for="file" class="label">Upload Video Segments: </label>
             <input type="file" @change="selectFile" ref="file"/>
             <button @click="submit">Send</button>
-        </div>
+        </section>
     </form>
 </template>
 
@@ -23,6 +23,7 @@ export default {
         async submit() {
             const formData = new FormData();
             formData.append('file', this.file);
+            console.log('sending the request to: ' + (window.location.origin + '/api/lessons/videos/'));
             await axios.post(window.location.origin + '/api/lessons/videos/', formData);
         },
         async selectFile() {
@@ -35,5 +36,6 @@ export default {
 
 
 <style scoped>
+
 
 </style>

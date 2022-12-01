@@ -1,7 +1,6 @@
 import { application, NextFunction, Request, Response } from 'express';
 import express from 'express';
 import LessonCollection from './collection';
-import { uploadLesson, lessonVideoBucket } from '../../api/index';
 
 const router = express.Router();
 
