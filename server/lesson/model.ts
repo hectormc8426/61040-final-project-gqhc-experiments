@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 
 export type LessonChunk = {
     type: String, // type of content; e.g., text, image, video -> this will tell us where to look for this chunk of lesson
-    contentId: Types.ObjectId; // objectId to query in text/image/video collection from above
+    contentId: Types.ObjectId | String; // objectId to query in text/image/video collection from above
 };
 
 export type Lesson = {

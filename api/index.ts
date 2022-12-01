@@ -10,9 +10,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { userRouter } from '../server/user/router';
 
-import multer from 'multer'
-import { GridFsStorage } from 'multer-gridfs-storage';
-import { GridFSBucket, MongoClient, Db } from 'mongodb';
+// import multer from 'multer'
+// import { GridFsStorage } from 'multer-gridfs-storage';
+// import { GridFSBucket, MongoClient, Db } from 'mongodb';
 
 // import { Db } from '../node_modules/mongoose/node_modules/mongodb/mongodb';
 // import { GridFSBucket } from '../node_modules/mongoose/node_modules/mongodb/mongodb';
@@ -106,64 +106,64 @@ server.listen(app.get('port'), () => {
 // creating an alias for GridFsStorage since the compiler treats GridFsStorage from above as an instance and not a class
 // const storageClass: any = GridFsStorage;
 
-let fileDatabase = null;
-let lessonVideoBucket: GridFSBucket = null;
+// let fileDatabase = null;
+// let lessonVideoBucket: GridFSBucket = null;
 
-mongoose
-    .connect(mongoConnectionUrl)
-    .then(m => {
-        console.log('Connected to MongoDB For File Storage');
-        const conn = m.connection;
-        // const fileDatabase = conn.getClient().db();
-        fileDatabase = conn.db;
-        // @ts-ignore
-        lessonVideoBucket = new GridFSBucket(fileDatabase, {
-            bucketName: "lessonVideos"
-        });
-        // console.log(lessonVideoBucket);
-        const lessonStorage = new GridFsStorage({
-            url: mongoConnectionUrl,
-            file: (req: Request, file: any) => {
-                if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-                    return {
-                        bucketName: 'lessonPhotos'
-                    };
-                } else if (file.mimetype === 'video/mp4') {
-                    return {
-                        bucketName: 'lessonVideos'
-                    };
-                } else {
-                    return null;
-                }
-            },
-            cache: 'storage'
-        });
+// mongoose
+//     .connect(mongoConnectionUrl)
+//     .then(m => {
+//         console.log('Connected to MongoDB For File Storage');
+//         const conn = m.connection;
+//         // const fileDatabase = conn.getClient().db();
+//         fileDatabase = conn.db;
+//         // @ts-ignore
+//         lessonVideoBucket = new GridFSBucket(fileDatabase, {
+//             bucketName: "lessonVideos"
+//         });
+//         // console.log(lessonVideoBucket);
+//         const lessonStorage = new GridFsStorage({
+//             url: mongoConnectionUrl,
+//             file: (req: Request, file: any) => {
+//                 if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+//                     return {
+//                         bucketName: 'lessonPhotos'
+//                     };
+//                 } else if (file.mimetype === 'video/mp4') {
+//                     return {
+//                         bucketName: 'lessonVideos'
+//                     };
+//                 } else {
+//                     return null;
+//                 }
+//             },
+//             cache: 'storage'
+//         });
 
-        const uploadLesson = multer({
-            storage: lessonStorage
-        });
+//         const uploadLesson = multer({
+//             storage: lessonStorage
+//         });
 
-        // for dealing with files
+//         // for dealing with files
 
-        app.get(
-            "/api/lessons/videos/:videoName",
-            function (req: Request, res: Response) {
-                const file = lessonVideoBucket.find({
-                    filename: req.params.videoName
-                });
-            }
-        );
+//         app.get(
+//             "/api/lessons/videos/:videoName",
+//             function (req: Request, res: Response) {
+//                 const file = lessonVideoBucket.find({
+//                     filename: req.params.videoName
+//                 });
+//             }
+//         );
 
-        app.post(// TODO: Make sure the name matches in the form
-            '/api/lessons/videos/',
-            uploadLesson.single("file"),
-            async (req, res) => {
-                res.status(200).json({
-                    message: 'Video uploaded successfully'
-                });
-            }
-        );
-    })
-    .catch(err => {
-        console.error(`Error connecting to MongoDB: ${err.message as string}`);
-    });
+//         app.post(// TODO: Make sure the name matches in the form
+//             '/api/lessons/videos/',
+//             uploadLesson.single("file"),
+//             async (req, res) => {
+//                 res.status(200).json({
+//                     message: 'Video uploaded successfully'
+//                 });
+//             }
+//         );
+//     })
+//     .catch(err => {
+//         console.error(`Error connecting to MongoDB: ${err.message as string}`);
+//     });
