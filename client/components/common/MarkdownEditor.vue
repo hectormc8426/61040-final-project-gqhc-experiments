@@ -7,9 +7,20 @@ import VueEasymde from "vue-easymde";
 
 export default {
     name: 'MarkdownEditor',
+    data() {
+        return {
+            content: ''
+        };
+        
+    },
+    computed: {
+        easymde() {
+            return this.$refs.markdownEditor.easymde;
+        },
+    },
     components: {
         VueEasymde
-    }
+    },
 };
 </script>
    

@@ -9,7 +9,7 @@
     "baseUrl": "./",
     "module": "commonjs"
   },
-  "ts-node": {
-    "swc": true
-  }
+  // "ts-node": {
+  //   "swc": true
+  // }
 }
