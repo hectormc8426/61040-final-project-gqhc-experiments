@@ -2,6 +2,7 @@ import type {Request, Response} from 'express';
 import express from 'express';
 
 import TagCollection from "./collection";
+import * as util from "./util";
 
 import * as UserValidator from '../user/middleware';
 import * as TagValidator from './middleware'
@@ -37,8 +38,7 @@ router.post(
 
     res.status(201).json({
       message: 'You have successfully tagged the content',
-      tag
-      // tag: constructTagResponse(tag) // TODO util.
+      tag: util.constructTagResponse(tag) // TODO util.
     });
   }
 );
@@ -62,7 +62,7 @@ router.get(
 
     res.status(200).json({
       message: 'Here are all tags on content',
-      tags
+      tags: tags.map(util.constructTagResponse)
     });
   }
 );

@@ -5,7 +5,7 @@ import {Types} from "mongoose";
 
 type RatingResponse = {
   _id: string;
-  aliasId: string;
+  userId: string;
   contentId: string;
   category: string;
   score: number;
@@ -21,7 +21,7 @@ const constructRatingResponse = (rating: HydratedDocument<Rating>): RatingRespon
   return {
     ...ratingCopy,
     _id: ratingCopy._id.toString(),
-    aliasId: ratingCopy.userId.toString(),
+    userId: ratingCopy.userId.toString(),
     contentId: ratingCopy.contentId.toString()
   };
 };
