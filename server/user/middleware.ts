@@ -1,5 +1,4 @@
 import type { Request, Response, NextFunction } from 'express';
-import CosmeticCollection from '../cosmetic/collection';
 import UserCollection from '../user/collection';
 
 /**
@@ -140,29 +139,6 @@ const isUserExists = async (req: Request, res: Response, next: NextFunction) => 
   next();
 };
 
-/**
- * Checks if current logged in user owns the cosmetic in request body
- */
-const doesUserOwnCosmetic = async (req: Request, res: Response, next: NextFunction) => {
-  const user = await UserCollection.findOneByUserId(req.session.userId);
-  const cosmetic = await CosmeticCollection.findOneById(req.body.cosmeticId);
-
-  if (!cosmetic) {
-    res.status(404).json({
-      error: `A cosmetic with id ${req.body.cosmeticId as string} does not exist.`
-    });
-    return;
-  }
-
-  if (!user.allCosmetics.includes(cosmetic._id)) {
-    res.status(409).json({
-      error: `The logged in user does not own cosmetic ${cosmetic.cosmeticName}`
-    });
-    return;
-  }
-
-  next();
-}
 
 export {
   isCurrentSessionUserExists,
@@ -173,5 +149,4 @@ export {
   isUserExists,
   isValidUsername,
   isValidPassword,
-  doesUserOwnCosmetic
 };

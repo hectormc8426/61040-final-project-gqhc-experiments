@@ -7,12 +7,16 @@ Vue.use(Vuex);
 /**
  * Storage for data that needs to be accessed from various compoentns.
  */
+
+const pointsToLevel = 200; // The amount of experience points per level
+
 const store = new Vuex.Store({
   state: {
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     username: null, // Username of the logged in user
     user: null,
-    coins: null // Music Coins owned by the user
+    level: null, // Music Coins owned by the user
+    experiencePoints: null
     // TODO: Fill this with appropriate states
   },
   mutations: {
@@ -39,12 +43,13 @@ const store = new Vuex.Store({
        */
       state.user = user;
     },
-    setCoins(state, coins) {
+    setExperiencePoints(state, points) {
       /**
        * Update the stored user to the specified one.
        * @param user - new user to set
        */
-      state.coins = coins;
+      state.experiencePoints = points;
+      state.level = points / pointsToLevel + 1
     },
     async refreshAccount(state) {
       /**
@@ -54,7 +59,8 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
 
       state.username = res.user.username;
-      state.coins = res.user.musicCoins;
+      state.experiencePoints = res.user.experiencePoints;
+      state.level = res.user.experiencePoints / pointsToLevel + 1;
 
     }
 

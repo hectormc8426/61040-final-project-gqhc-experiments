@@ -41,7 +41,6 @@ export default {
       hasBody: false, // Whether or not form request has a body
       setUsername: false, // Whether or not stored username should be updated after form submission
       setUser: false, // Whether or not stored user should be updated after form submission
-      refreshFreets: false, // Whether or not stored freets should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null, // Function to run after successful form submission
     };
@@ -79,7 +78,7 @@ export default {
           const text = await r.text();
           const res = text ? JSON.parse(text) : { user: null };
           this.$store.commit('setUsername', res.user ? res.user.username : null);
-          this.$store.commit('setCoins', res.user ? res.user.musicCoins : null);
+          this.$store.commit('setExperiencePoints', res.user ? res.user.experiencePoints : null);
           this.$store.commit('setUser', res.user);
         }
 
@@ -87,10 +86,6 @@ export default {
 
         //   this.$store.commit('setUser', res.user);
         // }
-
-        if (this.refreshFreets) {
-          this.$store.commit('refreshFreets');
-        }
 
         if (this.callback) {
           this.callback();

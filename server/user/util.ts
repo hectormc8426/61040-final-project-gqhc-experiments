@@ -1,19 +1,13 @@
 import type { HydratedDocument } from 'mongoose';
 import moment from 'moment';
 import type { PopulatedUser, User } from './model';
-import { CosmeticResponse, constructCosmeticResponse } from '../cosmetic/util';
-import { Cosmetic } from '../cosmetic/model';
 
 // Update this if you add a property to the User type!
 type UserResponse = {
   _id: string;
   username: string;
   dateJoined: string;
-  musicCoins: number;
-  profileCosmetic: CosmeticResponse | null;
-  backgroundCosmetic: CosmeticResponse | null;
-  bannerCosmetic: CosmeticResponse | null;
-  allCosmetics: CosmeticResponse[];
+  experiencePoints: number
 };
 
 /**
@@ -44,19 +38,9 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
     _id: userCopy._id.toString(),
     username: userCopy.username,
     dateJoined: formatDate(user.dateJoined),
-    musicCoins: user.musicCoins,
-    profileCosmetic: convertCosmetic(userCopy.profileCosmeticId),
-    bannerCosmetic: convertCosmetic(userCopy.bannerCosmeticId),
-    backgroundCosmetic: convertCosmetic(userCopy.backgroundCosmeticId),
-    allCosmetics: userCopy.allCosmetics.map((cosmetic) => convertCosmetic(cosmetic))
+    experiencePoints: userCopy.experiencePoints
   };
 };
-
-const convertCosmetic = (cosmetic: Cosmetic): CosmeticResponse => {
-  if (!cosmetic)
-    return null;
-  return { ...cosmetic, _id: cosmetic._id.toString() }
-}
 
 export {
   constructUserResponse
