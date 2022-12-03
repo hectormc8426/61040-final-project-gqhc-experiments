@@ -124,21 +124,15 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * Checks if a user with userId as author id in req.query exists
+ * Checks if a user with userId as user id in req.query exists
  */
-const isAuthorExists = async (req: Request, res: Response, next: NextFunction) => {
-  let author = req.query.author ? req.query.author : req.query.ownerId;
-  if (!author) {
-    res.status(400).json({
-      error: 'Provided author username must be nonempty.'
-    });
-    return;
-  }
+const isUserExists = async (req: Request, res: Response, next: NextFunction) => {
+  let userId = req.query.userId;
 
-  const user = await UserCollection.findOneByUsername(author as string);
+  const user = await UserCollection.findOneByUsername(userId as string);
   if (!user) {
     res.status(404).json({
-      error: `A user with username ${author as string} does not exist.`
+      error: `A user with username ${userId as string} does not exist.`
     });
     return;
   }
@@ -176,7 +170,7 @@ export {
   isUserLoggedOut,
   isUsernameNotAlreadyInUse,
   isAccountExists,
-  isAuthorExists,
+  isUserExists,
   isValidUsername,
   isValidPassword,
   doesUserOwnCosmetic

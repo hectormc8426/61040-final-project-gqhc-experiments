@@ -20,6 +20,8 @@ But thank you!
 
 ## API Routes
 
+# User
+
 #### `POST /api/users/session` - Sign in user
 
 **Body**
@@ -98,10 +100,6 @@ But thank you!
 
 - `403` if the user is not logged in
 
-
-
-
-
 # Rating
 
 #### 'POST /api/rating/:contentId:category' - Create a rating for content
@@ -122,7 +120,6 @@ But thank you!
 - `404` Content does not exist
 - `409` User has already rated content
 
-
 #### 'PATCH /api/rating/:contentId:category' - Change rating for content
 
 **Body**
@@ -141,7 +138,6 @@ But thank you!
 - `404` Content does not exist
 - `409` User has not rated content
 
-
 #### 'GET /api/rating/:contentId' - Get net rating for content
 
 **Returns**
@@ -152,7 +148,6 @@ But thank you!
 **Throws**
 
 - `404` Content does not exist
-
 
 #### 'GET /api/rating/:contentId?:category' - Get rating score for category
 
@@ -166,8 +161,7 @@ But thank you!
 - `400` Invalid category
 - `404` Content does not exist
 
-
-#### 'DELETE /api/rating/:contentId' - Delete *all* user's rating on content
+#### 'DELETE /api/rating/:contentId' - Delete _all_ user's rating on content
 
 **Returns**
 
@@ -178,7 +172,6 @@ But thank you!
 - `403` User is not logged in
 - `404` Content does not exist
 - `404` User has not rated content
-
 
 #### 'DELETE /api/rating/:contentId?:category' - Delete user's rating on content's category
 
@@ -192,9 +185,6 @@ But thank you!
 - `403` User is not logged in
 - `404` Content does not exist
 - `404` User has not rated content
-
-
-
 
 # Tags
 
@@ -215,7 +205,6 @@ But thank you!
 - `404` Content does not exist
 - `409` This tag already exists for this content
 
-
 #### 'GET /api/tags/:contentId' - Get all tags associated with content
 
 **Returns**
@@ -226,7 +215,6 @@ But thank you!
 **Throws**
 
 - `404` Content does not exist
-
 
 #### 'DELETE /api/tags/:contentId' - Remove a tag from content
 
@@ -244,3 +232,81 @@ But thank you!
 - `403` User does not own this content
 - `404` Content does not exist
 - `409` This tag des not exist for this content
+
+# Showcase
+
+### `GET /api/showcases` - Get all showcases
+
+**Returns**
+
+- An array of all showcases in the database
+
+### `GET /api/showcases?lessonId=id` - Get all showcases with lesson Id
+
+**Returns**
+
+- An array of showcases associated with the given lesson Id
+
+**Throws**
+
+- `400` if `id` not given
+- `404` if `id` is not associated with any recognized lesson
+
+### `GET /api/showcases?userId=id` - Get all showcases by user
+
+**Returns**
+
+- An array of showcases created by the user with the given user Id
+
+**Throws**
+
+- `400` if `id` not given
+- `404` if `id` is not associated with any recognized user
+
+### `POST /api/showcases` - Make a new showcase
+
+**Body**
+
+- `lessonId` {string} - Id of the lesson to associate with the showcase
+- `content` {string} - content of the showcase
+
+**Returns**
+
+- A success message
+- A object with the created showcase
+
+**Throws**
+
+- `403` if the user is not logged in
+- `400` If the showcase content is empty or a stream of empty spaces
+- `404` if the lesson Id is not associated with a lesson
+
+### `DELETE /api/showcases/:showcaseId` - Delete a showcase
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the author of the showcase
+- `404` if the showcaseId is invalid
+
+### `PUT /api/showcases/:showcaseId` - Modify a showcase
+
+**Body**
+
+- `content` *{string}* - The new content of the showcase
+
+**Returns**
+
+- A success message
+- An object with the updated showcase
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if the showcaseId is invalid
+- `403` if the user is not the author of the showcase
+- `400` if the new showcase content is empty or a stream of empty spaces
