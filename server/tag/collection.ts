@@ -35,7 +35,7 @@ class TagCollection {
   /**
    * Find all tags on content
    *
-   * @param contentId - What was rated
+   * @param contentId - Content that was tagged
    * @return {} Array of all tags to content
    */
   static async findAllByContentId(contentId: Types.ObjectId | string): Promise<Array<HydratedDocument<Tag>>> {
@@ -45,7 +45,7 @@ class TagCollection {
   /**
    * Find all tags with tagname
    *
-   * @param tagname
+   * @param tagname - Name of tag
    * @return {} Array of all tags with tagname
    */
   static async findAllByTagname(tagname: string): Promise<Array<HydratedDocument<Tag>>> {
@@ -58,12 +58,11 @@ class TagCollection {
   /**
    * Delete specific tag
    *
-   * @param userId - The one who no longer wants to rate
-   * @param contentId - What they rated
-   * @param category - The category to unrate
+   * @param contentId - Content being tagged
+   * @param tagname - name of tag
    */
-  static async deleteOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string): Promise<boolean> {
-    const tag = await TagModel.deleteOne({userId, contentId, category});
+  static async deleteOne(contentId: Types.ObjectId | string, tagname: string): Promise<boolean> {
+    const tag = await TagModel.deleteOne({contentId, tagname});
     return tag !== null;
   }
 
