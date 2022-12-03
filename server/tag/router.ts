@@ -4,6 +4,7 @@ import express from 'express';
 import TagCollection from "./collection";
 
 import * as UserValidator from '../user/middleware';
+import * as TagValidator from './middleware'
 
 const router = express.Router();
 
@@ -26,6 +27,8 @@ router.post(
   [
     UserValidator.isUserLoggedIn,  // 403
     // TODO content exists
+    // TODO user owns content
+    TagValidator.doesTagNotExist  // 409
   ],
   async (req: Request, res: Response) => {
     const contentId = req.params.contentId;
@@ -80,6 +83,8 @@ router.delete(
   [
     UserValidator.isUserLoggedIn,  // 403
     // TODO content exists
+    // TODO does user own content
+    TagValidator.doesTagExist  // 409
   ],
   async (req: Request, res: Response) => {
     const contentId = req.params.contentId;
