@@ -15,6 +15,7 @@ const router = express.Router();
  * @name POST /api/rating/:contentId
  *
  * @param contentId - ID of content
+ * @param category - Category of content to rate
  * @return {} - The created Rating
  *
  * @throws {400} - Score not in range [0, 100]
@@ -24,7 +25,7 @@ const router = express.Router();
  * @throws {409} User has already rated content
  */
 router.post(
-  '/:contentId?',
+  '/:contentId:category?',
   [
     RatingValidator.isValidScore, // 400
     RatingValidator.isValidCategory, // 400

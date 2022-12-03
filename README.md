@@ -163,3 +163,53 @@ This represents the content's rating in each category
 - `403` User is not logged in
 - `404` Content does not exist
 - `404` User has not rated content
+
+
+# Tags
+
+#### 'POST /api/tags/:contentId' - Add a tag to content
+
+**Body**
+
+- `tagname` - name of the tag
+
+**Returns**
+
+- `201` Successful creation message
+
+**Throws**
+
+- `403` User is not logged in
+- `403` User does not own this content
+- `404` Content does not exist
+- `409` This tag already exists for this content
+
+
+#### 'GET /api/tags/:contentId' - Get all tags associated with content
+
+**Returns**
+
+- `200` Succesful retrieval message
+- List of strings denoting tags on content
+
+**Throws**
+
+- `404` Content does not exist
+
+
+#### 'DELETE /api/tags/:contentId' - Remove a tag from content
+
+**Body**
+
+- `tagname` - name of the tag
+
+**Returns**
+
+- `200` Successful tag deletion
+
+**Throws**
+
+- `403` User is not logged in
+- `403` User does not own this content
+- `404` Content does not exist
+- `409` This tag des not exist for this content
