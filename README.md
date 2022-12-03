@@ -100,13 +100,14 @@ But thank you!
 
 
 
+
+
 # Rating
 
-#### 'POST /api/rating/:contentId' - Create a rating for content
+#### 'POST /api/rating/:contentId:category' - Create a rating for content
 
 **Body**
 
-- `category`(string) - The category to rate
 - `score`(int) - The user's score of content's category
 
 **Returns**
@@ -121,11 +122,11 @@ But thank you!
 - `404` Content does not exist
 - `409` User has already rated content
 
-#### 'PATCH /api/rating/:contentId' - Change rating for content
+
+#### 'PATCH /api/rating/:contentId:category' - Change rating for content
 
 **Body**
 
-- `category`(string) - The category to rate
 - `score`(int) - The user's score of content's category
 
 **Returns**
@@ -140,17 +141,31 @@ But thank you!
 - `404` Content does not exist
 - `409` User has not rated content
 
+
 #### 'GET /api/rating/:contentId' - Get net rating for content
 
 **Returns**
 
 - `200` Success message
-- `rating` Rating Json mapping rating category to integer in [0, 100].
-This represents the content's rating in each category
+- `rating` Get an averaged rating based on all ratings on content
 
 **Throws**
 
 - `404` Content does not exist
+
+
+#### 'GET /api/rating/:contentId?:category' - Get rating score for category
+
+**Returns**
+
+- `200` Success message
+- `rating` A number denoting rating of content on category
+
+**throws**
+
+- `400` Invalid category
+- `404` Content does not exist
+
 
 #### 'DELETE /api/rating/:contentId' - Delete *all* user's rating on content
 
@@ -163,6 +178,22 @@ This represents the content's rating in each category
 - `403` User is not logged in
 - `404` Content does not exist
 - `404` User has not rated content
+
+
+#### 'DELETE /api/rating/:contentId?:category' - Delete user's rating on content's category
+
+**Returns**
+
+- `200` Success message
+
+**Throws**
+
+- `400` Invalid category
+- `403` User is not logged in
+- `404` Content does not exist
+- `404` User has not rated content
+
+
 
 
 # Tags
