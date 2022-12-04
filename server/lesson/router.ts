@@ -48,8 +48,10 @@ router.post(
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
+        console.log('user id: ' + userId);
         const title = req.body.title;
         const content = req.body.content;
+        console.log('lol marker');
         const lesson = await LessonCollection.addOne(userId, title, content);
         res.status(201).json({
             message: "Your lesson was created successfully.",
