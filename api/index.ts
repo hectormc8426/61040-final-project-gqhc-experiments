@@ -9,6 +9,8 @@ import http from 'http';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { userRouter } from '../server/user/router';
+import { ratingRouter } from '../server/rating/router';
+import { tagRouter } from '../server/tag/router';
 
 // import multer from 'multer'
 // import { GridFsStorage } from 'multer-gridfs-storage';
@@ -82,6 +84,8 @@ app.get('/', (req: Request, res: Response) => {
 
 // Add routers from routes folder
 app.use('/api/users', userRouter);
+app.use('/api/rating', ratingRouter);
+app.use('/api/tags', tagRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
@@ -96,7 +100,7 @@ server.listen(app.get('port'), () => {
 });
 
 
-// fun part yay! 
+// fun part yay!
 // for storing images and videos
 
 // if (fileDatabase === null) {

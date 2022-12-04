@@ -202,3 +202,5 @@ router.delete(
     });
   }
 );
+
+export {router as ratingRouter};
