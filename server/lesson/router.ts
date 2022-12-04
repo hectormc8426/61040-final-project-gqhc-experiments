@@ -30,6 +30,9 @@ router.get(
         } else {
             // then the user is not specified so return all lessons on the platform! (need to be fixed later for performance)
             const lessons = await LessonCollection.findAll();
+            // res.setHeader('Content-Type', 'application/json');
+            console.log('hello server');
+            console.log('length: ', lessons.length);
             res.status(200).json(lessons);
         }
     }

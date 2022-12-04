@@ -16,7 +16,8 @@ const store = new Vuex.Store({
     username: null, // Username of the logged in user
     user: null,
     level: null, // Music Coins owned by the user
-    experiencePoints: null
+    experiencePoints: null,
+    markdown: null
     // TODO: Fill this with appropriate states
   },
   mutations: {
@@ -62,6 +63,9 @@ const store = new Vuex.Store({
       state.experiencePoints = res.user.experiencePoints;
       state.level = res.user.experiencePoints / pointsToLevel + 1;
 
+    },
+    setMarkdown(state, markdown) {
+      state.markdown = markdown;
     }
 
     // TODO: Fill this with appropriate mutations

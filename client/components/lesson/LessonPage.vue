@@ -1,56 +1,57 @@
 <template>
-    <div id="lessonForm" class="flex-container">
+    <div>
         <div>
-            <label>Title: </label>
-            <input v-model="title" />
-
-            <MarkdownEditor v-model="content" ref='markdownEditor'/>
-            <button v-on:click='preview'>
-                Preview
-            </button>
-
-            <button v-on:click='submit'>
-                Submit
-            </button>
+            <CreateLessonForm ref="lessonForm" />
         </div> 
+        <div id="lessonList" class="flex-container">
 
-        <section id="lessonPreview" class="flex-child">
-            <h2>Render</h2>
+            <section id="lessonList" class="flex-container">
+                <div v-if="loading">
+                    <div class="loader"></div>
+                </div>
 
-            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
-            </div>
-        </section>
+                <div v-else>
+                    <LessonComponent :lesson="lesson" v-for="lesson in lessons" :key="lesson.id" class="lessonClass" />
+                </div>
+            </section>
+        </div>
     </div>
 </template>
  
 <script>
 
-import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
+import CreateLessonForm from './CreateLessonForm.vue';
+import LessonComponent from './LessonComponent.vue';
 
 export default {
-    name: "CreateLessonForm",
-    components: { MarkdownEditor },
+    name: "LessonPage",
+    components: { CreateLessonForm, LessonComponent },
     data() {
         return {
             title: "",
             content: "",
-            parsedHTML: []
+            parsedHTML: [],
+            loading: false,
+            lessons: [],
+            easymde: null
         };
     },
-    mounted() {
+    created() {
         // let's get our freets
-        // this.$store.commit('setMarkdown', this.$refs.markdownEditor);
+        this.load();
     },
     methods: {
+        async load() {
+            this.loading = true;
+            const r = await fetch('api/lessons/');
+            const res = await r.json();
+            if (!r.ok) {
+                throw new Error(res.error);
+            }
+            this.lessons = res;
+            this.loading = false;
+        },
         async preview() {
-            // DEBUGGING SESSION
-            // console.log('TEST:');
-            // const textAreaDivContainer = this.$refs.markdownEditor.$refs.markdownEditor.$el;
-            // const textarea = Array.from(textAreaDivContainer.children)[0]; // inspect index.vue from vue-easymde folder in node_modules
-
-            // textarea.value = "lol this is a test sentence";
-
-            // console.log('VALUE: ' + textarea.value);
             // accessing the text content within the markdown editor
             this.content = String(this.$refs.markdownEditor.$data.content);
             // let's preprocess our text
@@ -59,70 +60,6 @@ export default {
             this.imgURLToData(lessonChunks).then((lessonChunks2) => console.log("result2: " + lessonChunks2));
             // with the text broken down, let's compile each lesson chunk into the appropriate html
             this.parsedHTML = this.parse(lessonChunks).flat(3);
-        },
-        async submit() {
-            if (confirm('Are you ready to submit your lesson?')) {
-                const contentToOptions = (lessonContent) => {
-                    return {
-                        method: 'POST',
-                        headers: { "Content-Type" : "application/json" }, 
-                        body: JSON.stringify({
-                            title: this.title,
-                            content: lessonContent
-                        }),
-                    };
-                };
-
-                this.content = this.$refs.markdownEditor.$data.content;
-                const lessonChunks = this.format();
-                await this.imgURLToData(lessonChunks).then(async (lessonChunks2) => {
-                    console.log("hello:");
-                    console.log(lessonChunks2);
-                    const options = contentToOptions(lessonChunks2);
-
-                    console.log('options:: ' + JSON.stringify(options));
-                    
-                    const response = await fetch("/api/lessons", options);
-                    console.log('here');
-                    if (!response.ok) {
-                        const res = await response.json();
-                        throw new Error(res.error);
-                    }
-                });
-            }
-        },
-        format() {
-            // requirement: delimiter to be ---link:<video link>---
-            let chunks = this.content.split(/---/);
-            // each chunk is distinct -> one of { text, video, image }
-            chunks = chunks.map((input) => {
-                // for each lesson chunk
-                // get rid of whitespaces at the beginning/end
-                const trimmed = input.trim(); 
-                // let's determine what this chunk represents:
-                let type = null;
-                let content = null;
-
-                // if this is a video
-                if (/!video:/.test(trimmed)) {
-                    type = 'video';
-                    const tokens = trimmed.split(/!video:/);
-                    content = tokens[tokens.length - 1].trim();
-                } else if (/!image:/.test(trimmed)) { // if this is an image
-                    type = 'image';
-                    const tokens = trimmed.split(/!image:/);
-                    content = tokens[tokens.length - 1].trim();
-                } else { // else, then it must be text (or let's treat it so)
-                    type = 'text';
-                    content = String(trimmed);
-                }
-                // and let's format it for our mongodb schema (not dealing with collection/router/etc rn since I need to get image working)
-                return { 
-                    contentType: type,
-                    content: content
-                };
-            });
-            return chunks;
         },
         parse(lessonChunks) {
             // this is to grab each individual html pieces from the chunks and return them in one list
@@ -207,6 +144,19 @@ export default {
     flex: 1;
 }
 
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 
 </style>
