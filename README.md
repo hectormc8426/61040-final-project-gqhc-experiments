@@ -100,6 +100,9 @@ But thank you!
 
 - `403` if the user is not logged in
 
+
+
+
 # Rating
 
 #### 'POST /api/rating/:contentId:category' - Create a rating for content
@@ -185,6 +188,8 @@ But thank you!
 - `403` User is not logged in
 - `404` Content does not exist
 - `404` User has not rated content
+
+
 
 # Tags
 

@@ -66,6 +66,17 @@ class RatingCollection {
     return RatingModel.find({contentId})
   }
 
+  /**
+   * Find all ratings on content by category
+   *
+   * @param contentId - What was rated
+   * @param category - Category of rating
+   * @return {} Array of all ratings to content
+   */
+  static async findAllByContentIdAndCategory(contentId: Types.ObjectId | string, category: string): Promise<Array<HydratedDocument<Rating>>> {
+    return RatingModel.find({contentId, category})
+  }
+
 
   // UPDATING
 

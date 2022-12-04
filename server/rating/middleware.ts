@@ -71,7 +71,7 @@ const isValidScore = async (req: Request, res: Response, next: NextFunction) => 
  * Throw 400 if not
  */
 const isValidCategory = async (req:Request, res: Response, next: NextFunction) => {
-  const category = (req.body.category as string) ?? '';
+  const category = (req.params.category as string) ?? '';
   const validCategories = ['Clarity', 'Accuracy', 'Engaging']
 
   if (!(category in validCategories)) {

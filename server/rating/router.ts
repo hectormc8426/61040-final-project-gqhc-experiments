@@ -36,7 +36,7 @@ router.post(
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
     const contentId = req.params.contentId;
-    const category = req.body.category;
+    const category = req.params.category;
     const score = req.body.score;
     const rating = await RatingCollection.addOne(userId, contentId, category, score);
 
@@ -50,6 +50,8 @@ router.post(
 /**
  * Update user's rating with new rating
  *
+ * @name PATCH /api/rating/:contentId:category
+ *
  * @param contentId - id of content
  * @return {} - The created Rating
  *
@@ -60,7 +62,7 @@ router.post(
  * @throws {409} User has not rated content
  */
 router.patch(
-  '/:contentId?',
+  '/:contentId:category?',
   [
     RatingValidator.isValidScore, // 400
     RatingValidator.isValidCategory, // 400
@@ -71,7 +73,7 @@ router.patch(
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
     const contentId = req.params.contentId;
-    const category = req.body.category;
+    const category = req.params.category;
     const score = req.body.score;
     const rating = await RatingCollection.updateOne(userId, contentId, category, score);
 
@@ -85,10 +87,22 @@ router.patch(
 /**
  * Get an aggregation of all ratings on content
  *
+ * @name GET /api/rating/:contentId
+ *
  * @param contentId - id of content
- * @return {} - json mapping category to aggregate score
+ * @return {} - net rating number, averaging all categories
  *
  * @throws {404} Content does not exist
+ */
+/**
+ * Get rating of a specific category
+ *
+ * @name GET /api/rating/:contentId?:category
+ *
+ * @param category - category of rating to retrieve
+ * @return {} - rating of that specific category
+ *
+ * @throws {400} Invalid Category
  */
 router.get(
   '/:contentId?',
@@ -96,23 +110,53 @@ router.get(
     // TODO content exists
   ],
   async (req: Request, res: Response) => {
-    // TODO
+    const contentId = req.params.contentId;
+    const scores = await RatingCollection.findAllByContentId(contentId);
+
+    let net = 0;
+    for (let i=0; i<scores.length; i++) {
+      net += scores[i].score;
+    }
+
+    res.status(200).json({
+      message: `Successfully retrieved full score for ${contentId}`,
+      score: net/scores.length
+    });
+  },
+  [
+    RatingValidator.isValidCategory
+  ],
+  async (req: Request, res: Response) => {
+    const contentId = req.params.contentId;
+    const category = req.params.category;
+    const scores = await  RatingCollection.findAllByContentIdAndCategory(contentId, category);
+
+    let net = 0;
+    for (let i=0; i<scores.length; i++) {
+      net += scores[i].score;
+    }
+
+    res.status(200).json({
+      message: `Successfully retrieved full score for ${contentId} in category ${category}`,
+      score: net/scores.length
+    });
   }
 );
 
 /**
  * Delete all user's rating on content
  *
+ * @name DELETE /api/rating/:contentId
+ *
  * @param contentId - id of content
  *
  * @throws {403} - User is not logged in
  * @throws {404} - Content does not exist
- * @throws {404} - User has not rated content
+ * @throws {409} - User has not rated content
  */
 router.delete(
   '/:contentId?',
   [
-    RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
     // TODO content exists
     RatingValidator.hasUserNotRatedContent // 409
@@ -124,6 +168,37 @@ router.delete(
 
     res.status(200).json({
       message: 'User has undone all ratings on content'
+    });
+  }
+);
+
+/**
+ * Delete all user's rating on content
+ *
+ * @name DELETE /api/rating/:contentId?:category
+ *
+ * @param contentId - id of content
+ *
+ * @throws {403} - User is not logged in
+ * @throws {404} - Content does not exist
+ * @throws {404} - User has not rated content
+ */
+router.delete(
+  '/:contentId?:category',
+  [
+    RatingValidator.isValidCategory, // 400
+    UserValidator.isUserLoggedIn,  // 403
+    // TODO content exists
+    RatingValidator.hasUserNotRatedContent // 409
+  ],
+  async (req: Request, res: Response) => {
+    const userId = req.session.userId;
+    const contentId = req.params.contentId;
+    const category = req.params.category;
+    await RatingCollection.deleteOne(userId, contentId, category);
+
+    res.status(200).json({
+      message: `User has deleted rating of ${contentId} on category ${category}`
     });
   }
 );
