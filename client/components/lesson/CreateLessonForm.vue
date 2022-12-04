@@ -1,9 +1,16 @@
 <template>
     <div id="lessonForm" class="flex-container">
         <div>
+            <label>Title: </label>
+            <input v-model="title" />
+
             <MarkdownEditor v-model="content" ref='markdownEditor'/>
             <button v-on:click='preview'>
                 Preview
+            </button>
+
+            <button v-on:click='submit'>
+                Submit
             </button>
         </div> 
 
@@ -25,18 +32,60 @@ export default {
     components: { MarkdownEditor },
     data() {
         return {
+            title: "",
             content: "",
             parsedHTML: []
         };
     },
     methods: {
-        preview() {
+        async preview() {
+            // DEBUGGING SESSION
+            // console.log('TEST:');
+            // const textAreaDivContainer = this.$refs.markdownEditor.$refs.markdownEditor.$el;
+            // const textarea = Array.from(textAreaDivContainer.children)[0]; // inspect index.vue from vue-easymde folder in node_modules
+
+            // textarea.value = "lol this is a test sentence";
+
+            // console.log('VALUE: ' + textarea.value);
             // accessing the text content within the markdown editor
-            this.content = this.$refs.markdownEditor.$data.content;
+            this.content = String(this.$refs.markdownEditor.$data.content);
             // let's preprocess our text
             const lessonChunks = this.format();
+            // then actually push it to the server
+            this.imgURLToData(lessonChunks).then((lessonChunks2) => console.log("result2: " + lessonChunks2));
             // with the text broken down, let's compile each lesson chunk into the appropriate html
             this.parsedHTML = this.parse(lessonChunks).flat(3);
+        },
+        async submit() {
+            if (confirm('Are you ready to submit your lesson?')) {
+                console.log('debug title');
+                const contentToOptions = (lessonContent) => {
+                    return {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            title: this.title,
+                            content: lessonContent
+                        }),
+                    };
+                };
+
+                this.content = this.$refs.markdownEditor.$data.content;
+                const lessonChunks = this.format();
+                await this.imgURLToData(lessonChunks).then(async (lessonChunks2) => {
+                    console.log("hello:");
+                    console.log(lessonChunks2);
+                    const options = contentToOptions(lessonChunks2);
+
+                    console.log('options:: ' + JSON.stringify(options));
+                    
+                    const response = await fetch(window.location.origin + "/api/lessons/", options);
+                    console.log('here');
+                    if (!response.ok) {
+                        const res = await response.json();
+                        throw new Error(res.error);
+                    }
+                });
+            }
         },
         format() {
             // requirement: delimiter to be ---link:<video link>---
@@ -61,7 +110,7 @@ export default {
                     content = tokens[tokens.length - 1].trim();
                 } else { // else, then it must be text (or let's treat it so)
                     type = 'text';
-                    content = trimmed;
+                    content = String(trimmed);
                 }
                 // and let's format it for our mongodb schema (not dealing with collection/router/etc rn since I need to get image working)
                 return { 
@@ -94,7 +143,13 @@ export default {
                     const htmlInString = String(parsedHTML);
                     return htmlInString;
                 } else if (type == 'image') {
-                    return this.$refs.markdownEditor.easymde.markdown("IMAGESSSSS");
+                    const link = content;
+                    const markdownForm = "![imgX](" + link + ")";
+                    const stringHTML = this.$refs.markdownEditor.easymde.markdown(markdownForm);
+                    const html = parser.parseFromString(stringHTML, 'text/html');
+                    const nodes = html.getElementsByTagName('body')[0];
+                    const imageHTML = Array.from(nodes.children)[0];
+                    return String(imageHTML.outerHTML);
                 } else { // then it must be text (it's safe this way too lol)
                     // for text, we actually want to convert them using markdown rules/effects
                     const stringHTML = this.$refs.markdownEditor.easymde.markdown(content);
@@ -107,6 +162,30 @@ export default {
                 }
             })
             .flat(); // note that one text chunk can come in multiple html elements, so the result of the map operation may be 2D array. gotta flatten that! :D
+        },
+        async imgURLToData(lessonChunks) {
+            // wait for all of the data to be turned to binary data
+            return await Promise.all(lessonChunks.map(async (chunk) => {
+                const { type, content } = chunk;
+
+                if (type == 'image') {
+                    const link = content;
+                    const dataURL =
+                        fetch(link)
+                        .then(response => response.blob())
+                        .then(blob => new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                                resolve({ type: 'image', content: reader.result });
+                            }
+                            reader.onerror = reject;
+                            reader.readAsDataURL(blob);
+                        }));
+
+                    return dataURL;
+                }
+                return chunk;
+            }));
         }
     }
 }
