@@ -48,6 +48,7 @@ router.post(
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
+        console.log('user id: ' + userId);
         const title = req.body.title;
         const content = req.body.content;
         console.log('lol marker');

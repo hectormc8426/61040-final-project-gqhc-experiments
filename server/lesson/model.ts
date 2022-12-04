@@ -2,7 +2,7 @@ import { Types, PopulatedDoc, Document } from 'mongoose';
 import { Schema, model } from 'mongoose';
 
 export type LessonChunk = {
-    type: String, // type of content; e.g., text, image, video -> this will tell us where to look for this chunk of lesson
+    contentType: String, // type of content; e.g., text, image, video -> this will tell us where to look for this chunk of lesson
     content: String; // objectId to query in text/image/video collection from above
 };
 
@@ -34,7 +34,7 @@ const LessonSchema = new Schema<Lesson>({
         required: true
     },
     content: {
-        type: [{ type: String, content: String }],
+        type: [{ contentType: String, content: String }],
         required: true
     }
 })

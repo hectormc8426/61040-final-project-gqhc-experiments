@@ -114,8 +114,8 @@ export default {
                 }
                 // and let's format it for our mongodb schema (not dealing with collection/router/etc rn since I need to get image working)
                 return { 
-                    type,
-                    content
+                    contentType: type,
+                    content: content
                 };
             });
             return chunks;
@@ -124,8 +124,8 @@ export default {
             // this is to grab each individual html pieces from the chunks and return them in one list
             const parser = new DOMParser(); // a parser to turn a html string to html element
             return lessonChunks.map((chunk) => { // for each chunk
-                const { type, content } = chunk; // grab the type and content
-                if (type == 'video') { // if we are dealing with a video
+                const { contentType, content } = chunk; // grab the type and content
+                if (contentType == 'video') { // if we are dealing with a video
                     const link = content;
                     const tokens = link.split(/v=/); // get the link and process it
                     const videoId = tokens[tokens.length - 1]; // get the video token
@@ -142,7 +142,7 @@ export default {
                     const parsedHTML = Array.from(nodes.children)[0].outerHTML; // turn the collection into an array
                     const htmlInString = String(parsedHTML);
                     return htmlInString;
-                } else if (type == 'image') {
+                } else if (contentType == 'image') {
                     const link = content;
                     const markdownForm = "![imgX](" + link + ")";
                     const stringHTML = this.$refs.markdownEditor.easymde.markdown(markdownForm);
@@ -166,9 +166,9 @@ export default {
         async imgURLToData(lessonChunks) {
             // wait for all of the data to be turned to binary data
             return await Promise.all(lessonChunks.map(async (chunk) => {
-                const { type, content } = chunk;
+                const { contentType, content } = chunk;
 
-                if (type == 'image') {
+                if (contentType == 'image') {
                     const link = content;
                     const dataURL =
                         fetch(link)
@@ -176,7 +176,7 @@ export default {
                         .then(blob => new Promise((resolve, reject) => {
                             const reader = new FileReader();
                             reader.onloadend = () => {
-                                resolve({ type: 'image', content: reader.result });
+                                resolve({ contentType: 'image', content: reader.result });
                             }
                             reader.onerror = reject;
                             reader.readAsDataURL(blob);
