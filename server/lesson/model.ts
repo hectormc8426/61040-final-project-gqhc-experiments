@@ -34,7 +34,7 @@ const LessonSchema = new Schema<Lesson>({
         required: true
     },
     content: {
-        type: [{ type: String, contentId: Types.ObjectId }],
+        type: [{ type: { type: String, contentId: Types.ObjectId } }],
         required: true
     }
 })
