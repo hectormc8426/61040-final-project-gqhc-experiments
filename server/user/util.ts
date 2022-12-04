@@ -1,13 +1,14 @@
 import type { HydratedDocument } from 'mongoose';
 import moment from 'moment';
-import type { PopulatedUser, User } from './model';
+import type { PopulatedUser, Quest, User } from './model';
 
 // Update this if you add a property to the User type!
 type UserResponse = {
   _id: string;
   username: string;
   dateJoined: string;
-  experiencePoints: number
+  experiencePoints: number;
+  quests: Array<string>;
 };
 
 /**
@@ -38,9 +39,25 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
     _id: userCopy._id.toString(),
     username: userCopy.username,
     dateJoined: formatDate(user.dateJoined),
-    experiencePoints: userCopy.experiencePoints
+    experiencePoints: userCopy.experiencePoints,
+    quests: constructQuestResponse(user.quests)
   };
 };
+
+const constructQuestResponse = (quests: Map<string, Quest>): Array<string> => {
+  const formattedResponse: Array<string> = [];
+
+  for (const questPair of quests) {
+    const quest: Quest = questPair[1];
+    if (quest.currentProgress >= quest.goalProgress) {
+      formattedResponse.push(questPair[0] + ": COMPLETED");
+    }
+    else {
+      formattedResponse.push(questPair[0] + ": " + quest.currentProgress + "/" + quest.goalProgress);
+    }
+  }
+  return formattedResponse;
+}
 
 export {
   constructUserResponse

@@ -22,7 +22,8 @@
         "dev": "nodemon api/index.ts -e js,ts,json"
     },
     "dependencies": {
-        "codemirror": "^6.0.1",
+        "codemirror": "*",
+        "codemirror-spell-checker": "*",
         "connect-history-api-fallback": "^1.6.0",
         "connect-mongo": "^4.6.0",
         "cookie-parser": "~1.4.3",
@@ -32,6 +33,8 @@
         "express": "^4.18.1",
         "express-handlebars": "^6.0.6",
         "express-session": "^1.17.3",
+        "immutable": "^4.1.0",
+        "marked": "*",
         "moment": "^2.29.4",
         "mongoose": "^6.6.2",
         "morgan": "~1.10.0",
@@ -41,10 +44,7 @@
         "vue-easymde": "^2.0.0",
         "vue-router": "^3.6.5",
         "vuex": "^3.6.2",
-        "vuex-persistedstate": "^4.1.0",
-        "codemirror": "*",
-        "codemirror-spell-checker": "*",
-        "marked": "*"
+        "vuex-persistedstate": "^4.1.0"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.19.1",
