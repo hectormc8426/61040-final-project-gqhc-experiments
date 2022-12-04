@@ -58,10 +58,10 @@ export default {
         },
         async submit() {
             if (confirm('Are you ready to submit your lesson?')) {
-                console.log('debug title');
                 const contentToOptions = (lessonContent) => {
                     return {
                         method: 'POST',
+                        headers: { "Content-Type" : "application/json" }, 
                         body: JSON.stringify({
                             title: this.title,
                             content: lessonContent
@@ -78,7 +78,7 @@ export default {
 
                     console.log('options:: ' + JSON.stringify(options));
                     
-                    const response = await fetch(window.location.origin + "/api/lessons/", options);
+                    const response = await fetch("/api/lessons", options);
                     console.log('here');
                     if (!response.ok) {
                         const res = await response.json();
