@@ -17,7 +17,7 @@ const store = new Vuex.Store({
     user: null,
     level: null, // Music Coins owned by the user
     experiencePoints: null,
-    markdown: null
+    showcases: [],
     // TODO: Fill this with appropriate states
   },
   mutations: {
@@ -52,6 +52,13 @@ const store = new Vuex.Store({
       state.experiencePoints = points;
       state.level = points / pointsToLevel + 1
     },
+    setShowcases(state, showcases) {
+      /**
+       * Update the stored showcases to the specified one
+       * @param showcase - the new showcases to set
+       */
+      state.showcases = showcases;
+    },
     async refreshAccount(state) {
       /**
        * Request the server for the current account session details.
@@ -64,8 +71,14 @@ const store = new Vuex.Store({
       state.level = res.user.experiencePoints / pointsToLevel + 1;
 
     },
-    setMarkdown(state, markdown) {
-      state.markdown = markdown;
+    async refreshShowcases(state) {
+      /**
+       * Request the server for the current account session details.
+       */
+      const url = `/api/showcases`;
+      const res = await fetch(url).then(async r => r.json());
+      console.log(res)
+      state.showcases = res;
     }
 
     // TODO: Fill this with appropriate mutations

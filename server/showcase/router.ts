@@ -4,6 +4,7 @@ import ShowcaseCollection from './collection';
 import * as util from './util';
 import * as userValidator from '../user/middleware';
 import * as showcaseValidator from '../showcase/middleware';
+import * as lessonValidator from '../lesson/middleware';
 
 const router = express.Router();
 /**
@@ -41,7 +42,7 @@ router.get(
     '/',
     [
         userValidator.isUserExists,
-        // insert lesson exists middleware
+        lessonValidator.doesLessonQueryExist
     ],
     async (req: Request, res: Response) => {
         if (req.query.userId !== undefined) {
@@ -80,11 +81,11 @@ router.get(
  */
 router.post(
     '/',
-    [// insert lesson middleware, 
-        userValidator.isCurrentSessionUserExists,
-        showcaseValidator.isValidShowcaseContent],
+    [lessonValidator.doesLessonBodyExist,
+    userValidator.isCurrentSessionUserExists,
+    showcaseValidator.isValidShowcaseContent],
     async (req: Request, res: Response) => {
-        const showcase = await ShowcaseCollection.addOne(req.session.id, req.body.lessonId, req.body.content);
+        const showcase = await ShowcaseCollection.addOne(req.session.userId, req.body.lessonId, req.body.content);
         res.status(201).json({
             message: `Showcase created successfully`,
             showcase: util.constructShowcaseResponse(showcase)
@@ -129,3 +130,5 @@ router.put(
         });
     }
 );
+
+export { router as showcaseRouter };

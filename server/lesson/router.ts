@@ -1,6 +1,8 @@
 import { application, NextFunction, Request, Response } from 'express';
 import express from 'express';
 import LessonCollection from './collection';
+import * as LessonValidator from './middleware';
+import * as UserValidator from '../user/middleware';
 
 const router = express.Router();
 
@@ -22,6 +24,9 @@ const router = express.Router();
 router.get(
     '/',
     // TODO: add appropriate middlewares
+    [
+
+    ],
     async (req: Request, res: Response) => {
         if (req.query.userId !== undefined) {
             // then a user is specified so return their lessons only
@@ -48,6 +53,12 @@ router.get(
  */
 router.post(
     '/',
+    [
+        UserValidator.isUserLoggedIn,
+        UserValidator.isCurrentSessionUserExists,
+        LessonValidator.isContentValid,
+        LessonValidator.isTitleValid
+    ],
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
@@ -71,6 +82,12 @@ router.post(
  */
 router.delete(
     '/:lessonId',
+    [
+        UserValidator.isUserLoggedIn,
+        UserValidator.isCurrentSessionUserExists,
+        LessonValidator.isUserAuthorizedToEdit,
+        LessonValidator.isExistingPost,
+    ],
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         await LessonCollection.deleteOne(req.params.lessonId);
@@ -90,6 +107,12 @@ router.delete(
  */
 router.put(
     '/:lessonId',
+    [
+        UserValidator.isUserLoggedIn,
+        UserValidator.isCurrentSessionUserExists,
+        LessonValidator.isUserAuthorizedToEdit,
+        LessonValidator.isExistingPost,
+    ],
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         const lesson = await LessonCollection.updateOne(req.params.freetId, req.body.title, req.body.content);
@@ -99,28 +122,6 @@ router.put(
         });
     }
 )
-
-
-// // for dealing with files
-
-// router.get(
-//     "/api/lessons/videos/:videoName",
-//     async (req, res) => {
-//         const file = lessonVideoBucket.find({
-//             filename: req.params.videoName
-//         });
-//     }
-// );
-
-// router.post(// TODO: Make sure the name matches in the form
-//     '/api/lessons/videos/',
-//     uploadLesson.single("videoFile"),
-//     async (req, res) => {
-//         res.status(200).json({
-//             message: 'Video uploaded successfully'
-//         });
-//     }
-// );
 
 
 export { router as lessonRouter }

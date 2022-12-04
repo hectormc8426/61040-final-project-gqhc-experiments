@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import UserCollection from '../user/collection';
+import { questNames } from './model';
 
 /**
  * Checks if the current session user (if any) still exists in the database, for instance,
@@ -75,6 +76,48 @@ const isAccountExists = async (req: Request, res: Response, next: NextFunction) 
 };
 
 /**
+ * Checks if a given quest to update is a quest that exists.
+ */
+const isValidQuestName = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.body.quest !== undefined) { // If a quest is not being changed, skip this check
+    if (!questNames.has(req.body.quest.name)) {
+      res.status(404).json({ error: `Invalid quest name: ${req.body.quest.name} given. Quest does not exist!` });
+      return;
+    }
+  }
+
+  next();
+};
+
+/**
+ * Checks if a given quest to update has proper formatting
+ */
+const isValidQuestFormat = async (req: Request, res: Response, next: NextFunction) => {
+  if (req.body.quest !== undefined) { // If a quest is not being changed, skip this check
+    const quest = req.body.quest;
+
+    if (!quest.name || typeof quest.name === "string") {
+      res.status(400).json({ error: `Improper formatting of quest: missing field 'name' or invalid value. Expected 'name' of type string.` });
+      return;
+    }
+    if (!quest.currentProgress || typeof quest.currentProgress === "number") {
+      res.status(400).json({ error: `Improper formatting of quest: missing field 'currentProgress' or invalid value. Expected 'currentProgress' of type number.` });
+      return;
+    }
+    if (!quest.goalProgress || typeof quest.goalProgress === "number") {
+      res.status(400).json({ error: `Improper formatting of quest: missing field 'goalProgress' or invalid value. Expected 'goalProgress' of type number.` });
+      return;
+    }
+    if (!quest.reward || typeof quest.reward === "number") {
+      res.status(400).json({ error: `Improper formatting of quest: missing field 'reward' or invalid value. Expected 'reward' of type number.` });
+      return;
+    }
+  }
+
+  next();
+};
+
+/**
  * Checks if a username in req.body is already in use
  */
 const isUsernameNotAlreadyInUse = async (req: Request, res: Response, next: NextFunction) => {
@@ -128,6 +171,11 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
 const isUserExists = async (req: Request, res: Response, next: NextFunction) => {
   let userId = req.query.userId;
 
+  if (!userId) {
+    next();
+    return;
+  }
+
   const user = await UserCollection.findOneByUsername(userId as string);
   if (!user) {
     res.status(404).json({
@@ -149,4 +197,6 @@ export {
   isUserExists,
   isValidUsername,
   isValidPassword,
+  isValidQuestFormat,
+  isValidQuestName,
 };

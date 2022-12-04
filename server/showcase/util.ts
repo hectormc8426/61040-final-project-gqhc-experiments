@@ -1,13 +1,13 @@
 import type { HydratedDocument } from 'mongoose';
 import moment from 'moment';
-import { PopulatedShowcase, Showcase } from './model';
+import { PopulatedShowcase, Showcase, ShowcaseChunk } from './model';
 
 export type ShowcaseResponse = {
     _id: string;
     author: string;
     lesson: string;
     dateCreated: string;
-    content: string;
+    content: Array<ShowcaseChunk>;
     dateModified: string;
 };
 

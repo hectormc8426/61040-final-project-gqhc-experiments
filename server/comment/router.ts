@@ -46,7 +46,7 @@ router.get(
     }
   },
   [
-    userValidator.isAuthorExists
+    userValidator.isUserExists
   ],
   async (req: Request, res: Response) => {
     const authorComments = await CommentCollection.findAllByUsername(req.query.author as string);
@@ -58,7 +58,7 @@ router.get(
 router.get(
   '/',
   [
-    lessonValidator.isLessonExists
+    lessonValidator.isExistingPost
   ],
   async (req: Request, res: Response) => {
     const lessonComments = await CommentCollection.findAllByLesson(req.query.lessonId as string);

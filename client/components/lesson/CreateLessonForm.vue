@@ -25,11 +25,13 @@
  
 <script>
 
+import markdownMixin from '@/components/common/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 
 export default {
     name: "CreateLessonForm",
     components: { MarkdownEditor },
+    mixins: { markdownMixin },
     data() {
         return {
             title: "",

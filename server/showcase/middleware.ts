@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import ShowcaseCollection from './collection';
+import { ShowcaseChunk } from './model';
 
 /**
  * Checks if the showcase given in the req params exists 
@@ -28,8 +29,8 @@ const doesShowcaseExist = async (req: Request, res: Response, next: NextFunction
  * spaces
  */
 const isValidShowcaseContent = (req: Request, res: Response, next: NextFunction) => {
-    const { content } = req.body as { content: string };
-    if (!content.trim()) {
+    const { content } = req.body as { content: Array<ShowcaseChunk> };
+    if (content.length === 0) {
         res.status(400).json({
             error: 'Showcase content must be at least one character long.'
         });

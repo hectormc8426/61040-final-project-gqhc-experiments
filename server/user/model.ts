@@ -1,6 +1,30 @@
 import type { Types } from 'mongoose';
 import { Schema, model } from 'mongoose';
+import Immutable from 'immutable'; // do 'npm install immutable'
 
+// When creating quests, make sure the new quest appears both in 'questNames' and 'questList'
+
+// Immutable set keeping track of the names of all of the existing quests. Exists as a set for quick look up time.
+export const questNames: Immutable.Set<string> =
+    Immutable.Set(["doOneShowcase", "commentOne", "rateOne",
+        "createOneLesson", "createLessons", "createShowcases", "loginStreak"]);
+
+export type Quest = {
+    name: string;
+    currentProgress: number;
+    goalProgress: number;
+    reward: number
+};
+
+// serves as the starting values for quest. When creating new quests for a user, those quests should be initialized to these values.
+export const questList: Immutable.Map<string, [number, number, number]> =
+    Immutable.Map([["doOneShowcase", [0, 1, 100]],
+    ["commentOne", [0, 1, 50]],
+    ["rateOne", [0, 1, 50]],
+    ["createOneLesson", [0, 1, 300]],
+    ["createLessons", [0, 5, 100]],
+    ["createShowcases", [0, 1, 300]],
+    ["loginStreak", [0, 3, 20]],]);
 
 // Type definition for User on the backend
 export type User = {
@@ -9,6 +33,10 @@ export type User = {
     password: string;
     dateJoined: Date;
     experiencePoints: number;
+    quests: Map<string, Quest>;
+    //Map of quests names to Objects containing fields for 'name', 'currentProgress', 'goalProgress', and 'reward'
+    //currentProgress is how much a quest has been completed towards the goalProgress. Quest is completed
+    //and user receives reward when currentProgress >= goalProgress.
 };
 
 // Type definition for populated User (with cosmetic fields populated)
@@ -18,6 +46,7 @@ export type PopulatedUser = {
     password: string;
     dateJoined: Date;
     experiencePoints: number;
+    quests: Map<string, Quest>
 }
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -44,7 +73,10 @@ const UserSchema = new Schema({
         type: Number,
         required: true
     },
-    // All cosmetics that the user owns
+    quests: {
+        type: Map,
+        required: true
+    }
 });
 
 const UserModel = model<User>('User', UserSchema);

@@ -1,6 +1,7 @@
 import type { HydratedDocument, Types } from 'mongoose';
-import type { User } from './model';
+import type { Quest, User } from './model';
 import UserModel from './model';
+import { questList } from './model';
 
 /**
  * This file contains a class with functionality to interact with users stored
@@ -11,7 +12,7 @@ import UserModel from './model';
  * and contains all the information in User. https://mongoosejs.com/docs/typescript.html
  */
 
-type UserDetails = { password?: string; username?: string; experiencePoints?: number }
+type UserDetails = { password?: string; username?: string; experiencePoints?: number, quest?: Quest }
 class UserCollection {
     /**
      * Add a new user
@@ -22,8 +23,13 @@ class UserCollection {
      */
     static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
         const dateJoined = new Date();
+        let questInit: Map<string, Quest> = new Map();
 
-        const user = new UserModel({ username, password, dateJoined, experiencePoints: 0 });
+        for (const quest of questList) {
+            questInit.set(quest[0], { "name": quest[0], "currentProgress": quest[1][0], "goalProgress": quest[1][1], "reward": quest[1][2] })
+        }
+
+        const user = new UserModel({ username, password, dateJoined, experiencePoints: 0, quests: questInit });
         await user.save(); // Saves user to MongoDB
         return user;
     }
@@ -81,6 +87,15 @@ class UserCollection {
 
         if (userDetails.experiencePoints) {
             user.experiencePoints = userDetails.experiencePoints;
+        }
+
+        if (userDetails.quest) {
+            user.quests.set(userDetails.quest.name, {
+                "name": userDetails.quest.name,
+                "currentProgress": userDetails.quest.currentProgress,
+                "goalProgress": userDetails.quest.goalProgress,
+                "reward": userDetails.quest.reward
+            });
         }
 
         await user.save();
