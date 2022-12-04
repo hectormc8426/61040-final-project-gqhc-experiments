@@ -96,3 +96,5 @@ router.delete(
     });
   }
 );
+
+export {router as tagRouter};
