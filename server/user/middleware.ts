@@ -171,6 +171,11 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
 const isUserExists = async (req: Request, res: Response, next: NextFunction) => {
   let userId = req.query.userId;
 
+  if (!userId) {
+    next();
+    return;
+  }
+
   const user = await UserCollection.findOneByUsername(userId as string);
   if (!user) {
     res.status(404).json({

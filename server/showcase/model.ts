@@ -3,13 +3,19 @@ import { Schema, model } from 'mongoose';
 import { Lesson } from 'server/lesson/model';
 import { User } from 'server/user/model';
 
+export type ShowcaseChunk = {
+    contentType: String, // type of content; e.g., text, image, video -> this will tell us where to look for this chunk of lesson
+    content: String; // objectId to query in text/image/video collection from above
+};
+
+
 export type Showcase = {
     _id: Types.ObjectId;
     userId: Types.ObjectId;
     lessonId: Types.ObjectId;
     dateCreated: Date;
     dateModified: Date;
-    content: string;
+    content: Array<ShowcaseChunk>;
 };
 
 export type PopulatedShowcase = {
@@ -17,8 +23,8 @@ export type PopulatedShowcase = {
     userId: User;
     lessonId: Lesson,
     dateCreated: Date;
-    content: string;
     dateModified: Date;
+    content: Array<ShowcaseChunk>;
 };
 
 // mongoose schema definition for Showcase
@@ -44,7 +50,7 @@ const ShowcaseSchema = new Schema<Showcase>({
         required: true
     },
     content: {
-        type: String,
+        type: [{ contentType: String, content: String }],
         required: true
     }
 })

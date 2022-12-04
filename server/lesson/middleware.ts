@@ -91,12 +91,59 @@ const isUserAuthorizedToEdit = async (req: Request, res: Response, next: NextFun
     next();
 };
 
+/**
+ * Checks if the lessonId given in the body of the request exists
+ */
+const doesLessonBodyExist = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.body.lessonId) {
+        res.status(400).json({
+            error: 'Cannnot query when the lesson id is not provided.'
+        });
+        return;
+    }
+
+    const lesson = await LessonCollection.findOne(req.body.lessonId);
+
+    if (lesson === null) { // then the lesson does exist in the database -> let the caller know
+        res.status(404).json({
+            error: 'This lesson does not exist'
+        });
+        return;
+    }
+
+    next();
+};
+
+/**
+ * Checks if the lessonId given in the query of the request exists
+ * 
+ * Only used for showcase querying right now, so there doesn't have to actually a field in 
+ * req.query for it to still pass. 
+ */
+const doesLessonQueryExist = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.query.lessonId) {
+        next(); // no errors if not there
+        return;
+    }
+    const lesson = await LessonCollection.findOne(req.query.lessonId as string);
+
+    if (lesson === null) { // then the lesson does exist in the database -> let the caller know
+        res.status(404).json({
+            error: 'This lesson does not exist'
+        });
+        return;
+    }
+
+    next();
+};
 
 export {
     isTitleValid,
     isContentValid,
     isExistingPost,
     isUserAuthorizedToEdit,
-    isNonexistingPost
+    isNonexistingPost,
+    doesLessonBodyExist,
+    doesLessonQueryExist
 };
 

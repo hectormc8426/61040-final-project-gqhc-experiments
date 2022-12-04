@@ -1,5 +1,5 @@
 import type { HydratedDocument, Types } from 'mongoose';
-import type { Showcase } from './model';
+import type { Showcase, ShowcaseChunk } from './model';
 import ShowcaseModel from './model';
 
 
@@ -26,14 +26,14 @@ class ShowcaseCollection {
      * @param {string} content - Content of the showcase
      * @return {Promise<HydratedDocument<Showcase>>} - The newly created showcase
      */
-    static async addOne(userId: Types.ObjectId | string, lessonId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Showcase>> {
+    static async addOne(userId: Types.ObjectId | string, lessonId: Types.ObjectId | string, content: Array<ShowcaseChunk>): Promise<HydratedDocument<Showcase>> {
         const date = new Date();
         const showcase = new ShowcaseModel({
             userId: userId,
             dateCreated: date,
             dateModified: date,
             lessonId: lessonId,
-            content: content
+            content: [...content]
         });
 
         await showcase.save()
@@ -111,9 +111,9 @@ class ShowcaseCollection {
      * @param content - The new content of the specified lesson
      * @returns The newly updated lesson
      */
-    static async updateOne(showcaseId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Showcase>> {
+    static async updateOne(showcaseId: Types.ObjectId | string, content: Array<ShowcaseChunk>): Promise<HydratedDocument<Showcase>> {
         const showcase = await ShowcaseModel.findOne({ showcaseId: showcaseId });
-        showcase.content = content;
+        showcase.content = [...content];
         showcase.dateModified = new Date();
         await showcase.save();
         return (await showcase.populate('userId')).populate('lessonId');
