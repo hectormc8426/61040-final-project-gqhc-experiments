@@ -164,6 +164,18 @@ But thank you!
 - `400` Invalid category
 - `404` Content does not exist
 
+#### 'GET /api/rating/:contentId?:category:useUserId' - Get specific rating
+
+**Returns**
+
+- `200` Success message
+- `rating` A number denoting rating of content on category
+
+**throws**
+
+- `400` Invalid category
+- `404` Content does not exist
+
 #### 'DELETE /api/rating/:contentId' - Delete _all_ user's rating on content
 
 **Returns**
