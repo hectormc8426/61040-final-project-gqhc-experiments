@@ -19,7 +19,7 @@ const store = new Vuex.Store({
     level: null, // level of the user
     experiencePoints: null,
     showcases: [],
-    quests: null,
+    quests: [],
     comments: []
     // TODO: Fill this with appropriate states
   },
