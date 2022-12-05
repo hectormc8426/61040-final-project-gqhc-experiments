@@ -9,6 +9,7 @@ type UserResponse = {
   dateJoined: string;
   experiencePoints: number;
   quests: Array<Quest>;
+  dailyLoginDate: Date;
 };
 
 /**
@@ -40,7 +41,8 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
     username: userCopy.username,
     dateJoined: formatDate(user.dateJoined),
     experiencePoints: userCopy.experiencePoints,
-    quests: constructQuestResponse(user.quests)
+    quests: constructQuestResponse(user.quests),
+    dailyLoginDate: userCopy.dailyLoginDate,
   };
 };
 

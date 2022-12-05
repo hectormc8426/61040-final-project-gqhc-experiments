@@ -76,6 +76,52 @@ export default {
                     }
                 });
                 this.$store.commit('refreshShowcases');
+
+
+                const quest1 = { "questName": "createShowcases", "progress": 1 };
+                this.$store.commit("setQuest", quest1);
+
+                let questToSave = this.$store.state.quests.filter(quest => quest.name == "createShowcases")[0];
+                console.log(questToSave);
+                const contentToOptions2 = () => {
+                    return {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            experiencePoints: this.$store.state.experiencePoints,
+                            quest: questToSave
+                        }),
+                    };
+                };
+                let options = contentToOptions2();
+                const response = await fetch("/api/users", options);
+                if (!response.ok) {
+                    const res = await response.json();
+                    throw new Error(res.error);
+                }
+
+
+                const quest2 = { "questName": "doOneShowcase", "progress": 1 };
+                this.$store.commit("setQuest", quest2);
+
+                questToSave = this.$store.state.quests.filter(quest => quest.name == "doOneShowcase")[0];
+                console.log(questToSave);
+                const contentToOptions3 = () => {
+                    return {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            experiencePoints: this.$store.state.experiencePoints,
+                            quest: questToSave
+                        }),
+                    };
+                };
+                options = contentToOptions3();
+                const response2 = await fetch("/api/users", options);
+                if (!response2.ok) {
+                    const res = await response2.json();
+                    throw new Error(res.error);
+                }
             }
         },
     }

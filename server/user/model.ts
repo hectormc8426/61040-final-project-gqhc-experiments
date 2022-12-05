@@ -26,7 +26,7 @@ export const questList: Immutable.Map<string, [string, number, number, number, n
     ["createOneLesson", ["Create a lesson", 0, 1, 300, 0]],
     ["createLessons", ["Create lessons (REPEATING) 🔄", 0, 3, 250, 3]],
     ["createShowcases", ["Create showcases (REPEATING) 🔄", 0, 3, 300, 3]],
-    ["login", ["Login for the day (REPEATING) 🔄", 0, 2, 20, 1]],]);
+    ["login", ["Login for the day (REPEATING) 🔄", 1, 2, 20, 1]],]);
 
 // Type definition for User on the backend
 export type User = {
@@ -36,6 +36,7 @@ export type User = {
     dateJoined: Date;
     experiencePoints: number;
     quests: Map<string, Quest>;
+    dailyLoginDate: Date;
     //Map of quests names to Objects containing fields for 'name', 'currentProgress', 'goalProgress', and 'reward'
     //currentProgress is how much a quest has been completed towards the goalProgress. Quest is completed
     //and user receives reward when currentProgress >= goalProgress.
@@ -49,6 +50,7 @@ export type PopulatedUser = {
     dateJoined: Date;
     experiencePoints: number;
     quests: Map<string, Quest>
+    dailyLoginDate: Date;
 }
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -77,6 +79,10 @@ const UserSchema = new Schema({
     },
     quests: {
         type: Map,
+        required: true
+    },
+    dailyLoginDate: {
+        type: Date,
         required: true
     }
 });

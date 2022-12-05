@@ -103,6 +103,7 @@ export default {
                         method: 'PATCH',
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
+                            experiencePoints: this.$store.state.experiencePoints,
                             quest: questToSave
                         }),
                     };
@@ -126,6 +127,7 @@ export default {
                         method: 'PATCH',
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
+                            experiencePoints: this.$store.state.experiencePoints,
                             quest: questToSave
                         }),
                     };
@@ -136,6 +138,7 @@ export default {
                     const res = await response2.json();
                     throw new Error(res.error);
                 }
+
 
             }
         },

@@ -110,7 +110,7 @@ const store = new Vuex.Store({
 
       state.username = res.user.username;
       state.experiencePoints = res.user.experiencePoints;
-      state.level = res.user.experiencePoints / pointsToLevel + 1;
+      state.level = Math.floor(res.user.experiencePoints / pointsToLevel + 1);
       state.quests = res.user.quests;
 
       console.log(state.quests);

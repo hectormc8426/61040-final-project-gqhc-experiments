@@ -12,7 +12,7 @@ import { questList } from './model';
  * and contains all the information in User. https://mongoosejs.com/docs/typescript.html
  */
 
-type UserDetails = { password?: string; username?: string; experiencePoints?: number, quest?: Quest }
+type UserDetails = { password?: string; username?: string; experiencePoints?: number, quest?: Quest, dailyLoginDate?: Date }
 class UserCollection {
     /**
      * Add a new user
@@ -32,7 +32,7 @@ class UserCollection {
             })
         }
 
-        const user = new UserModel({ username, password, dateJoined, experiencePoints: 0, quests: questInit });
+        const user = new UserModel({ username, password, dateJoined, experiencePoints: 0, quests: questInit, dailyLoginDate: dateJoined });
         await user.save(); // Saves user to MongoDB
         return user;
     }
@@ -90,6 +90,10 @@ class UserCollection {
 
         if (userDetails.experiencePoints) {
             user.experiencePoints = userDetails.experiencePoints;
+        }
+
+        if (userDetails.dailyLoginDate) {
+            user.dailyLoginDate = userDetails.dailyLoginDate;
         }
 
         if (userDetails.quest) {
