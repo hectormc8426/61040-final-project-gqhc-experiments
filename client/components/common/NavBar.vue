@@ -10,6 +10,9 @@
             <router-link to="/" class=link>
                 Home
             </router-link>
+            <router-link to="/lessons">
+                Lessons
+            </router-link>
             <router-link to="/showcases" class=link>
                 Showcases
             </router-link>
@@ -18,9 +21,6 @@
             </router-link>
             <router-link v-else to="/login" class=link>
                 Login
-            </router-link>
-            <router-link to="/lessons">
-                Lessons
             </router-link>
         </div>
         <section class="alerts">

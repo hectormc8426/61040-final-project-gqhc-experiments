@@ -3,6 +3,7 @@ import express from 'express';
 import LessonCollection from './collection';
 import * as LessonValidator from './middleware';
 import * as UserValidator from '../user/middleware';
+import * as util from './util';
 
 const router = express.Router();
 
@@ -31,14 +32,14 @@ router.get(
         if (req.query.userId !== undefined) {
             // then a user is specified so return their lessons only
             const userLessons = await LessonCollection.findAllByUserId(req.query.userId as string);
-            res.status(200).json(userLessons);
+            res.status(200).json(userLessons.map(util.constructLessonResponse));
         } else {
             // then the user is not specified so return all lessons on the platform! (need to be fixed later for performance)
             const lessons = await LessonCollection.findAll();
             // res.setHeader('Content-Type', 'application/json');
             console.log('hello server');
             console.log('length: ', lessons.length);
-            res.status(200).json(lessons);
+            res.status(200).json(lessons.map(util.constructLessonResponse));
         }
     }
 );
@@ -69,7 +70,7 @@ router.post(
         const lesson = await LessonCollection.addOne(userId, title, content);
         res.status(201).json({
             message: "Your lesson was created successfully.",
-            lesson: lesson
+            lesson: util.constructLessonResponse(lesson)
         });
     }
 );
@@ -118,7 +119,7 @@ router.put(
         const lesson = await LessonCollection.updateOne(req.params.freetId, req.body.title, req.body.content);
         res.status(200).json({
             message: 'Your lesson was updated successfully.',
-            lesson: lesson
+            lesson: util.constructLessonResponse(lesson)
         });
     }
 )

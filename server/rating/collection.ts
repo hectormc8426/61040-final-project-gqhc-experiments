@@ -91,6 +91,7 @@ class RatingCollection {
   static async updateOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: number): Promise<HydratedDocument<Rating>> {
     const rating = await RatingModel.findOne({userId, contentId, category});
     rating.score = score;
+    await rating.save();
 
     return rating;
   }

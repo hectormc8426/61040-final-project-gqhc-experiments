@@ -5,7 +5,7 @@
                 {{ lesson.title }}
             </h2>
             <h3 class="author">
-                by {{ lesson.userId }}
+                by {{ lesson.author }}
             </h3>
         </header>
         <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">

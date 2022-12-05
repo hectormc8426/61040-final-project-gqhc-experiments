@@ -116,9 +116,9 @@ const doesLessonBodyExist = async (req: Request, res: Response, next: NextFuncti
 
 /**
  * Checks if the lessonId given in the query of the request exists
- * 
- * Only used for showcase querying right now, so there doesn't have to actually a field in 
- * req.query for it to still pass. 
+ *
+ * Only used for showcase querying right now, so there doesn't have to actually a field in
+ * req.query for it to still pass.
  */
 const doesLessonQueryExist = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.query.lessonId) {
@@ -137,6 +137,22 @@ const doesLessonQueryExist = async (req: Request, res: Response, next: NextFunct
     next();
 };
 
+/**
+ * Checks if .../:lessonId is a valid ID that exists in the Database
+ */
+const doesLessonParamExist = async (req: Request, res: Response, next: NextFunction) => {
+    const lesson = await LessonCollection.findOne(req.params.contentId);
+
+    if (lesson === null) { // then the lesson does exist in the database -> let the caller know
+        res.status(404).json({
+            error: 'This lesson does not exist'
+        });
+        return;
+    }
+
+    next();
+};
+
 export {
     isTitleValid,
     isContentValid,
@@ -144,6 +160,7 @@ export {
     isUserAuthorizedToEdit,
     isNonexistingPost,
     doesLessonBodyExist,
-    doesLessonQueryExist
+    doesLessonQueryExist,
+    doesLessonParamExist
 };
 

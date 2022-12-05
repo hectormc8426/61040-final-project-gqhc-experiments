@@ -6,6 +6,7 @@ export type ShowcaseResponse = {
     _id: string;
     author: string;
     lesson: string;
+    lessonId: string;
     dateCreated: string;
     content: Array<ShowcaseChunk>;
     dateModified: string;
@@ -34,13 +35,14 @@ const constructShowcaseResponse = (showcase: HydratedDocument<Showcase>): Showca
     };
     const { username } = showcaseCopy.userId;
     delete showcaseCopy.userId;
-    const { title } = showcaseCopy.lessonId;
+    const { _id, title } = showcaseCopy.lessonId;
     delete showcaseCopy.lessonId;
     return {
         ...showcaseCopy,
         _id: showcaseCopy._id.toString(),
         author: username,
         lesson: title,
+        lessonId: _id.toString(),
         dateCreated: formatDate(showcase.dateCreated),
         dateModified: formatDate(showcase.dateModified)
     };

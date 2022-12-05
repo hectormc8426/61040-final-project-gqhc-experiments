@@ -1,6 +1,5 @@
 <template>
     <section class="showcase-component">
-        <!-- <MarkdownEditor v-model="content" ref='markdownEditor' /> -->
         <div>
             author: {{ showcase.author }}
         </div>
@@ -13,7 +12,7 @@
 </template>
 
 <script>
-import markdownMixin from '@/components/common/markdownMixin.js';
+import markdownMixin from '@/mixins/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 
 export default {
@@ -68,7 +67,6 @@ export default {
                     this.$store.commit('alert', {
                         message: 'Successfully deleted showcase!', status: 'success'
                     });
-                    this.$emit('changedshowcase');
                 }
             };
             this.request(params);

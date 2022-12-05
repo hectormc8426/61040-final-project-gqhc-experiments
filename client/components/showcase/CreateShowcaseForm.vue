@@ -25,7 +25,7 @@
 <script>
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
-import markdownMixin from '@/components/common/markdownMixin.js';
+import markdownMixin from '@/mixins/markdownMixin.js';
 
 export default {
     name: "CreateShowcaseForm",
