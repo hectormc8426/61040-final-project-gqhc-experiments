@@ -105,7 +105,7 @@ But thank you!
 
 # Rating
 
-#### 'POST /api/rating/:contentId:category' - Create a rating for content
+#### 'POST /api/rating/:contentId?:category' - Create a rating for content
 
 **Body**
 
@@ -123,7 +123,7 @@ But thank you!
 - `404` Content does not exist
 - `409` User has already rated content
 
-#### 'PATCH /api/rating/:contentId:category' - Change rating for content
+#### 'PATCH /api/rating/:contentId?:category' - Change rating for content
 
 **Body**
 

@@ -31,11 +31,11 @@ export default {
   },
   methods: {
     async submit(score) {
-      const url = `api/rating/contentId=${this.contentId}&category=${this.category}`;
+      const url = `api/rating/${this.contentId}?category=${this.category}`;
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ score , userId: '0000000000000000000000' })  // hard code for now
+        body: JSON.stringify({ score })
       };
       const response = await fetch(url, requestOptions);
 

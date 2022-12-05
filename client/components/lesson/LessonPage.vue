@@ -80,7 +80,7 @@ export default {
 
               for (let j=0; j<3; j++) {
                 const category = this.categories[j];
-                const a = await fetch(`api/rating/contentId=${lessonId}?category=${category}`);
+                const a = await fetch(`api/rating/${lessonId}?category=${category}`);
                 const b = await a.json();
                 rating[category] = b['score'];
               }
