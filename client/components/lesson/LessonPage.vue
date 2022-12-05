@@ -14,12 +14,18 @@
                 </div>
 
                 <div v-else>
-                  <div v-for="i in lessons.length">
-                    <LessonComponent :lesson="this.lessons[i]" class="lessonClass" />
-                    <div v-for="category in this.categories">
-                      <RatingComponent :score="this.ratings[i][category]" :category="category"/>
+                  <div v-for="lesson in lessons">
+                    <LessonComponent :lesson="lesson" class="lessonClass" />
+                    <div v-for="category in categories">
+                      <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
                     </div>
                   </div>
+<!--                  <div v-for="i in lessons.length">-->
+<!--                    <LessonComponent :lesson="this.lessons[i]" class="lessonClass" />-->
+<!--                    <div v-for="category in this.categories">-->
+<!--                      <RatingComponent :score="this.ratings[i][category]" :category="category"/>-->
+<!--                    </div>-->
+<!--                  </div>-->
                 </div>
             </section>
         </div>
@@ -54,7 +60,7 @@ export default {
             lessons: [],
             easymde: null,
             categories: ['Clarity', 'Accuracy', 'Engaging'],
-            ratings: [] // List of dicts, lesson[i]'s rating is ratings[i]. ratings[i] is dict with keys score and category
+            ratings: {} // dicts of dicts, rating[lessonId][category] = score
         };
     },
     created() {
@@ -78,10 +84,13 @@ export default {
 
               for (let j=0; j<3; j++) {
                 const category = this.categories[j];
-                rating[category] = await fetch(`api/rating/contentId=${lessonId}&category=${category}`);
+                const a = await fetch(`api/rating/contentId=${lessonId}?category=${category}`);
+                const b = await a.json();
+                console.log(b);
+                rating[category] = b['score'];
               }
 
-              this.ratings.push(rating);
+              this.ratings[lessonId] = rating;
             }
 
             this.loading = false;

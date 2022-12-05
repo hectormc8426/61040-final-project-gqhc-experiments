@@ -118,9 +118,13 @@ router.get(
       net += scores[i].score;
     }
 
+    if (scores.length > 0) {
+      net = net/scores.length
+    }
+
     res.status(200).json({
       message: `Successfully retrieved full score for ${contentId}`,
-      score: net/scores.length
+      score: net
     });
   },
   [
@@ -136,9 +140,13 @@ router.get(
       net += scores[i].score;
     }
 
+    if (scores.length > 0) {
+      net = net/scores.length
+    }
+
     res.status(200).json({
-      message: `Successfully retrieved full score for ${contentId} in category ${category}`,
-      score: net/scores.length
+      message: `Successfully retrieved full score for ${contentId} in category ${category} with score ${net}`,
+      score: net
     });
   }
 );
