@@ -1,38 +1,72 @@
 <template>
     <div>
-        <div>
+        <section v-if="$store.state.username">
+            <header>
+                <h2>Welcome @{{ $store.state.username }}</h2>
+            </header>
+
+            <div>
             <CreateLessonForm ref="lessonForm" />
-        </div> 
+            </div>
 
-        <h2>Lessons by others</h2>
-        
+            <h2>Lessons by others</h2>
 
-        <div id="lessonList" class="flex-container">
-            <section id="lessonList" class="flex-container">
-                <div v-if="loading">
-                    <div class="loader"></div>
+
+            <div id="lessonList" class="flex-container">
+                <section id="lessonList" class="flex-container">
+                    <div v-if="loading">
+                        <div class="loader"></div>
+                    </div>
+
+                    <div v-else>
+                    <div v-for="lesson in $store.state.lessons" :key="lesson._id" class="one-lesson">
+                        <LessonComponent :lesson="lesson" class="lessonClass" />
+                        <div v-for="category in categories" id="ratingBlock">
+                        <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
+                        <CreateRatingForm :contentId="lesson._id" :category="category"/>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+            </div>
+
+            <div v-if="!loading" id="ratingList">
+                <div v-for="rating in ratings">
+                    <RatingComponent :rating=rating />
                 </div>
+            </div>
+        </section>
 
-                <div v-else>
-                    <LessonComponent :lesson="lesson" v-for="lesson in lessons" :key="lesson.id" class="lessonClass" />
-                </div>
-            </section>
-        </div>
+        <section v-else>
+            <header>
+                <h2>Welcome to Music Mentors!</h2>
+            </header>
+            <article>
+                <h3>
+                <router-link to="/login">
+                    Sign in
+                </router-link>
+                to create, edit, and delete freets.
+                </h3>
+            </article>
+        </section>
+
     </div>
 </template>
- 
+
 <script>
 
 import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/components/common/markdownMixin.js';
-import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
+import RatingComponent from "../rating/RatingComponent";
+import CreateRatingForm from "../rating/CreateRatingForm";
 
 export default {
     name: "LessonPage",
-    components: { CreateLessonForm, LessonComponent },
-    mixins: { markdownMixin }, 
+    components: { CreateRatingForm, RatingComponent, CreateLessonForm, LessonComponent },
+    mixins: { markdownMixin },
     data() {
         return {
             title: "",
@@ -40,7 +74,9 @@ export default {
             parsedHTML: [],
             loading: false,
             lessons: [],
-            easymde: null
+            easymde: null,
+            categories: ['Clarity', 'Accuracy', 'Engaging'],
+            ratings: {} // dicts of dicts, rating[lessonId][category] = score
         };
     },
     created() {
@@ -56,6 +92,22 @@ export default {
                 throw new Error(res.error);
             }
             this.lessons = res;
+
+            // now that we have lessons, get their corresponding scores in each category
+            for (let i=0; i<this.lessons.length; i++) {
+              const lessonId = this.lessons[i]._id;
+              let rating = {}; // category : score
+
+              for (let j=0; j<3; j++) {
+                const category = this.categories[j];
+                const a = await fetch(`api/rating/contentId=${lessonId}?category=${category}`);
+                const b = await a.json();
+                rating[category] = b['score'];
+              }
+
+              this.ratings[lessonId] = rating;
+            }
+
             this.loading = false;
         },
         async preview() {
@@ -120,15 +172,15 @@ export default {
                     const link = content;
                     const dataURL =
                         fetch(link)
-                        .then(response => response.blob())
-                        .then(blob => new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                                resolve({ contentType: 'image', content: reader.result });
-                            }
-                            reader.onerror = reject;
-                            reader.readAsDataURL(blob);
-                        }));
+                            .then(response => response.blob())
+                            .then(blob => new Promise((resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                    resolve({ contentType: 'image', content: reader.result });
+                                }
+                                reader.onerror = reject;
+                                reader.readAsDataURL(blob);
+                            }));
 
                     return dataURL;
                 }
@@ -142,7 +194,6 @@ export default {
 
 
 <style scoped>
-
 .flex-container {
     display: flex;
 }
@@ -152,18 +203,33 @@ export default {
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#ratingBlock {
+  display: inline-block;
+  margin: 8px 24px;
 }
 
 
+.one-lesson {
+    border: 1px solid black;
+}
 </style>

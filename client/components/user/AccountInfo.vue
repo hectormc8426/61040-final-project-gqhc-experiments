@@ -1,7 +1,7 @@
 <template>
     <section>
         <div>
-            Username: {{ $store.user.username }}
+            <h3>Username: {{ $store.state.username }} </h3>
         </div>
     </section>
 </template>

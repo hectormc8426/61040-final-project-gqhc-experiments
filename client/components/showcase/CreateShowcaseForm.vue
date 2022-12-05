@@ -1,22 +1,26 @@
 <template>
-
-    <div id="showcaseForm" class="flex-container">
-        <div>
-            <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" />
-            <button v-on:click='preview'>
-                Preview
-            </button>
-            <button v-on:click='submit'>
-                Submit
-            </button>
-        </div>
-
-        <section id="showcasePreview" class="flex-child">
-            <h3>Rendered</h3>
-            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="showcaseChunk">
+    <section>
+        <h2>
+            Create a Showcase!
+        </h2>
+        <div id="showcaseForm" class="flex-container">
+            <div>
+                <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" />
+                <button v-on:click='preview'>
+                    Preview
+                </button>
+                <button v-on:click='submit'>
+                    Submit
+                </button>
             </div>
-        </section>
-    </div>
+            <section id="showcasePreview" class="flex-child">
+                <h3>Rendered</h3>
+                <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="showcaseChunk">
+                </div>
+            </section>
+        </div>
+    </section>
+
 </template>
 <script>
 
@@ -34,7 +38,6 @@ export default {
         }
     },
     data() {
-        console.log(this.$refs);
         return {
             title: "",
             content: "",
@@ -73,6 +76,52 @@ export default {
                     }
                 });
                 this.$store.commit('refreshShowcases');
+
+
+                const quest1 = { "questName": "createShowcases", "progress": 1 };
+                this.$store.commit("setQuest", quest1);
+
+                let questToSave = this.$store.state.quests.filter(quest => quest.name == "createShowcases")[0];
+                console.log(questToSave);
+                const contentToOptions2 = () => {
+                    return {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            experiencePoints: this.$store.state.experiencePoints,
+                            quest: questToSave
+                        }),
+                    };
+                };
+                let options = contentToOptions2();
+                const response = await fetch("/api/users", options);
+                if (!response.ok) {
+                    const res = await response.json();
+                    throw new Error(res.error);
+                }
+
+
+                const quest2 = { "questName": "doOneShowcase", "progress": 1 };
+                this.$store.commit("setQuest", quest2);
+
+                questToSave = this.$store.state.quests.filter(quest => quest.name == "doOneShowcase")[0];
+                console.log(questToSave);
+                const contentToOptions3 = () => {
+                    return {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            experiencePoints: this.$store.state.experiencePoints,
+                            quest: questToSave
+                        }),
+                    };
+                };
+                options = contentToOptions3();
+                const response2 = await fetch("/api/users", options);
+                if (!response2.ok) {
+                    const res = await response2.json();
+                    throw new Error(res.error);
+                }
             }
         },
     }
@@ -88,5 +137,9 @@ export default {
 
 .flex-child {
     flex: 1;
+}
+
+section {
+    padding: 20px;
 }
 </style>

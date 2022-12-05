@@ -93,23 +93,36 @@ const isValidQuestName = async (req: Request, res: Response, next: NextFunction)
  * Checks if a given quest to update has proper formatting
  */
 const isValidQuestFormat = async (req: Request, res: Response, next: NextFunction) => {
+
   if (req.body.quest !== undefined) { // If a quest is not being changed, skip this check
     const quest = req.body.quest;
 
-    if (!quest.name || typeof quest.name === "string") {
+    if (quest.name == undefined || typeof quest.name !== "string") {
       res.status(400).json({ error: `Improper formatting of quest: missing field 'name' or invalid value. Expected 'name' of type string.` });
       return;
     }
-    if (!quest.currentProgress || typeof quest.currentProgress === "number") {
+    if (quest.desc == undefined || typeof quest.desc !== "string") {
+      res.status(400).json({ error: `Improper formatting of quest: missing field 'desc' or invalid value. Expected 'desc' of type string.` });
+      return;
+    }
+    if (quest.currentProgress == undefined || typeof quest.currentProgress !== "number") {
       res.status(400).json({ error: `Improper formatting of quest: missing field 'currentProgress' or invalid value. Expected 'currentProgress' of type number.` });
       return;
     }
-    if (!quest.goalProgress || typeof quest.goalProgress === "number") {
+    if (quest.goalProgress == undefined || typeof quest.goalProgress !== "number") {
       res.status(400).json({ error: `Improper formatting of quest: missing field 'goalProgress' or invalid value. Expected 'goalProgress' of type number.` });
       return;
     }
-    if (!quest.reward || typeof quest.reward === "number") {
+    if (quest.reward == undefined || typeof quest.reward !== "number") {
       res.status(400).json({ error: `Improper formatting of quest: missing field 'reward' or invalid value. Expected 'reward' of type number.` });
+      return;
+    }
+    if (quest.repeatAmount == undefined || typeof quest.repeatAmount !== "number") {
+      res.status(400).json({
+        error: `Improper formatting of quest: missing field 'repeatAmount' or invalid value. Expected 'repeatAmount' of type number. 
+      Got ${quest.repeatAmount} or type ${typeof quest.repeatAmount}`
+      });
+      console.log(req.body.quest);
       return;
     }
   }

@@ -1,7 +1,5 @@
 <template>
-    <article
-        class="lesson"
-    >
+    <article class="lesson">
         <header>
             <h2>
                 {{ lesson.title }}
@@ -17,41 +15,47 @@
             v-if="$store.state.user._id === lesson.userId"
             class="actions"
         >
-        <button
-            v-if="editing"
-            @click="submitEdit"
-        >
-            ✅ Save changes 
-        </button>
-        <button
-            v-if="editing"
-            @click="stopEditing"
-        >
-            🚫 Discard changes
-        </button>
-        <button
-            v-if="!editing"
-            @click="startEditing"
-        >
-            ✏️ Edit
-        </button>
-        <button @click="deleteLesson">
-            🗑️ Delete
-        </button>
-      </div>
+            <button
+                v-if="editing"
+                @click="submitEdit"
+            >
+                ✅ Save changes 
+            </button>
+            <button
+                v-if="editing"
+                @click="stopEditing"
+            >
+                🚫 Discard changes
+            </button>
+            <button
+                v-if="!editing"
+                @click="startEditing"
+            >
+                ✏️ Edit
+            </button>
+            <button @click="deleteLesson">
+                🗑️ Delete
+            </button>
+        </div>
 
         <p class="info">
             Posted at {{ lesson.dateModified }}
         </p>
+        <CreateShowcaseForm v-if="$store.state.username" :lessonId="lesson._id" />
     </article>
 </template>
 
 <script>
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
+import { Parser } from '../../../node_modules/marked/src/Parser';
+import CreateShowcaseForm from '@/components/showcase/CreateShowcaseForm.vue';
 
 export default {
     name: 'LessonComponent',
+    components: {
+        CreateShowcaseForm
+    },
     data() {
         return {
             truthy: true,
@@ -158,5 +162,7 @@ export default {
 </script>
 
 <style scoped>
-
+/* article {
+    border: 1px solid black;
+} */
 </style>

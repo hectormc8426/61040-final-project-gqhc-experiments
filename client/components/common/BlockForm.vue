@@ -80,6 +80,40 @@ export default {
           this.$store.commit('setUsername', res.user ? res.user.username : null);
           this.$store.commit('setExperiencePoints', res.user ? res.user.experiencePoints : null);
           this.$store.commit('setUser', res.user);
+
+          if (res.user) {
+            this.$store.commit('refreshAccount');
+            const visitDate = new Date();
+            const visitTime = visitDate.getTime();
+            const oldTime = Date.parse(res.user.dailyLoginDate);
+            console.log(typeof oldTime);
+            console.log(res.user.dailyLoginDate)
+
+            if (visitTime - oldTime >= 8.64e7) {
+
+              const quest1 = { "questName": "login", "progress": 1 };
+              this.$store.commit("setQuest", quest1);
+
+              let questToSave = this.$store.state.quests.filter(quest => quest.name == "login")[0];
+              const contentToOptions2 = () => {
+                return {
+                  method: 'PATCH',
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    dailyLoginDate: visitDate,
+                    experiencePoints: this.$store.state.experiencePoints,
+                    quest: questToSave
+                  }),
+                };
+              };
+              let options = contentToOptions2();
+              const response = await fetch("/api/users", options);
+              if (!response.ok) {
+                const res = await response.json();
+                throw new Error(res.error);
+              }
+            }
+          }
         }
 
         // if (this.setUser) {

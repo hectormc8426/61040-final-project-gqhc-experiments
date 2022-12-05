@@ -8,7 +8,8 @@ type UserResponse = {
   username: string;
   dateJoined: string;
   experiencePoints: number;
-  quests: Array<string>;
+  quests: Array<Quest>;
+  dailyLoginDate: Date;
 };
 
 /**
@@ -40,21 +41,17 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
     username: userCopy.username,
     dateJoined: formatDate(user.dateJoined),
     experiencePoints: userCopy.experiencePoints,
-    quests: constructQuestResponse(user.quests)
+    quests: constructQuestResponse(user.quests),
+    dailyLoginDate: userCopy.dailyLoginDate,
   };
 };
 
-const constructQuestResponse = (quests: Map<string, Quest>): Array<string> => {
-  const formattedResponse: Array<string> = [];
+const constructQuestResponse = (quests: Map<string, Quest>): Array<Quest> => {
+  const formattedResponse: Array<Quest> = [];
 
   for (const questPair of quests) {
     const quest: Quest = questPair[1];
-    if (quest.currentProgress >= quest.goalProgress) {
-      formattedResponse.push(questPair[0] + ": COMPLETED");
-    }
-    else {
-      formattedResponse.push(questPair[0] + ": " + quest.currentProgress + "/" + quest.goalProgress);
-    }
+    formattedResponse.push(quest);
   }
   return formattedResponse;
 }
