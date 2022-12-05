@@ -25,7 +25,7 @@
  
 <script>
 
-import markdownMixin from '@/components/common/markdownMixin.js';
+import markdownMixin from '@/mixins/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 
 export default {

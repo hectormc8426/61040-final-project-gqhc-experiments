@@ -14,13 +14,13 @@
                 </div>
 
                 <div v-else>
-                  <div v-for="lesson in lessons" class="one-lesson">
-                    <LessonComponent :lesson="lesson" class="lessonClass" />
-                    <div v-for="category in categories" id="ratingBlock">
-                      <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
-                      <CreateRatingForm :contentId="lesson._id" :category="category"/>
+                    <div v-for="lesson in lessons" class="one-lesson">
+                        <LessonComponent :lesson="lesson" class="lessonClass" />
+                        <div v-for="category in categories" id="ratingBlock">
+                            <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
+                            <CreateRatingForm :contentId="lesson._id" :category="category" />
+                        </div>
                     </div>
-                  </div>
                 </div>
             </section>
         </div>
@@ -39,7 +39,7 @@
 import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
-import markdownMixin from '@/components/common/markdownMixin.js';
+import markdownMixin from '@/mixins/markdownMixin.js';
 import RatingComponent from "../rating/RatingComponent";
 import CreateRatingForm from "../rating/CreateRatingForm";
 
@@ -74,18 +74,18 @@ export default {
             this.lessons = res;
 
             // now that we have lessons, get their corresponding scores in each category
-            for (let i=0; i<this.lessons.length; i++) {
-              const lessonId = this.lessons[i]._id;
-              let rating = {}; // category : score
+            for (let i = 0; i < this.lessons.length; i++) {
+                const lessonId = this.lessons[i]._id;
+                let rating = {}; // category : score
 
-              for (let j=0; j<3; j++) {
-                const category = this.categories[j];
-                const a = await fetch(`api/rating/${lessonId}?category=${category}`);
-                const b = await a.json();
-                rating[category] = b['score'];
-              }
+                for (let j = 0; j < 3; j++) {
+                    const category = this.categories[j];
+                    const a = await fetch(`api/rating/${lessonId}?category=${category}`);
+                    const b = await a.json();
+                    rating[category] = b['score'];
+                }
 
-              this.ratings[lessonId] = rating;
+                this.ratings[lessonId] = rating;
             }
 
             this.loading = false;
@@ -204,8 +204,8 @@ export default {
 }
 
 #ratingBlock {
-  display: inline-block;
-  margin: 8px 24px;
+    display: inline-block;
+    margin: 8px 24px;
 }
 
 
