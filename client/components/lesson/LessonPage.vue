@@ -14,24 +14,29 @@
                 </div>
 
                 <div v-else>
-                  <div v-for="lesson in lessons">
-                    <LessonComponent :lesson="lesson" class="lessonClass" />
-                    <div v-for="category in categories">
-                      <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
-                      <CreateRatingForm :contentId="lesson._id" :category="category"/>
+                    <div v-for="lesson in lessons" class="one-lesson">
+                        <LessonComponent :lesson="lesson" class="lessonClass" />
+                        <div v-for="category in categories">
+                            <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
+                        </div>
                     </div>
-                  </div>
+                    <!--                  <div v-for="i in lessons.length">-->
+                    <!--                    <LessonComponent :lesson="this.lessons[i]" class="lessonClass" />-->
+                    <!--                    <div v-for="category in this.categories">-->
+                    <!--                      <RatingComponent :score="this.ratings[i][category]" :category="category"/>-->
+                    <!--                    </div>-->
+                    <!--                  </div>-->
                 </div>
 
 
             </section>
         </div>
 
-      <div v-if="!loading" id="ratingList">
-        <div v-for="rating in ratings">
-          <RatingComponent :rating=rating />
+        <div v-if="!loading" id="ratingList">
+            <div v-for="rating in ratings">
+                <RatingComponent :rating=rating />
+            </div>
         </div>
-      </div>
 
     </div>
 </template>
@@ -47,7 +52,7 @@ import CreateRatingForm from "../rating/CreateRatingForm";
 
 export default {
     name: "LessonPage",
-    components: {CreateRatingForm, RatingComponent, CreateLessonForm, LessonComponent },
+    components: { CreateRatingForm, RatingComponent, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -76,19 +81,19 @@ export default {
             this.lessons = res;
 
             // now that we have lessons, get their corresponding scores in each category
-            for (let i=0; i<this.lessons.length; i++) {
-              const lessonId = this.lessons[i]._id;
-              let rating = {}; // category : score
+            for (let i = 0; i < this.lessons.length; i++) {
+                const lessonId = this.lessons[i]._id;
+                let rating = {}; // category : score
 
-              for (let j=0; j<3; j++) {
-                const category = this.categories[j];
-                const a = await fetch(`api/rating/contentId=${lessonId}?category=${category}`);
-                const b = await a.json();
-                console.log(b);
-                rating[category] = b['score'];
-              }
+                for (let j = 0; j < 3; j++) {
+                    const category = this.categories[j];
+                    const a = await fetch(`api/rating/contentId=${lessonId}?category=${category}`);
+                    const b = await a.json();
+                    console.log(b);
+                    rating[category] = b['score'];
+                }
 
-              this.ratings[lessonId] = rating;
+                this.ratings[lessonId] = rating;
             }
 
             this.loading = false;
@@ -155,15 +160,15 @@ export default {
                     const link = content;
                     const dataURL =
                         fetch(link)
-                        .then(response => response.blob())
-                        .then(blob => new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                                resolve({ contentType: 'image', content: reader.result });
-                            }
-                            reader.onerror = reject;
-                            reader.readAsDataURL(blob);
-                        }));
+                            .then(response => response.blob())
+                            .then(blob => new Promise((resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                    resolve({ contentType: 'image', content: reader.result });
+                                }
+                                reader.onerror = reject;
+                                reader.readAsDataURL(blob);
+                            }));
 
                     return dataURL;
                 }
@@ -177,7 +182,6 @@ export default {
 
 
 <style scoped>
-
 .flex-container {
     display: flex;
 }
@@ -187,18 +191,27 @@ export default {
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-
+.one-lesson {
+    border: 1px solid black;
+}
 </style>

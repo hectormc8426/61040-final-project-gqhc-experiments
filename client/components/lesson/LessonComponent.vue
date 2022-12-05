@@ -14,7 +14,7 @@
         <p class="info">
             Posted at {{ lesson.dateModified }}
         </p>
-        <ShowcaseComponent :lessonId="lesson._id" />
+        <CreateShowcaseForm v-if="$store.state.username" :lessonId="lesson._id" />
     </article>
 </template>
 
@@ -22,12 +22,12 @@
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 import { Parser } from '../../../node_modules/marked/src/Parser';
-import ShowcaseComponent from '@/components/showcase/ShowcaseComponent.vue';
+import CreateShowcaseForm from '@/components/showcase/CreateShowcaseForm.vue';
 
 export default {
     name: 'LessonComponent',
     components: {
-        ShowcaseComponent
+        CreateShowcaseForm
     },
     data() {
         return {
@@ -54,5 +54,7 @@ export default {
 </script>
 
 <style scoped>
-
+/* article {
+    border: 1px solid black;
+} */
 </style>
