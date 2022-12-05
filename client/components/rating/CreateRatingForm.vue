@@ -1,14 +1,11 @@
 <template>
   <article class="ratingForm">
+    Your rating:
     <div id="rating_options" v-for="i in 5">
-      <button v-on:click="setScore(i)">
-        i
+      <button v-on:click="submit(i)">
+        <div v-text="i" />
       </button>
     </div>
-
-    <button v-on:click="submit">
-      Submit
-    </button>
   </article>
 </template>
 
@@ -31,12 +28,12 @@ export default {
     }
   },
   methods: {
-    async submit() {
-      const url = `/api/ratings/contentId=${this.contentId}&category=${this.category}`;
+    async submit(score) {
+      const url = `api/rating/contentId=${this.contentId}&category=${this.category}`;
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ score: this.score })
+        body: JSON.stringify({ score , userId: '0000000000000000000000' })  // hard code for now
       };
       const response = await fetch(url, requestOptions);
 
@@ -44,9 +41,6 @@ export default {
         const res = await response.json();
         throw new Error(res.error);
       }
-    },
-    setScore(score) {
-      this.score = score;
     }
   }
 }

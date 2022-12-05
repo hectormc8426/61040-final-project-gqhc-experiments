@@ -38,6 +38,7 @@ router.post(
     const contentId = req.params.contentId;
     const category = req.params.category;
     const score = req.body.score;
+
     const rating = await RatingCollection.addOne(userId, contentId, category, score);
 
     res.status(201).json({

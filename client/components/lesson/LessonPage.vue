@@ -18,15 +18,12 @@
                     <LessonComponent :lesson="lesson" class="lessonClass" />
                     <div v-for="category in categories">
                       <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
+                      <CreateRatingForm :contentId="lesson._id" :category="category"/>
                     </div>
                   </div>
-<!--                  <div v-for="i in lessons.length">-->
-<!--                    <LessonComponent :lesson="this.lessons[i]" class="lessonClass" />-->
-<!--                    <div v-for="category in this.categories">-->
-<!--                      <RatingComponent :score="this.ratings[i][category]" :category="category"/>-->
-<!--                    </div>-->
-<!--                  </div>-->
                 </div>
+
+
             </section>
         </div>
 
@@ -46,10 +43,11 @@ import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/components/common/markdownMixin.js';
 import RatingComponent from "../rating/RatingComponent";
+import CreateRatingForm from "../rating/CreateRatingForm";
 
 export default {
     name: "LessonPage",
-    components: {RatingComponent, CreateLessonForm, LessonComponent },
+    components: {CreateRatingForm, RatingComponent, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
