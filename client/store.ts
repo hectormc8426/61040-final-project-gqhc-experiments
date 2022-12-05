@@ -25,9 +25,11 @@ const store = new Vuex.Store({
   },
   getters: {
     incompleteQuests: (state) => {
+      console.log(state)
       return state.quests.filter(quest => quest.currentProgress < quest.goalProgress);
     },
     completeQuests: (state) => {
+      console.log(state.quests)
       return state.quests.filter(quest => quest.currentProgress >= quest.goalProgress);
     }
   },
@@ -78,11 +80,15 @@ const store = new Vuex.Store({
        * @param questNameAndProgress - Object of form {questName:string, progress:number} for updating a quest
        *                               with name "questName" by amount "progress"
        */
+      if (questNameAndProgress == undefined || questNameAndProgress == null) {
+        return;
+      }
+      console.log("set quest");
       let questIndex = 0;
       for (let index = 0; index < state.quests.length; index++) {
         if (state.quests[index].name == questNameAndProgress.questName) {
           questIndex = index;
-          break
+          break;
         }
       }
 
@@ -122,6 +128,7 @@ const store = new Vuex.Store({
       const url = `/api/showcases`;
       const res = await fetch(url).then(async r => r.json());
       console.log(res)
+      console.log(state);
       state.showcases = res;
     },
     async refreshComments(state) {
