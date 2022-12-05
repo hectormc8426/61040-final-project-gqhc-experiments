@@ -2,10 +2,10 @@
     <div>
         <div>
             <CreateLessonForm ref="lessonForm" />
-        </div> 
+        </div>
 
         <h2>Lessons by others</h2>
-        
+
 
         <div id="lessonList" class="flex-container">
             <section id="lessonList" class="flex-container">
@@ -14,25 +14,37 @@
                 </div>
 
                 <div v-else>
-                    <LessonComponent :lesson="lesson" v-for="lesson in lessons" :key="lesson.id" class="lessonClass" />
+                  <div v-for="i in lessons.length">
+                    <LessonComponent :lesson="this.lessons[i]" class="lessonClass" />
+                    <div v-for="category in this.categories">
+                      <RatingComponent :score="this.ratings[i][category]" :category="category"/>
+                    </div>
+                  </div>
                 </div>
             </section>
         </div>
+
+      <div v-if="!loading" id="ratingList">
+        <div v-for="rating in ratings">
+          <RatingComponent :rating=rating />
+        </div>
+      </div>
+
     </div>
 </template>
- 
+
 <script>
 
 import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/components/common/markdownMixin.js';
-import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
+import RatingComponent from "../rating/RatingComponent";
 
 export default {
     name: "LessonPage",
-    components: { CreateLessonForm, LessonComponent },
-    mixins: { markdownMixin }, 
+    components: {RatingComponent, CreateLessonForm, LessonComponent },
+    mixins: { markdownMixin },
     data() {
         return {
             title: "",
@@ -40,7 +52,9 @@ export default {
             parsedHTML: [],
             loading: false,
             lessons: [],
-            easymde: null
+            easymde: null,
+            categories: ['Clarity', 'Accuracy', 'Engaging'],
+            ratings: [] // List of dicts, lesson[i]'s rating is ratings[i]. ratings[i] is dict with keys score and category
         };
     },
     created() {
@@ -56,6 +70,20 @@ export default {
                 throw new Error(res.error);
             }
             this.lessons = res;
+
+            // now that we have lessons, get their corresponding scores in each category
+            for (let i=0; i<this.lessons.length; i++) {
+              const lesson = this.lessons[i];
+              let rating = {}; // category : score
+
+              for (let j=0; j<this.categories.length; j++) {
+                const category = this.categories[i];
+                rating[category] = await fetch(`api/ratings/contentId=${lesson.ObjectId}&category=${category}`);
+              }
+
+              this.ratings.push(rating);
+            }
+
             this.loading = false;
         },
         async preview() {
