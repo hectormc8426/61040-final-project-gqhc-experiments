@@ -9,13 +9,13 @@ import RatingCollection from "./collection";
 const hasUserNotRatedContent = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.session.userId;
   const contentId = req.params.contentId;
-  const category = req.body.category;
+  const category = (req.query.category as string) ?? '';
   const rating = await RatingCollection.findOne(userId, contentId, category);
 
   if (rating) {
     res.status(409).json({
       error: {
-        userHasAlreadyRated: 'User has already rated the content'
+        userHasAlreadyRated: `userId=[${userId}] has already rated contentId=[${contentId}] in category=[${rating.category}] with score=[${rating.score}]`
       }
     });
     return;
@@ -31,7 +31,7 @@ const hasUserNotRatedContent = async (req: Request, res: Response, next: NextFun
 const hasUserRatedContent = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.session.userId;
   const contentId = req.params.contentId;
-  const category = req.body.category;
+  const category = (req.query.category as string) ?? '';
   const rating = await RatingCollection.findOne(userId, contentId, category);
 
   if (!rating) {
@@ -71,10 +71,10 @@ const isValidScore = async (req: Request, res: Response, next: NextFunction) => 
  * Throw 400 if not
  */
 const isValidCategory = async (req:Request, res: Response, next: NextFunction) => {
-  const category = (req.params.category as string) ?? '';
+  const category = (req.query.category as string) ?? '';
   const validCategories = ['Clarity', 'Accuracy', 'Engaging']
 
-  if (!(category in validCategories)) {
+  if (!(validCategories.includes(category))) {
     res.status(400).json({
       error: {
         invalidCategory: `category ${category} is not one of the valid categories. Valid categories are: ${validCategories}`
