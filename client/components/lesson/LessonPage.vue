@@ -1,17 +1,22 @@
 <template>
     <div>
-        <div>
+        <section v-if="$store.state.username">
+            <header>
+                <h2>Welcome @{{ $store.state.username }}</h2>
+            </header>
+
+            <div>
             <CreateLessonForm ref="lessonForm" />
-        </div>
+            </div>
 
-        <h2>Lessons by others</h2>
+            <h2>Lessons by others</h2>
 
 
-        <div id="lessonList" class="flex-container">
-            <section id="lessonList" class="flex-container">
-                <div v-if="loading">
-                    <div class="loader"></div>
-                </div>
+            <div id="lessonList" class="flex-container">
+                <section id="lessonList" class="flex-container">
+                    <div v-if="loading">
+                        <div class="loader"></div>
+                    </div>
 
                 <div v-else>
                     <div v-for="lesson in lessons" class="one-lesson">
@@ -25,11 +30,26 @@
             </section>
         </div>
 
-        <div v-if="!loading" id="ratingList">
-            <div v-for="rating in ratings">
-                <RatingComponent :rating=rating />
+            <div v-if="!loading" id="ratingList">
+                <div v-for="rating in ratings">
+                    <RatingComponent :rating=rating />
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section v-else>
+            <header>
+                <h2>Welcome to Music Mentors!</h2>
+            </header>
+            <article>
+                <h3>
+                <router-link to="/login">
+                    Sign in
+                </router-link>
+                to create, edit, and delete freets.
+                </h3>
+            </article>
+        </section>
 
     </div>
 </template>

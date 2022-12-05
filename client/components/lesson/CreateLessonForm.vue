@@ -78,20 +78,15 @@ export default {
                 this.content = this.$refs.markdownEditor.$data.content;
                 const lessonChunks = this.format();
                 await this.imgURLToData(lessonChunks).then(async (lessonChunks2) => {
-                    console.log("hello:");
-                    console.log(lessonChunks2);
                     const options = contentToOptions(lessonChunks2);
 
-                    console.log('options:: ' + JSON.stringify(options));
-
                     const response = await fetch("/api/lessons", options);
-                    console.log('here');
                     if (!response.ok) {
                         const res = await response.json();
                         throw new Error(res.error);
                     }
                 });
-
+                this.$store.commit('refreshLessons');
 
                 const quest1 = { "questName": "createOneLesson", "progress": 1 };
                 this.$store.commit("setQuest", quest1);

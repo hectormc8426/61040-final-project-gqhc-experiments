@@ -19,8 +19,9 @@ const store = new Vuex.Store({
     level: null, // level of the user
     experiencePoints: null,
     showcases: [],
-    quests: [],
-    comments: []
+    quests: null,
+    comments: [],
+    lessons: [],
     // TODO: Fill this with appropriate states
   },
   getters: {
@@ -71,6 +72,13 @@ const store = new Vuex.Store({
        * @param showcase - the new showcases to set
        */
       state.showcases = showcases;
+    },
+    setLessons(state, lessons) {
+      /**
+       * Update the stored lessons to the specified one
+       * @param lesson - the new showcases to set
+       */
+      state.showcases = lessons;
     },
     setQuest(state, questNameAndProgress) {
       /**
@@ -138,6 +146,14 @@ const store = new Vuex.Store({
       const url = `/api/comments`;
       const res = await fetch(url).then(async r => r.json());
       state.comments = res;
+    },
+    async refreshLessons(state) {
+      /**
+       * Request the server for the currently available comments.
+       */
+      const url = `/api/lessons`;
+      const res = await fetch(url).then(async r => r.json());
+      state.lessons = res;
     }
 
     // TODO: Fill this with appropriate mutations

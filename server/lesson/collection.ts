@@ -1,5 +1,5 @@
-import type {HydratedDocument, Types} from 'mongoose';
-import type {Lesson, LessonChunk} from './model';
+import type { HydratedDocument, Types } from 'mongoose';
+import type { Lesson, LessonChunk } from './model';
 import LessonModel from './model';
 
 
@@ -36,9 +36,9 @@ class LessonCollection {
         });
 
         await lesson.save()
-        return lesson;
+        return lesson.populate('userId');
     }
-    
+
     /**
      * Find a lesson by its object id
      * 
@@ -46,7 +46,7 @@ class LessonCollection {
      * @returns The lesson with the given id, if such lesson exists
      */
     static async findOne(lessonId: Types.ObjectId | string): Promise<HydratedDocument<Lesson>> {
-        return LessonModel.findOne({_id: lessonId});
+        return LessonModel.findOne({ _id: lessonId }).populate('userId');
     }
 
     /**
@@ -55,7 +55,7 @@ class LessonCollection {
      * @returns a list of every lesson on the platform
      */
     static async findAll(): Promise<Array<HydratedDocument<Lesson>>> {
-        return LessonModel.find({});
+        return LessonModel.find({}).populate('userId');
     }
 
     /**
@@ -64,7 +64,7 @@ class LessonCollection {
      * @returns All the lessons by the given user, if such lessons exist
      */
     static async findAllByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Lesson>>> {
-        return LessonModel.find({userId: userId});
+        return LessonModel.find({ userId: userId }).populate('userId');
     }
 
     /**
@@ -73,7 +73,7 @@ class LessonCollection {
      * @param lessonId - The id of the lesson that will be deleted, if any
      */
     static async deleteOne(lessonId: Types.ObjectId | string): Promise<void> {
-        await LessonModel.deleteOne({_id: lessonId});
+        await LessonModel.deleteOne({ _id: lessonId }).populate('userId');
     }
 
     /**
@@ -82,7 +82,7 @@ class LessonCollection {
      * @param userId - The id of the user whose lessons are going to deleted
      */
     static async deleteMany(userId: Types.ObjectId | string): Promise<void> {
-        await LessonModel.deleteMany({userId: userId});
+        await LessonModel.deleteMany({ userId: userId });
     }
 
     /**
@@ -92,13 +92,13 @@ class LessonCollection {
      * @param content - The new content of the specified lesson
      * @returns The newly updated lesson
      */
-    static async updateOne(lessonId: Types.ObjectId | string, title: string, content: Array<LessonChunk>): Promise<HydratedDocument<Lesson>>{
-        const lesson = await LessonModel.findOne({lessonId: lessonId});
+    static async updateOne(lessonId: Types.ObjectId | string, title: string, content: Array<LessonChunk>): Promise<HydratedDocument<Lesson>> {
+        const lesson = await LessonModel.findOne({ lessonId: lessonId });
         lesson.title = title;
         lesson.content = content;
         lesson.dateModified = new Date();
         await lesson.save();
-        return lesson;
+        return lesson.populate('userId');
     }
 
 
