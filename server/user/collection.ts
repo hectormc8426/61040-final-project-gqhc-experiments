@@ -26,7 +26,10 @@ class UserCollection {
         let questInit: Map<string, Quest> = new Map();
 
         for (const quest of questList) {
-            questInit.set(quest[0], { "name": quest[0], "currentProgress": quest[1][0], "goalProgress": quest[1][1], "reward": quest[1][2] })
+            questInit.set(quest[0], {
+                "name": quest[0], "desc": quest[1][0], "currentProgress": quest[1][1],
+                "goalProgress": quest[1][2], "reward": quest[1][3], "repeatAmount": quest[1][4]
+            })
         }
 
         const user = new UserModel({ username, password, dateJoined, experiencePoints: 0, quests: questInit });
@@ -92,9 +95,11 @@ class UserCollection {
         if (userDetails.quest) {
             user.quests.set(userDetails.quest.name, {
                 "name": userDetails.quest.name,
+                "desc": userDetails.quest.desc,
                 "currentProgress": userDetails.quest.currentProgress,
                 "goalProgress": userDetails.quest.goalProgress,
-                "reward": userDetails.quest.reward
+                "reward": userDetails.quest.reward,
+                "repeatAmount": userDetails.quest.repeatAmount
             });
         }
 

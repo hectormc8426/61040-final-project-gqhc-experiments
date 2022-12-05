@@ -7,24 +7,26 @@ import Immutable from 'immutable'; // do 'npm install immutable'
 // Immutable set keeping track of the names of all of the existing quests. Exists as a set for quick look up time.
 export const questNames: Immutable.Set<string> =
     Immutable.Set(["doOneShowcase", "commentOne", "rateOne",
-        "createOneLesson", "createLessons", "createShowcases", "loginStreak"]);
+        "createOneLesson", "createLessons", "createShowcases", "login"]);
 
 export type Quest = {
     name: string;
+    desc: string;
     currentProgress: number;
     goalProgress: number;
-    reward: number
+    reward: number;
+    repeatAmount: number;
 };
 
 // serves as the starting values for quest. When creating new quests for a user, those quests should be initialized to these values.
-export const questList: Immutable.Map<string, [number, number, number]> =
-    Immutable.Map([["doOneShowcase", [0, 1, 100]],
-    ["commentOne", [0, 1, 50]],
-    ["rateOne", [0, 1, 50]],
-    ["createOneLesson", [0, 1, 300]],
-    ["createLessons", [0, 5, 100]],
-    ["createShowcases", [0, 1, 300]],
-    ["loginStreak", [0, 3, 20]],]);
+export const questList: Immutable.Map<string, [string, number, number, number, number]> =
+    Immutable.Map([["doOneShowcase", ["Complete a showcase", 0, 1, 100, 0]],
+    ["commentOne", ["Comment on a lesson", 0, 1, 50, 0]],
+    ["rateOne", ["Rate a lesson", 0, 1, 50, 0]],
+    ["createOneLesson", ["Create a lesson", 0, 1, 300, 0]],
+    ["createLessons", ["Create lessons (REPEATING) 🔄", 0, 3, 250, 3]],
+    ["createShowcases", ["Create showcases (REPEATING) 🔄", 0, 3, 300, 3]],
+    ["login", ["Login for the day (REPEATING) 🔄", 0, 2, 20, 1]],]);
 
 // Type definition for User on the backend
 export type User = {

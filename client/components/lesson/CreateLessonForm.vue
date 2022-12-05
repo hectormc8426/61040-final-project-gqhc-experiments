@@ -4,7 +4,7 @@
             <label>Title: </label>
             <input v-model="title" />
 
-            <MarkdownEditor v-model="content" ref='markdownEditor'/>
+            <MarkdownEditor v-model="content" ref='markdownEditor' />
             <button v-on:click='preview'>
                 Preview
             </button>
@@ -12,7 +12,7 @@
             <button v-on:click='submit'>
                 Submit
             </button>
-        </div> 
+        </div>
 
         <section id="lessonPreview" class="flex-child">
             <h2>Render</h2>
@@ -67,7 +67,7 @@ export default {
                 const contentToOptions = (lessonContent) => {
                     return {
                         method: 'POST',
-                        headers: { "Content-Type" : "application/json" }, 
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             title: this.title,
                             content: lessonContent
@@ -83,7 +83,7 @@ export default {
                     const options = contentToOptions(lessonChunks2);
 
                     console.log('options:: ' + JSON.stringify(options));
-                    
+
                     const response = await fetch("/api/lessons", options);
                     console.log('here');
                     if (!response.ok) {
@@ -91,6 +91,52 @@ export default {
                         throw new Error(res.error);
                     }
                 });
+
+
+                const quest1 = { "questName": "createOneLesson", "progress": 1 };
+                this.$store.commit("setQuest", quest1);
+
+                let questToSave = this.$store.state.quests.filter(quest => quest.name == "createOneLesson")[0];
+                console.log(questToSave);
+                const contentToOptions2 = () => {
+                    return {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            quest: questToSave
+                        }),
+                    };
+                };
+                let options = contentToOptions2();
+                const response = await fetch("/api/users", options);
+                if (!response.ok) {
+                    const res = await response.json();
+                    throw new Error(res.error);
+                }
+
+
+
+                const quest2 = { "questName": "createLessons", "progress": 1 };
+                this.$store.commit("setQuest", quest2);
+
+                questToSave = this.$store.state.quests.filter(quest => quest.name == "createLessons")[0];
+
+                const contentToOptions3 = () => {
+                    return {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            quest: questToSave
+                        }),
+                    };
+                };
+                options = contentToOptions3();
+                const response2 = await fetch("/api/users", options);
+                if (!response2.ok) {
+                    const res = await response2.json();
+                    throw new Error(res.error);
+                }
+
             }
         },
         format() {
@@ -100,7 +146,7 @@ export default {
             chunks = chunks.map((input) => {
                 // for each lesson chunk
                 // get rid of whitespaces at the beginning/end
-                const trimmed = input.trim(); 
+                const trimmed = input.trim();
                 // let's determine what this chunk represents:
                 let type = null;
                 let content = null;
@@ -119,7 +165,7 @@ export default {
                     content = String(trimmed);
                 }
                 // and let's format it for our mongodb schema (not dealing with collection/router/etc rn since I need to get image working)
-                return { 
+                return {
                     contentType: type,
                     content: content
                 };
@@ -137,10 +183,10 @@ export default {
                     const videoId = tokens[tokens.length - 1]; // get the video token
                     // TODO: this is a gross hard code, but I'll edit it later
                     const stringHTML = '<iframe width="560" height="315" ' +
-                                        `src="https://www.youtube.com/embed/${ videoId }" ` +
-                                        'title="YouTube video player" frameborder="0" ' +
-                                        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
-                                        'allowfullscreen></iframe>';
+                        `src="https://www.youtube.com/embed/${videoId}" ` +
+                        'title="YouTube video player" frameborder="0" ' +
+                        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+                        'allowfullscreen></iframe>';
                     // turn our html string to actual htmls (this comes in form <head></head><body>[ACTUAL CONTENT WE WANT]</body>)
                     const html = parser.parseFromString(stringHTML, 'text/html');
                     // let's grab what we actually want inside the html nbody
@@ -167,7 +213,7 @@ export default {
                     return parsedHTML;
                 }
             })
-            .flat(); // note that one text chunk can come in multiple html elements, so the result of the map operation may be 2D array. gotta flatten that! :D
+                .flat(); // note that one text chunk can come in multiple html elements, so the result of the map operation may be 2D array. gotta flatten that! :D
         },
         async imgURLToData(lessonChunks) {
             // wait for all of the data to be turned to binary data
@@ -178,15 +224,15 @@ export default {
                     const link = content;
                     const dataURL =
                         fetch(link)
-                        .then(response => response.blob())
-                        .then(blob => new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                                resolve({ contentType: 'image', content: reader.result });
-                            }
-                            reader.onerror = reject;
-                            reader.readAsDataURL(blob);
-                        }));
+                            .then(response => response.blob())
+                            .then(blob => new Promise((resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                    resolve({ contentType: 'image', content: reader.result });
+                                }
+                                reader.onerror = reject;
+                                reader.readAsDataURL(blob);
+                            }));
 
                     return dataURL;
                 }
@@ -200,7 +246,6 @@ export default {
 
 
 <style scoped>
-
 .flex-container {
     display: flex;
 }
@@ -208,7 +253,4 @@ export default {
 .flex-child {
     flex: 1;
 }
-
-
-
 </style>

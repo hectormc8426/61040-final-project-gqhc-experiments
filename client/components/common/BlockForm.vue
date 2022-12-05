@@ -80,6 +80,10 @@ export default {
           this.$store.commit('setUsername', res.user ? res.user.username : null);
           this.$store.commit('setExperiencePoints', res.user ? res.user.experiencePoints : null);
           this.$store.commit('setUser', res.user);
+
+          if (res.user) {
+            this.$store.commit('refreshAccount');
+          }
         }
 
         // if (this.setUser) {
