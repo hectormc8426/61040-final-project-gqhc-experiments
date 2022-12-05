@@ -1,6 +1,8 @@
 <template>
   <article class="ratingForm">
-    Your rating:
+    <div>
+      Your rating:
+    </div>
     <div id="rating_options" v-for="i in 5">
       <button v-on:click="submit(i)">
         <div v-text="i" />
@@ -49,7 +51,7 @@ export default {
 <style scoped>
 
 #rating_options {
-  display: flex;
+  display: inline-block;
 }
 
 </style>
