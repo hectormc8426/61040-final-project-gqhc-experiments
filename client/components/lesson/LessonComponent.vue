@@ -1,7 +1,5 @@
 <template>
-    <article
-        class="lesson"
-    >
+    <article class="lesson">
         <header>
             <h2>
                 {{ lesson.title }}
@@ -16,6 +14,7 @@
         <p class="info">
             Posted at {{ lesson.dateModified }}
         </p>
+        <CreateShowcaseForm v-if="$store.state.username" :lessonId="lesson._id" />
     </article>
 </template>
 
@@ -23,9 +22,13 @@
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 import { Parser } from '../../../node_modules/marked/src/Parser';
+import CreateShowcaseForm from '@/components/showcase/CreateShowcaseForm.vue';
 
 export default {
     name: 'LessonComponent',
+    components: {
+        CreateShowcaseForm
+    },
     data() {
         return {
             truthy: true,
@@ -51,5 +54,7 @@ export default {
 </script>
 
 <style scoped>
-
+/* article {
+    border: 1px solid black;
+} */
 </style>

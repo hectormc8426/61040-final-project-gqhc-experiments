@@ -38,6 +38,7 @@ router.post(
     const contentId = req.params.contentId;
     const category = req.params.category;
     const score = req.body.score;
+
     const rating = await RatingCollection.addOne(userId, contentId, category, score);
 
     res.status(201).json({
@@ -118,9 +119,13 @@ router.get(
       net += scores[i].score;
     }
 
+    if (scores.length > 0) {
+      net = net/scores.length
+    }
+
     res.status(200).json({
       message: `Successfully retrieved full score for ${contentId}`,
-      score: net/scores.length
+      score: net
     });
   },
   [
@@ -136,9 +141,13 @@ router.get(
       net += scores[i].score;
     }
 
+    if (scores.length > 0) {
+      net = net/scores.length
+    }
+
     res.status(200).json({
-      message: `Successfully retrieved full score for ${contentId} in category ${category}`,
-      score: net/scores.length
+      message: `Successfully retrieved full score for ${contentId} in category ${category} with score ${net}`,
+      score: net
     });
   }
 );

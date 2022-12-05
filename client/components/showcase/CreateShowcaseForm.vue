@@ -1,22 +1,26 @@
 <template>
-
-    <div id="showcaseForm" class="flex-container">
-        <div>
-            <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" />
-            <button v-on:click='preview'>
-                Preview
-            </button>
-            <button v-on:click='submit'>
-                Submit
-            </button>
-        </div>
-
-        <section id="showcasePreview" class="flex-child">
-            <h3>Rendered</h3>
-            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="showcaseChunk">
+    <section>
+        <h2>
+            Create a Showcase!
+        </h2>
+        <div id="showcaseForm" class="flex-container">
+            <div>
+                <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" />
+                <button v-on:click='preview'>
+                    Preview
+                </button>
+                <button v-on:click='submit'>
+                    Submit
+                </button>
             </div>
-        </section>
-    </div>
+            <section id="showcasePreview" class="flex-child">
+                <h3>Rendered</h3>
+                <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="showcaseChunk">
+                </div>
+            </section>
+        </div>
+    </section>
+
 </template>
 <script>
 
@@ -34,7 +38,6 @@ export default {
         }
     },
     data() {
-        console.log(this.$refs);
         return {
             title: "",
             content: "",
@@ -88,5 +91,9 @@ export default {
 
 .flex-child {
     flex: 1;
+}
+
+section {
+    padding: 20px;
 }
 </style>

@@ -1,10 +1,8 @@
 <template>
     <main>
-        For testing: a random lesson with the showcase
-        <CreateShowcaseForm lessonId="638c1f111dacd3847fd5aa48" />
         <!-- Only show showcase section if logged in -->
+        <h2>Viewing All Showcases</h2>
         <section v-if="$store.state.username">
-            Viewing All Showcases
             <ShowcaseComponent v-for="showcase in $store.state.showcases" :key="showcase.id" :showcase="showcase" />
         </section>
     </main>
