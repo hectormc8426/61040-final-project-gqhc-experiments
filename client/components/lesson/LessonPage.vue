@@ -73,12 +73,12 @@ export default {
 
             // now that we have lessons, get their corresponding scores in each category
             for (let i=0; i<this.lessons.length; i++) {
-              const lesson = this.lessons[i];
+              const lessonId = this.lessons[i]._id;
               let rating = {}; // category : score
 
-              for (let j=0; j<this.categories.length; j++) {
-                const category = this.categories[i];
-                rating[category] = await fetch(`api/ratings/contentId=${lesson.ObjectId}&category=${category}`);
+              for (let j=0; j<3; j++) {
+                const category = this.categories[j];
+                rating[category] = await fetch(`api/rating/contentId=${lessonId}&category=${category}`);
               }
 
               this.ratings.push(rating);
