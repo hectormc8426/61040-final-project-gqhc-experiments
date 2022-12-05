@@ -6,7 +6,8 @@ import {constructRatingResponse} from './util'
 
 import * as UserValidator from '../user/middleware';
 import * as RatingValidator from './middleware';
-import * as LessonValidator from './middleware';
+import * as LessonValidator from '../lesson/middleware';
+import LessonCollection from "../lesson/collection";
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ router.post(
     RatingValidator.isValidScore, // 400
     RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
-    // TODO content exists
+    LessonValidator.doesLessonParamExist,  // 404
     RatingValidator.hasUserNotRatedContent // 409
   ],
   async (req: Request, res: Response) => {
@@ -47,7 +48,7 @@ router.post(
 
     res.status(201).json({
       message: 'You have successfully rated the content',
-      rating: constructRatingResponse(rating) // TODO util.
+      rating: constructRatingResponse(rating)
     });
   }
 );
@@ -71,12 +72,12 @@ router.post(
  * @throws {409} User has not rated content
  */
 router.patch(
-  '/:contentId',
+  '/:contentId?',
   [
     RatingValidator.isValidScore, // 400
     RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
-    // TODO content exists
+    LessonValidator.doesLessonParamExist, // 404
     RatingValidator.hasUserRatedContent // 409
   ],
   async (req: Request, res: Response) => {
@@ -117,10 +118,23 @@ router.patch(
  *
  * @throws {400} Invalid Category
  */
+/**
+ * Get a singular rating of a user of content on a specific category
+ *
+ * @name GET /api/rating/:contentId?:category:useUserId
+ *
+ * @pathParam contentId - ID of content being rated
+ * @queryParam category - Category of content to rate
+ * @queryParam useUserId - user
+ *
+ * @return {} - rating of that specific category
+ *
+ * @throws {400} Invalid Category
+ */
 router.get(
   '/:contentId?',
   [
-    // TODO content exists
+    LessonValidator.doesLessonParamExist, // 404
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     // if category specified
@@ -152,7 +166,12 @@ router.get(
   [
     RatingValidator.isValidCategory
   ],
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.useUserId !== undefined) {
+      next();
+      return;
+    }
+
     // find
     const contentId = req.params.contentId;
     const category = (req.query.category as string) ?? '';
@@ -173,7 +192,24 @@ router.get(
       message: `Successfully retrieved full score for contentId=[${contentId}] in category=[${category}] with score=[${net}]`,
       score: net
     });
-  }
+  },
+  [
+    UserValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response) => {
+    // find
+    const contentId = req.params.contentId;
+    const userId = req.session.userId;
+    const category = (req.query.category as string) ?? '';
+    const rating = await  RatingCollection.findOne(userId, contentId, category);
+    const score = (rating === null) ? -1 : rating.score;
+
+    // return
+    res.status(200).json({
+      message: `Retrieved userId=[${userId}] rating on contentId=[${contentId}] in category=[${category}] with score=[${score}]`,
+      score: score
+    });
+  },
 );
 
 /**
@@ -206,8 +242,8 @@ router.delete(
   '/:contentId?',
   [
     UserValidator.isUserLoggedIn,  // 403
-    // TODO content exists
-    RatingValidator.hasUserNotRatedContent // 409
+    LessonValidator.doesLessonParamExist, // 404
+    RatingValidator.hasUserRatedContent // 409
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     // if category, do that instead
