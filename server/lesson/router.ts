@@ -85,7 +85,7 @@ router.delete(
     [
         UserValidator.isUserLoggedIn,
         UserValidator.isCurrentSessionUserExists,
-        LessonValidator.isUserAuthorizedToEdit,
+        // LessonValidator.isUserAuthorizedToEdit,
         LessonValidator.isExistingPost,
     ],
     // TODO: add appropriate middlewares
