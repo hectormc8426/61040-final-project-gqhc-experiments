@@ -34,7 +34,6 @@ export default {
         }
     },
     data() {
-        console.log(this.$refs);
         return {
             title: "",
             content: "",

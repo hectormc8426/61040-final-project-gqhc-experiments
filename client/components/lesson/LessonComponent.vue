@@ -1,7 +1,5 @@
 <template>
-    <article
-        class="lesson"
-    >
+    <article class="lesson">
         <header>
             <h2>
                 {{ lesson.title }}
@@ -16,6 +14,7 @@
         <p class="info">
             Posted at {{ lesson.dateModified }}
         </p>
+        <ShowcaseComponent :lessonId="lesson._id" />
     </article>
 </template>
 
@@ -23,9 +22,13 @@
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 import { Parser } from '../../../node_modules/marked/src/Parser';
+import ShowcaseComponent from '@/components/showcase/ShowcaseComponent.vue';
 
 export default {
     name: 'LessonComponent',
+    components: {
+        ShowcaseComponent
+    },
     data() {
         return {
             truthy: true,

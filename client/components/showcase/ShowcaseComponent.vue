@@ -1,11 +1,14 @@
 <template>
-    <section>
+    <section class="showcase-component">
         <!-- <MarkdownEditor v-model="content" ref='markdownEditor' /> -->
         <div>
             author: {{ showcase.author }}
         </div>
-        <div v-html="htmlContent">
+        <div>
+            date: {{ showcase.dateCreated }}
         </div>
+        <article v-html="htmlContent">
+        </article>
     </section>
 </template>
 
@@ -124,7 +127,7 @@ export default {
 </script>
 
 <style scoped>
-vue-easymde {
-    display: none;
+.showcase-component {
+    border: 1px solid black;
 }
 </style>
