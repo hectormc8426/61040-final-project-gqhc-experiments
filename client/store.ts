@@ -129,7 +129,6 @@ const store = new Vuex.Store({
        */
       const url = `/api/showcases`;
       const res = await fetch(url).then(async r => r.json());
-      console.log(res)
       state.showcases = res;
     },
     async refreshComments(state) {

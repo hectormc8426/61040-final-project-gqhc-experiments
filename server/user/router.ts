@@ -3,6 +3,8 @@ import express from 'express';
 import * as util from './util';
 import * as userValidator from './middleware';
 import UserCollection from './collection';
+import ShowcaseCollection from '../showcase/collection';
+import LessonCollection from '../lesson/collection';
 
 const router = express.Router();
 
@@ -162,7 +164,10 @@ router.delete(
         const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
         await UserCollection.deleteOne(userId);
 
-        // TODO: Once lesson has been implemented, delete all lessons if user deleted
+        // Delete associated showcases and lessons
+        await ShowcaseCollection.deleteByUser(userId);
+        await LessonCollection.deleteMany(userId);
+
         req.session.userId = undefined;
         res.status(200).json({
             message: 'Your account has been deleted successfully.'
