@@ -29,11 +29,13 @@
         <p class="info">
             Posted at {{ lesson.dateModified }}
         </p>
-        <CreateShowcaseForm v-if="$store.state.username" :lessonId="lesson._id" />
-        <div v-for="category in categories" :key="category" id="ratingBlock">
-            <RatingComponent :score="ratings[category]" :category="category" />
-            <CreateRatingForm :contentId="lessonId" :category="category" />
-        </div>
+        <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
+
+        <section class="ratings">
+            <LessonRatingGroup :lesson="lesson" />
+            <CreateRatingForm v-for="category in categories" :key="category" :contentId="lessonId" :category="category"
+                id="ratingBlock" />
+        </section>
     </article>
 </template>
 
@@ -41,22 +43,22 @@
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 import { Parser } from '../../../node_modules/marked/src/Parser';
-import CreateShowcaseForm from '@/components/showcase/CreateShowcaseForm.vue';
+import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseComponent.vue';
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
+import LessonRatingGroup from "@/components/rating/LessonRatingGroup";
 
 export default {
     name: 'LessonComponent',
     components: {
-        CreateShowcaseForm, RatingComponent, CreateRatingForm
+        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup
     },
     data() {
         return {
             truthy: true,
             parsedHTML: [],
-            editing: false
+            editing: false,
             lesson: null,
-            ratings: {},
             categories: ['Clarity', 'Accuracy', 'Engaging'],
         }
     },
@@ -66,12 +68,13 @@ export default {
             required: true
         },
     },
-    mounted() {
-        this.setData(this.lessonId);
+    async mounted() {
+        await this.setData(this.lessonId);
+        this.parsedHTML = this.parse(this.lesson.content);
     },
     created() {
-        this.parsedHTML = this.parse(this.lesson.content);
         this.setData(this.lessonId);
+        this.parsedHTML = this.parse(this.lesson.content);
     },
     computed: {
 
@@ -165,10 +168,6 @@ export default {
             }
             this.lesson = { ...res };
 
-            ratingCategories = await Promise.all(this.categories.map((category) => ({ category: category, result: fetch(`api/rating/${this.lessonId}?category=${category}`) })));
-            for (ratingCategory of ratingCategories) {
-                this.ratings[ratingCategory[category]] = await ratingCategory[result].json();
-            }
         },
     }
 };
