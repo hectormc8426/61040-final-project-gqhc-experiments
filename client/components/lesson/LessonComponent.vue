@@ -50,7 +50,7 @@ import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseCompone
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
 import LessonRatingGroup from "@/components/rating/LessonRatingGroup";
-import CommentSection from "@/components/Comment/CommentSection";
+import CommentSection from "@/components/comment/CommentSection";
 
 export default {
     name: 'LessonComponent',
