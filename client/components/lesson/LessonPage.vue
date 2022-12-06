@@ -23,10 +23,12 @@
                             <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
                                     lesson.title
                             }}</router-link>
+                            <LessonTagGroup :lesson="lesson" />
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
+        </div>
         </section>
 
         <section v-else>
@@ -52,10 +54,12 @@ import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/mixins/markdownMixin.js';
+import LessonRatingGroup from "../rating/LessonRatingGroup";
+import LessonTagGroup from "../tag/LessonTagGroup";
 
 export default {
     name: "LessonPage",
-    components: { CreateLessonForm, LessonComponent },
+    components: {LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {

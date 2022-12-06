@@ -24,8 +24,10 @@ export default {
 
 <style scoped>
 
-#tag {
-
+.tag {
+  outline-style: solid;
+  border: black;
+  background: snow;
 }
 
 </style>

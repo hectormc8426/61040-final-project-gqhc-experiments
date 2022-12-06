@@ -2,7 +2,8 @@
     <div id="lessonForm" class="flex-container">
         <div>
             <label>Title: </label>
-            <input v-model="title" ref='titleInput' />
+            <input v-model="title" ref="titleInput"/>
+            <CreateTagsFormShowTemp ref="TagForm"/>
 
             <MarkdownEditor v-model="content" ref='markdownEditor' />
             <button v-on:click='showTutorial'>
@@ -30,11 +31,11 @@
 
 import markdownMixin from '@/mixins/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
-import CreateTagForm from "../tag/CreateTagForm";
+import CreateTagsFormShowTemp from "../tag/CreateTagsFormShowTemp";
 
 export default {
     name: "CreateLessonForm",
-    components: { MarkdownEditor },
+    components: {CreateTagsFormShowTemp, MarkdownEditor },
     mixins: { markdownMixin },
     data() {
         return {
@@ -93,6 +94,10 @@ export default {
                         const res = await response.json();
                         throw new Error(res.error);
                     }
+
+                    // add tags to lesson
+                    const res = await response.json();
+                    await this.$refs.TagForm.submit(res.lesson._id);
                 });
 
                 const quest1 = { "questName": "createOneLesson", "progress": 1 };
