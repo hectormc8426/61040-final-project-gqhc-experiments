@@ -86,7 +86,7 @@ router.delete(
     [
         UserValidator.isUserLoggedIn,
         UserValidator.isCurrentSessionUserExists,
-        // LessonValidator.isUserAuthorizedToEdit,
+        // // LessonValidator.isUserAuthorizedToEdit,
         LessonValidator.isExistingPost,
     ],
     // TODO: add appropriate middlewares
@@ -116,7 +116,7 @@ router.put(
     ],
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
-        const lesson = await LessonCollection.updateOne(req.params.freetId, req.body.title, req.body.content);
+        const lesson = await LessonCollection.updateOne(req.params.lessonId, req.body.title, req.body.content);
         res.status(200).json({
             message: 'Your lesson was updated successfully.',
             lesson: util.constructLessonResponse(lesson)

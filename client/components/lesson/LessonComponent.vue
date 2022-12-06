@@ -95,11 +95,11 @@ export default {
             /**
              * Deletes this freet.
              */
-                const params = {
-                    method: 'DELETE',
-                    callback: () => {
+            const params = {
+                method: 'DELETE',
+                callback: () => {
                     this.$store.commit('alert', {
-                        message: 'Successfully deleted freet!', status: 'success'
+                        message: 'Successfully deleted lesson!', status: 'success'
                     });
                 }
             };
@@ -149,7 +149,7 @@ export default {
                 }
 
                 this.editing = false;
-                // this.$store.commit('refreshLessons');
+                this.$store.commit('refreshLessons');
 
                 params.callback();
             } catch (e) {

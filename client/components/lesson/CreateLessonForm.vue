@@ -2,7 +2,7 @@
     <div id="lessonForm" class="flex-container">
         <div>
             <label>Title: </label>
-            <input v-model="title" />
+            <input v-model="title" ref='titleInput' />
 
             <MarkdownEditor v-model="content" ref='markdownEditor' />
             <button v-on:click='preview'>
@@ -134,6 +134,25 @@ export default {
                     const res = await response2.json();
                     throw new Error(res.error);
                 }
+
+                // cleaning up the page
+
+                this.$el.querySelector("textarea").content = "";
+
+                // this.$refs.markdownEditor.$data.content = "";
+                this.$refs.titleInput.value = "";
+
+                this.title = "";
+                this.content = "";
+                this.parsedHTML = [];
+
+                console.log('content: ' + this.$refs.markdownEditor.$data.content);
+                console.log('value: ' + this.$refs.titleInput.value);
+
+                console.log(this.title);
+                console.log(this.content);
+
+
 
 
             }
