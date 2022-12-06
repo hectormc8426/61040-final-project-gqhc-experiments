@@ -23,11 +23,13 @@ export default {
 
 
 <style scoped>
-
 .tag {
   outline-style: solid;
   border: black;
   background: snow;
 }
 
+#tag {
+  padding: 0 2px;
+}
 </style>

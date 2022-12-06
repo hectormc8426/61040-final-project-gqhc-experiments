@@ -3,9 +3,10 @@
 <template>
   <div>
     <div v-if="!loading" id="ratingList">
+      <h2>Rate This Lesson</h2>
       <div v-for="category in categories" id="ratingBlock">
         <RatingComponent :score="rating[category]" :category="category" />
-        <CreateRatingForm :contentId="lesson._id" :category="category" v-if="letInput"/>
+        <CreateRatingForm :contentId="lesson._id" :category="category" v-if="letInput" />
       </div>
     </div>
   </div>
@@ -20,7 +21,7 @@ const CATEGORIES = ['Clarity', 'Accuracy', 'Engaging'];
 
 export default {
   name: "LessonRatingGroup.vue",
-  components: { CreateRatingForm, RatingComponent},
+  components: { CreateRatingForm, RatingComponent },
   props: {
     lesson: {
       type: Object,
@@ -55,10 +56,8 @@ export default {
 </script>
 
 <style scoped>
-
 #ratingBlock {
   display: inline-block;
   margin: 8px 24px;
 }
-
 </style>

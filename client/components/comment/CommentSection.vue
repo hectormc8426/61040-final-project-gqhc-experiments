@@ -1,5 +1,8 @@
 <template>
     <section>
+        <h2>
+            Comments
+        </h2>
         <CreateCommentForm :parentFreetId="lessonId" @updateComments="updateComments" />
         <CommentComponent v-for="comment in comments" :comment="comment" :parentLessonInstance="lesson"
             @updateComments="updateComments" :key="comment._id" />

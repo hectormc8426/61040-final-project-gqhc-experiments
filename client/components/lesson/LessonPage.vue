@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <main>
         <h2>All Lessons</h2>
-        <div id="lessonList" class="flex-container">
-            <section id="lessonList" class="flex-container">
+        <div id="lessonList">
+            <section id="lessonList">
                 <div v-if="loading">
                     <div class="loader"></div>
                 </div>
@@ -17,7 +17,7 @@
                 </div>
             </section>
         </div>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -100,14 +100,6 @@ export default {
 
 
 <style scoped>
-.flex-container {
-    display: flex;
-}
-
-.flex-child {
-    flex: 1;
-}
-
 .loader {
     border: 16px solid #f3f3f3;
     /* Light grey */
@@ -132,5 +124,7 @@ export default {
 
 .one-lesson {
     border: 1px solid black;
+    padding: 1em;
+    width: 100%;
 }
 </style>
