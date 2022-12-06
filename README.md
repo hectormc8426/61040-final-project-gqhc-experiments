@@ -105,7 +105,7 @@ But thank you!
 
 # Rating
 
-#### 'POST /api/rating/:contentId?:category' - Create a rating for content
+### 'POST /api/rating/:contentId?:category' - Create a rating for content
 
 **Body**
 
@@ -123,7 +123,7 @@ But thank you!
 - `404` Content does not exist
 - `409` User has already rated content
 
-#### 'PATCH /api/rating/:contentId?:category' - Change rating for content
+### 'PATCH /api/rating/:contentId?:category' - Change rating for content
 
 **Body**
 
@@ -141,7 +141,7 @@ But thank you!
 - `404` Content does not exist
 - `409` User has not rated content
 
-#### 'GET /api/rating/:contentId' - Get net rating for content
+### 'GET /api/rating/:contentId' - Get net rating for content
 
 **Returns**
 
@@ -152,7 +152,7 @@ But thank you!
 
 - `404` Content does not exist
 
-#### 'GET /api/rating/:contentId?:category' - Get rating score for category
+### 'GET /api/rating/:contentId?:category' - Get rating score for category
 
 **Returns**
 
@@ -164,7 +164,7 @@ But thank you!
 - `400` Invalid category
 - `404` Content does not exist
 
-#### 'GET /api/rating/:contentId?:category:useUserId' - Get specific rating
+### 'GET /api/rating/:contentId?:category:useUserId' - Get specific rating
 
 **Returns**
 
@@ -176,7 +176,7 @@ But thank you!
 - `400` Invalid category
 - `404` Content does not exist
 
-#### 'DELETE /api/rating/:contentId' - Delete _all_ user's rating on content
+### 'DELETE /api/rating/:contentId' - Delete _all_ user's rating on content
 
 **Returns**
 
@@ -188,7 +188,7 @@ But thank you!
 - `404` Content does not exist
 - `404` User has not rated content
 
-#### 'DELETE /api/rating/:contentId?:category' - Delete user's rating on content's category
+### 'DELETE /api/rating/:contentId?:category' - Delete user's rating on content's category
 
 **Returns**
 
@@ -205,7 +205,7 @@ But thank you!
 
 # Tags
 
-#### 'POST /api/tags/:contentId' - Add a tag to content
+### 'POST /api/tags/:contentId' - Add a tag to content
 
 **Body**
 
@@ -222,7 +222,7 @@ But thank you!
 - `404` Content does not exist
 - `409` This tag already exists for this content
 
-#### 'GET /api/tags/:contentId' - Get all tags associated with content
+### 'GET /api/tags/:contentId' - Get all tags associated with content
 
 **Returns**
 
@@ -233,7 +233,7 @@ But thank you!
 
 - `404` Content does not exist
 
-#### 'DELETE /api/tags/:contentId' - Remove a tag from content
+### 'DELETE /api/tags/:contentId' - Remove a tag from content
 
 **Body**
 

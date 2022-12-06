@@ -37,7 +37,7 @@ router.post(
     const tag = await TagCollection.addOne(contentId, tagname);
 
     res.status(201).json({
-      message: 'You have successfully tagged the content',
+      message: `ContentId=[${contentId}] has been tagged=[${tagname}]`,
       tag: util.constructTagResponse(tag) // TODO util.
     });
   }
