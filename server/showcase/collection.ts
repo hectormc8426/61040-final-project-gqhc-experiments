@@ -100,8 +100,17 @@ class ShowcaseCollection {
      * 
      * @param userId - The id of the user whose showcases are going to deleted
      */
-    static async deleteMany(userId: Types.ObjectId | string): Promise<void> {
+    static async deleteByUser(userId: Types.ObjectId | string): Promise<void> {
         await ShowcaseModel.deleteMany({ userId: userId });
+    }
+
+    /**
+     * Deletes every showcase of a lesson with the given lessonId, if any
+     * 
+     * @param lessonId - The id of the lesson whose showcases are going to deleted
+     */
+    static async deleteByLessonId(lessonId: Types.ObjectId | string): Promise<void> {
+        await ShowcaseModel.deleteMany({ lessonId: lessonId });
     }
 
     /**

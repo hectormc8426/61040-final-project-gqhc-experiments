@@ -4,6 +4,7 @@ import LessonCollection from './collection';
 import * as LessonValidator from './middleware';
 import * as UserValidator from '../user/middleware';
 import * as util from './util';
+import ShowcaseCollection from '../showcase/collection';
 
 const router = express.Router();
 
@@ -102,6 +103,8 @@ router.delete(
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         await LessonCollection.deleteOne(req.params.lessonId);
+        await ShowcaseCollection.deleteByLessonId(req.params.lessonId);
+
         res.status(200).json({
             message: 'Your lesson was deleted successfully.'
         });
