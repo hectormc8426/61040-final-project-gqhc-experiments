@@ -21,6 +21,11 @@ const router = express.Router();
  * @name GET /api/lessons?userId=id
  * 
  * @return {Lesson[]} - A list of all lessons by the user corresponding to the given userId in the database
+ * 
+ * CASE 3:
+ * @name GET /api/lessons?lessonId=id
+ * 
+ * @return {Lesson} - The lesson corresponding to the given lessonId in the database
  */
 router.get(
     '/',
@@ -33,7 +38,12 @@ router.get(
             // then a user is specified so return their lessons only
             const userLessons = await LessonCollection.findAllByUserId(req.query.userId as string);
             res.status(200).json(userLessons.map(util.constructLessonResponse));
-        } else {
+        }
+        else if (req.query.lessonId !== undefined) {
+            const lesson = await LessonCollection.findOne(req.query.lessonId as string);
+            res.status(200).json(util.constructLessonResponse(lesson));
+        }
+        else {
             // then the user is not specified so return all lessons on the platform! (need to be fixed later for performance)
             const lessons = await LessonCollection.findAll();
             // res.setHeader('Content-Type', 'application/json');
