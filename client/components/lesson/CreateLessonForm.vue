@@ -3,6 +3,7 @@
         <div>
             <label>Title: </label>
             <input v-model="title" />
+            <CreateTagsFormShowTemp ref="TagForm"/>
 
             <MarkdownEditor v-model="content" ref='markdownEditor' />
             <button v-on:click='preview'>
@@ -27,11 +28,11 @@
 
 import markdownMixin from '@/mixins/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
-import CreateTagForm from "../tag/CreateTagForm";
+import CreateTagsFormShowTemp from "../tag/CreateTagsFormShowTemp";
 
 export default {
     name: "CreateLessonForm",
-    components: { MarkdownEditor },
+    components: {CreateTagsFormShowTemp, MarkdownEditor },
     mixins: { markdownMixin },
     data() {
         return {
@@ -86,6 +87,10 @@ export default {
                         const res = await response.json();
                         throw new Error(res.error);
                     }
+
+                    // add tags to lesson
+                    const res = await response.json();
+                    await this.$refs.TagForm.submit(res.lesson._id);
                 });
                 this.$store.commit('refreshLessons');
 
@@ -130,11 +135,11 @@ export default {
                 };
                 options = contentToOptions3();
                 const response2 = await fetch("/api/users", options);
-                if (!response2.ok) {
-                    const res = await response2.json();
-                    throw new Error(res.error);
-                }
 
+                if (!response2.ok) {
+                  const res = await response2.json();
+                  throw new Error(res.error);
+                }
 
             }
         },

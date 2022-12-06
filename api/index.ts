@@ -69,7 +69,7 @@ app.use(userValidator.isCurrentSessionUserExists);
 // Add routers from routes folder
 app.use('/api/users', userRouter);
 app.use('/api/rating', ratingRouter);
-app.use("/api/tags", tagRouter);
+app.use("/api/tag", tagRouter);
 app.use("/api/lessons", lessonRouter);
 app.use("/api/showcases", showcaseRouter);
 
