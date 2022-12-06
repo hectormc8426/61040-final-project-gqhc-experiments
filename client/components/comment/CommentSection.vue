@@ -8,8 +8,8 @@
 
 
 <script>
-import CommentComponent from '@/components/comment/CommentComponent.vue';
-import CreateCommentForm from '@/components/comment/CreateCommentForm.vue';
+import CommentComponent from '@/components/Comment/CommentComponent.vue';
+import CreateCommentForm from '@/components/Comment/CreateCommentForm.vue';
 
 export default {
     name: 'CommentSection',
