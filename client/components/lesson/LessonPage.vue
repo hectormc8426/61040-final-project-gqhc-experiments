@@ -6,7 +6,7 @@
             </header>
 
             <div>
-            <CreateLessonForm ref="lessonForm" />
+                <CreateLessonForm ref="lessonForm" />
             </div>
 
             <h2>Lessons by others</h2>
@@ -18,14 +18,15 @@
                         <div class="loader"></div>
                     </div>
 
-                <div v-else>
-                    <div v-for="lesson in this.$store.state.lessons" :key="lesson._id" class="one-lesson">
-                        <LessonComponent :lesson="lesson" class="lessonClass" />
-                        <LessonRatingGroup :lesson="lesson" :let-input="true"/>
+                    <div v-else>
+                        <div v-for="lesson in lessons" class="one-lesson">
+                            <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
+                                    lesson.title
+                            }}</router-link>
+                        </div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
         </section>
 
         <section v-else>
@@ -34,10 +35,10 @@
             </header>
             <article>
                 <h3>
-                <router-link to="/login">
-                    Sign in
-                </router-link>
-                to create, edit, and delete freets.
+                    <router-link to="/login">
+                        Sign in
+                    </router-link>
+                    to create, edit, and delete freets.
                 </h3>
             </article>
         </section>
@@ -51,11 +52,10 @@ import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/mixins/markdownMixin.js';
-import LessonRatingGroup from "../rating/LessonRatingGroup";
 
 export default {
     name: "LessonPage",
-    components: {LessonRatingGroup, CreateLessonForm, LessonComponent },
+    components: { CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -68,7 +68,7 @@ export default {
         };
     },
     created() {
-        // let's get our freets
+        // let's get our lessons
         this.load();
     },
     methods: {
@@ -81,7 +81,6 @@ export default {
             }
             this.$store.commit('refreshLessons');
             this.lessons = res;
-
             this.loading = false;
         },
         async preview() {

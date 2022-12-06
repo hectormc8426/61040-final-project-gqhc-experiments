@@ -11,26 +11,14 @@
         <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
         </div>
 
-        <div
-            v-if="$store.state.user._id === lesson.userId"
-            class="actions"
-        >
-            <button
-                v-if="editing"
-                @click="submitEdit"
-            >
-                ✅ Save changes 
+        <div v-if="$store.state.user._id === lesson.userId" class="actions">
+            <button v-if="editing" @click="submitEdit">
+                ✅ Save changes
             </button>
-            <button
-                v-if="editing"
-                @click="stopEditing"
-            >
+            <button v-if="editing" @click="stopEditing">
                 🚫 Discard changes
             </button>
-            <button
-                v-if="!editing"
-                @click="startEditing"
-            >
+            <button v-if="!editing" @click="startEditing">
                 ✏️ Edit
             </button>
             <button @click="deleteLesson">
@@ -42,6 +30,10 @@
             Posted at {{ lesson.dateModified }}
         </p>
         <CreateShowcaseForm v-if="$store.state.username" :lessonId="lesson._id" />
+        <div v-for="category in categories" :key="category" id="ratingBlock">
+            <RatingComponent :score="ratings[category]" :category="category" />
+            <CreateRatingForm :contentId="lessonId" :category="category" />
+        </div>
     </article>
 </template>
 
@@ -50,28 +42,36 @@
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 import { Parser } from '../../../node_modules/marked/src/Parser';
 import CreateShowcaseForm from '@/components/showcase/CreateShowcaseForm.vue';
+import RatingComponent from "@/components/rating/RatingComponent";
+import CreateRatingForm from "@/components/rating/CreateRatingForm";
 
 export default {
     name: 'LessonComponent',
     components: {
-        CreateShowcaseForm
+        CreateShowcaseForm, RatingComponent, CreateRatingForm
     },
     data() {
         return {
             truthy: true,
             parsedHTML: [],
             editing: false
+            lesson: null,
+            ratings: {},
+            categories: ['Clarity', 'Accuracy', 'Engaging'],
         }
     },
     props: {
-        // Data from the stored freet
-        lesson: {
-            type: Object,
+        lessonId: {
+            type: String,
             required: true
-        }
+        },
+    },
+    mounted() {
+        this.setData(this.lessonId);
     },
     created() {
         this.parsedHTML = this.parse(this.lesson.content);
+        this.setData(this.lessonId);
     },
     computed: {
 
@@ -135,7 +135,7 @@ export default {
              * @param params.callback - Function to run if the the request succeeds
              */
             const options = {
-                method: params.method, headers: {'Content-Type': 'application/json'}
+                method: params.method, headers: { 'Content-Type': 'application/json' }
             };
             if (params.body) {
                 options.body = params.body;
@@ -156,7 +156,20 @@ export default {
                 this.$set(this.alerts, e, 'error');
                 setTimeout(() => this.$delete(this.alerts, e), 3000);
             }
-        }
+        },
+        async setData(lessonId) {
+            const r = await fetch(`/api/lessons?lessonId=${lessonId}`);
+            const res = await r.json();
+            if (!r.ok) {
+                throw new Error(res.error);
+            }
+            this.lesson = { ...res };
+
+            ratingCategories = await Promise.all(this.categories.map((category) => ({ category: category, result: fetch(`api/rating/${this.lessonId}?category=${category}`) })));
+            for (ratingCategory of ratingCategories) {
+                this.ratings[ratingCategory[category]] = await ratingCategory[result].json();
+            }
+        },
     }
 };
 </script>
@@ -165,4 +178,10 @@ export default {
 /* article {
     border: 1px solid black;
 } */
+
+
+#ratingBlock {
+    display: inline-block;
+    margin: 8px 24px;
+}
 </style>
