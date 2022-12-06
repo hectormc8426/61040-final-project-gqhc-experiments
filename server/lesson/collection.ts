@@ -73,7 +73,7 @@ class LessonCollection {
      * @param lessonId - The id of the lesson that will be deleted, if any
      */
     static async deleteOne(lessonId: Types.ObjectId | string): Promise<void> {
-        await LessonModel.deleteOne({ _id: lessonId }).populate('userId');
+        await LessonModel.deleteOne({ _id: lessonId });
     }
 
     /**
