@@ -14,6 +14,7 @@ export type Lesson = {
     dateModified: Date;
     title: string;
     content: Array<LessonChunk>;
+    originalText: string;
 };
 
 export type PopulatedLesson = {
@@ -23,6 +24,7 @@ export type PopulatedLesson = {
     dateModified: Date;
     title: string;
     content: Array<LessonChunk>;
+    originalText: string;
 };
 
 // mongoose schema definition for Lesson
@@ -47,6 +49,10 @@ const LessonSchema = new Schema<Lesson>({
     content: {
         type: [{ contentType: String, content: String }],
         required: true
+    },
+    originalText: {
+        type: String,
+        required: false
     }
 })
 

@@ -79,7 +79,8 @@ export default {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             title: this.title,
-                            content: lessonContent
+                            content: lessonContent,
+                            originalText: this.content,
                         }),
                     };
                 };

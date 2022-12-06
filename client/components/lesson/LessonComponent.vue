@@ -12,6 +12,10 @@
         </div>
 
         <div v-if="$store.state.user._id === lesson.userId" class="actions">
+            <div v-show="editing">
+                <MarkdownEditor v-model="editContent" ref='draftEditor' />
+            </div>
+
             <button v-if="editing" @click="submitEdit">
                 ✅ Save changes
             </button>
@@ -42,7 +46,7 @@
 <script>
 
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
-import { Parser } from '../../../node_modules/marked/src/Parser';
+import markdownMixin from '@/mixins/markdownMixin.js';
 import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseComponent.vue';
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
@@ -51,14 +55,16 @@ import LessonRatingGroup from "@/components/rating/LessonRatingGroup";
 export default {
     name: 'LessonComponent',
     components: {
-        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup
+        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup, MarkdownEditor
     },
+    mixins: { markdownMixin },
     data() {
         return {
             truthy: true,
             parsedHTML: [],
             editing: false,
             lesson: null,
+            editContent: "",
             categories: ['Clarity', 'Accuracy', 'Engaging'],
         }
     },
@@ -73,8 +79,8 @@ export default {
         this.parsedHTML = this.parse(this.lesson.content);
     },
     created() {
-        this.setData(this.lessonId);
-        this.parsedHTML = this.parse(this.lesson.content);
+        // this.setData(this.lessonId);
+        // this.parsedHTML = this.parse(this.lesson.content);
     },
     computed: {
 
@@ -85,14 +91,16 @@ export default {
              * Enables edit mode on this freet.
              */
             this.editing = true; // Keeps track of if a freet is being edited
-            this.draft = this.lesson.content; // The content of our current "draft" while being edited
+            this.$nextTick(() => {
+                this.$refs.draftEditor.easymde.value(this.lesson.originalText)
+            });
         },
         stopEditing() {
             /**
              * Disables edit mode on this freet.
              */
             this.editing = false;
-            this.draft = this.lesson.content;
+            this.$refs.draftEditor.easymde.value(this.lesson.originalText)
         },
         deleteLesson() {
             /**
@@ -113,23 +121,46 @@ export default {
             /**
              * Updates freet to have the submitted draft content.
              */
-            // if (this.freet.content === this.draft) {
-            //     const error = 'Error: Edited freet content should be different than current freet content.';
-            //     this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
-            //     setTimeout(() => this.$delete(this.alerts, error), 3000);
-            //     return;
-            // }
+            this.editing = true;
 
-            // const params = {
-            //     method: 'PUT',
-            //     message: 'Successfully edited lesson!',
-            //     body: JSON.stringify({content: this.draft}),
-            //     callback: () => {
-            //     this.$set(this.alerts, params.message, 'success');
-            //     setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-            //     }
-            // };
-            // this.request(params);
+            this.$nextTick(async () => {
+                if (confirm('Are you ready to submit your edits?')) {
+                    const title = this.lesson.title;
+                    this.editContent = this.$refs.draftEditor.$easymde.value();
+                    const newContent = this.editContent;
+                    const contentToOptions = (lessonContent) => {
+                        return {
+                            method: 'PUT',
+                            headers: { "Content-Type": "application/json" },
+                            message: "Lesson edit successfully went through!",
+                            body: JSON.stringify({
+                                title: title,
+                                content: lessonContent,
+                                originalText: newContent,
+                            }),
+                            callback: () => {
+                                this.$set(this.alerts, params.message, 'success');
+                                setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+                            }
+                        };
+                    };
+
+                    if (this.lesson.originalText === this.$refs.draftEditor.easymde.value()) {
+                        const error = 'Error: Edited lesson content should be different than the current lesson content.';
+                        this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
+                        setTimeout(() => this.$delete(this.alerts, error), 3000);
+                        return;
+                    }
+
+                    const lessonChunks = this.format();
+                    await this.imgURLToData(lessonChunks).then(async (lessonChunks2) => {
+                        const params = contentToOptions(lessonChunks2);
+                        this.request(params);
+                    });
+
+                    this.editing = false;
+                }
+            });
         },
         async request(params) {
             /**

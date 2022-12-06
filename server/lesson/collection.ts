@@ -25,14 +25,15 @@ class LessonCollection {
      * @param {Array<LessonChunk>} content - A list of lesson chunks that form the lesson when concatenated together
      * @return {Promise<HydratedDocument<Lesson>>} - The newly created lesson
      */
-    static async addOne(userId: Types.ObjectId | string, title: string, content: Array<LessonChunk>): Promise<HydratedDocument<Lesson>> {
+    static async addOne(userId: Types.ObjectId | string, title: string, content: Array<LessonChunk>, originalText: string): Promise<HydratedDocument<Lesson>> {
         const date = new Date();
         const lesson = new LessonModel({
             userId: userId,
             dateCreated: date,
             dateModified: date,
             title: title,
-            content: content
+            content: content,
+            originalText: originalText
         });
 
         await lesson.save()
@@ -92,10 +93,11 @@ class LessonCollection {
      * @param content - The new content of the specified lesson
      * @returns The newly updated lesson
      */
-    static async updateOne(lessonId: Types.ObjectId | string, title: string, content: Array<LessonChunk>): Promise<HydratedDocument<Lesson>> {
+    static async updateOne(lessonId: Types.ObjectId | string, title: string, content: Array<LessonChunk>, originalText: string): Promise<HydratedDocument<Lesson>> {
         const lesson = await LessonModel.findOne({ lessonId: lessonId });
         lesson.title = title;
         lesson.content = content;
+        lesson.originalText = originalText;
         lesson.dateModified = new Date();
         await lesson.save();
         return lesson.populate('userId');
