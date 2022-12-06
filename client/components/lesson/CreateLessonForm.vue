@@ -22,11 +22,12 @@
         </section>
     </div>
 </template>
- 
+
 <script>
 
 import markdownMixin from '@/mixins/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
+import CreateTagForm from "../tag/CreateTagForm";
 
 export default {
     name: "CreateLessonForm",
