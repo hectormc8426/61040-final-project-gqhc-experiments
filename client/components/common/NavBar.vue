@@ -10,6 +10,9 @@
             <router-link to="/" class=link>
                 Home
             </router-link>
+            <router-link to="/create" class="link">
+                Create A Lesson
+            </router-link>
             <router-link to="/lessons">
                 Lessons
             </router-link>
