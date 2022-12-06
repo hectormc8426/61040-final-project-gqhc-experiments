@@ -19,7 +19,7 @@
                     </div>
 
                 <div v-else>
-                    <div v-for="lesson in lessons" class="one-lesson">
+                    <div v-for="lesson in this.$store.state.lessons" :key="lesson._id" class="one-lesson">
                         <LessonComponent :lesson="lesson" class="lessonClass" />
                         <div v-for="category in categories" id="ratingBlock">
                             <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
@@ -91,6 +91,7 @@ export default {
             if (!r.ok) {
                 throw new Error(res.error);
             }
+            this.$store.commit('refreshLessons');
             this.lessons = res;
 
             // now that we have lessons, get their corresponding scores in each category
