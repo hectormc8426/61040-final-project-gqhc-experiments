@@ -5,6 +5,9 @@
             <input v-model="title" ref='titleInput' />
 
             <MarkdownEditor v-model="content" ref='markdownEditor' />
+            <button v-on:click='showTutorial'>
+                Help
+            </button>
             <button v-on:click='preview'>
                 Preview
             </button>
@@ -45,6 +48,10 @@ export default {
         // this.$store.commit('setMarkdown', this.$refs.markdownEditor);
     },
     methods: {
+        showTutorial() {
+            let routeData = this.$router.resolve({name: '/PLACEHOLDER'}); // just to get the base url
+            window.open(routeData.href + 'tutorial');
+        },
         async preview() {
             // DEBUGGING SESSION
             // console.log('TEST:');

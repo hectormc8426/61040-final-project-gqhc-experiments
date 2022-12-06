@@ -8,6 +8,7 @@ import UserPage from './components/user/UserPage.vue';
 import ShowcasePage from './components/showcase/ShowcasePage.vue';
 import CreateLessonForm from './components/lesson/CreateLessonForm.vue';
 import LessonPage from './components/lesson/LessonPage.vue';
+import TutorialPage from './components/lesson/TutorialPage.vue';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,7 @@ const routes = [
   { path: '/user', name: 'User', component: UserPage },
   { path: '/lessons', name: 'Lesson', component: LessonPage },
   { path: '/showcases', name: 'Showcase', component: ShowcasePage },
+  { path: '/tutorial', name: 'Tutorial', component: TutorialPage },
   { path: '*', name: 'Not Found', component: NotFound }
 ];
 
