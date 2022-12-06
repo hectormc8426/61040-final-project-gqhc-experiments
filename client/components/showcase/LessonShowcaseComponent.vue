@@ -1,7 +1,13 @@
 <!-- to show showcase section for a specific lesson -->
 <template>
-    <main>
+    <section>
         <!-- Only show form if logged in -->
+        <h2>
+            Create A Showcase
+        </h2>
+        <div>
+            Demonstrate your learning from this lesson by making a showcase!
+        </div>
         <CreateShowcaseForm v-if="$store.state.username" :lessonId="lessonId" />
         <h3>
             Showcases For This Lesson
@@ -9,7 +15,7 @@
         <section v-if="$store.state.username">
             <ShowcaseComponent v-for="showcase in showcases" :key="showcase.id" :showcase="showcase" />
         </section>
-    </main>
+    </section>
 </template>
 
 <script>

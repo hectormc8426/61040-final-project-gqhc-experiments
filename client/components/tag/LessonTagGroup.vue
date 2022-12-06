@@ -5,7 +5,7 @@
     <div v-if="!loading" id="ratingList">
       Tags:
       <div v-for="tag in tags" id="tagBlock">
-        <TagComponent :tagname="tag.tagname"/>
+        <TagComponent :tagname="tag.tagname" />
       </div>
     </div>
   </div>
@@ -44,10 +44,8 @@ export default {
 </script>
 
 <style scoped>
-
 #tagBlock {
   display: inline-block;
-  margin: 8px 24px;
+  margin: 8px 15px;
 }
-
 </style>

@@ -1,11 +1,11 @@
 <template>
-    <div id="lessonForm" class="flex-container">
-        <div>
+    <section id="lessonForm" class="flex-container">
+        <div class="flex-child">
             <label>Title: </label>
-            <input v-model="title" ref="titleInput"/>
-            <CreateTagsFormShowTemp ref="TagForm"/>
+            <input v-model="title" ref="titleInput" />
+            <CreateTagsFormShowTemp ref="TagForm" />
 
-            <MarkdownEditor v-model="content" ref='markdownEditor' />
+            <MarkdownEditor v-model="content" ref='markdownEditor' class="editor" />
             <button v-on:click='showTutorial'>
                 Help
             </button>
@@ -24,7 +24,7 @@
             <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
             </div>
         </section>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -35,7 +35,7 @@ import CreateTagsFormShowTemp from "../tag/CreateTagsFormShowTemp";
 
 export default {
     name: "CreateLessonForm",
-    components: {CreateTagsFormShowTemp, MarkdownEditor },
+    components: { CreateTagsFormShowTemp, MarkdownEditor },
     mixins: { markdownMixin },
     data() {
         return {
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         showTutorial() {
-            let routeData = this.$router.resolve({name: '/PLACEHOLDER'}); // just to get the base url
+            let routeData = this.$router.resolve({ name: '/PLACEHOLDER' }); // just to get the base url
             window.open(routeData.href + 'tutorial');
         },
         async preview() {
@@ -272,9 +272,18 @@ export default {
 <style scoped>
 .flex-container {
     display: flex;
+    gap: 1em;
 }
 
 .flex-child {
     flex: 1;
+}
+
+.editor {
+    width: 45vw;
+}
+
+.lessonChunk {
+    overflow-wrap: anywhere;
 }
 </style>

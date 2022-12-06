@@ -1,50 +1,23 @@
 <template>
-    <div>
-        <section v-if="$store.state.username">
-            <header>
-                <h2>Welcome @{{ $store.state.username }}</h2>
-            </header>
+    <main>
+        <h2>All Lessons</h2>
+        <div id="lessonList">
+            <section id="lessonList">
+                <div v-if="loading">
+                    <div class="loader"></div>
+                </div>
 
-            <div>
-                <CreateLessonForm ref="lessonForm" />
-            </div>
-
-            <h2>Lessons by others</h2>
-
-
-            <div id="lessonList" class="flex-container">
-                <section id="lessonList" class="flex-container">
-                    <div v-if="loading">
-                        <div class="loader"></div>
+                <div v-else>
+                    <div v-for="lesson in $store.state.lessons" class="one-lesson">
+                        <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
+                                lesson.title
+                        }}</router-link>
+                        <LessonTagGroup :lesson="lesson" />
                     </div>
-
-                    <div v-else>
-                        <div v-for="lesson in $store.state.lessons" class="one-lesson">
-                            <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
-                                    lesson.title
-                            }}</router-link>
-                            <LessonTagGroup :lesson="lesson" />
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </section>
-
-        <section v-else>
-            <header>
-                <h2>Welcome to Music Mentors!</h2>
-            </header>
-            <article>
-                <h3>
-                    <router-link to="/login">
-                        Sign in
-                    </router-link>
-                    to create, edit, and delete freets.
-                </h3>
-            </article>
-        </section>
-
-    </div>
+                </div>
+            </section>
+        </div>
+    </main>
 </template>
 
 <script>
@@ -58,7 +31,7 @@ import LessonTagGroup from "../tag/LessonTagGroup";
 
 export default {
     name: "LessonPage",
-    components: {LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
+    components: { LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -127,14 +100,6 @@ export default {
 
 
 <style scoped>
-.flex-container {
-    display: flex;
-}
-
-.flex-child {
-    flex: 1;
-}
-
 .loader {
     border: 16px solid #f3f3f3;
     /* Light grey */
@@ -159,5 +124,7 @@ export default {
 
 .one-lesson {
     border: 1px solid black;
+    padding: 1em;
+    width: 100%;
 }
 </style>

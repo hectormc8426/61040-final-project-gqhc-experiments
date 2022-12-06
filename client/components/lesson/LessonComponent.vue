@@ -1,16 +1,18 @@
 <template>
-    <article class="lesson">
+    <main class="lesson">
         <header>
             <h2>
                 {{ lesson.title }}
             </h2>
-            <h3 class="author">
-                by {{ lesson.author }}
-            </h3>
+            <section class="lesson-info">
+                <h3 class="author">
+                    by {{ lesson.author }}
+                </h3>
+                <p class="info">
+                    {{ lesson.dateModified }}
+                </p>
+            </section>
         </header>
-        <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
-        </div>
-
         <div v-if="$store.state.user._id === lesson.userId" class="actions">
             <div v-show="editing">
                 <MarkdownEditor v-model="editContent" ref='draftEditor' />
@@ -30,17 +32,18 @@
             </button>
         </div>
 
-        <p class="info">
-            Posted at {{ lesson.dateModified }}
-        </p>
-        <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
+        <section class="lesson-content">
+            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk"></div>
+        </section>
+
 
         <section class="ratings">
-            <LessonRatingGroup :lesson="lesson" />
-            <CreateRatingForm v-for="category in categories" :key="category" :contentId="lessonId" :category="category"
-                id="ratingBlock" />
+            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
         </section>
-    </article>
+
+        <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
+        <CommentSection :lessonId="lesson._id" />
+    </main>
 </template>
 
 <script>
@@ -51,11 +54,12 @@ import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseCompone
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
 import LessonRatingGroup from "@/components/rating/LessonRatingGroup";
+import CommentSection from "@/components/comment/CommentSection";
 
 export default {
     name: 'LessonComponent',
     components: {
-        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup, MarkdownEditor
+        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup, CommentSection, MarkdownEditor
     },
     mixins: { markdownMixin },
     data() {
@@ -79,8 +83,6 @@ export default {
         this.parsedHTML = this.parse(this.lesson.content);
     },
     created() {
-        // this.setData(this.lessonId);
-        // this.parsedHTML = this.parse(this.lesson.content);
     },
     computed: {
 
@@ -199,16 +201,28 @@ export default {
                 throw new Error(res.error);
             }
             this.lesson = { ...res };
-
+            console.log(this.lesson);
         },
     }
 };
 </script>
 
 <style scoped>
-/* article {
-    border: 1px solid black;
-} */
+.info {
+    font-size: 15px;
+}
+
+.lesson-info {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    margin-top: 0;
+}
+
+.lesson-content {
+    border-bottom: 1px solid black;
+}
+
 
 
 #ratingBlock {

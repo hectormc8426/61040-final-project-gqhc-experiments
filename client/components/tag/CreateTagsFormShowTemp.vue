@@ -1,16 +1,15 @@
 <template>
   <article class="TempTagForm">
-
     <div id="tagInput">
       Add a tag:
-      <input v-model="tagname" id="input"/>
+      <input v-model="tagname" id="input" />
       <button v-on:click="addTempTag()">
         Add
       </button>
     </div>
 
     <div v-for="tagname in tagnames" id="tempTags">
-      <TempTag :tagname="tagname" :callback="removeTempTag"/>
+      <TempTag :tagname="tagname" :callback="removeTempTag" />
     </div>
 
   </article>
@@ -21,7 +20,7 @@ import TempTag from "./TempTag";
 
 export default {
   name: "CreateTagsFormShowTemp",
-  components: {TempTag},
+  components: { TempTag },
   props: {
     callback: {
       type: Function,
@@ -48,7 +47,7 @@ export default {
     async submit(contentId) {
       const url = `api/tag/${contentId}`;
 
-      for (let i=0; i<this.tagnames.length; i++) {
+      for (let i = 0; i < this.tagnames.length; i++) {
         const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -67,7 +66,6 @@ export default {
 </script>
 
 <style scoped>
-
 .tempTagForm {
   display: block;
 }
@@ -78,11 +76,10 @@ export default {
 
 #tagInput {
   display: inline-block;
-  margin: 0 12px;
+  margin: 0 0 12px 0;
 }
 
 #input {
   width: 74px;
 }
-
 </style>

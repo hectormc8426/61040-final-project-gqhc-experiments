@@ -6,9 +6,12 @@
         <div>
             date: {{ showcase.dateCreated }}
         </div>
+        <div>
+            Posted in: {{ showcase.lesson }}
+        </div>
         <article v-html="htmlContent">
         </article>
-        <MarkdownEditor v-if="editing" ref="markdownEditor" />
+        <MarkdownEditor v-if="editing" ref='markdownEditor' v-model="content" />
         <div v-if="$store.state.username === showcase.author" class="actions">
             <button v-if="editing" @click="submitEdit">
                 ✅ Save changes
@@ -114,6 +117,8 @@ export default {
                     }
                 });
                 this.$store.commit('refreshShowcases');
+                this.editing = false;
+                this.$refs.markdownEditor.$data.content = '';
             }
         },
         async request(params) {
@@ -150,5 +155,6 @@ export default {
 <style scoped>
 .showcase-component {
     border: 1px solid black;
+    padding: 20px;
 }
 </style>

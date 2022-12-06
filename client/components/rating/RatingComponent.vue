@@ -3,9 +3,9 @@
 <template>
   <article class="rating">
     <header>
-      <h2>
+      <h3>
         {{ this.category }}
-      </h2>
+      </h3>
     </header>
     <div>
       <!-- here I put circle reflecting score -->
@@ -38,7 +38,5 @@ export default {
 
 
 <style scoped>
-
-
 
 </style>
