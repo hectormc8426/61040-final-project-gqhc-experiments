@@ -94,7 +94,6 @@ export default {
                         throw new Error(res.error);
                     }
                 });
-                this.$store.commit('refreshLessons');
 
                 const quest1 = { "questName": "createOneLesson", "progress": 1 };
                 this.$store.commit("setQuest", quest1);
@@ -144,20 +143,14 @@ export default {
 
                 // cleaning up the page
 
-                this.$el.querySelector("textarea").content = "";
-
-                // this.$refs.markdownEditor.$data.content = "";
+                this.$refs.markdownEditor.easymde.value("");
                 this.$refs.titleInput.value = "";
 
                 this.title = "";
                 this.content = "";
                 this.parsedHTML = [];
 
-                console.log('content: ' + this.$refs.markdownEditor.$data.content);
-                console.log('value: ' + this.$refs.titleInput.value);
-
-                console.log(this.title);
-                console.log(this.content);
+                this.$store.commit('refreshLessons');
 
 
 

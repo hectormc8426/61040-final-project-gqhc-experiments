@@ -104,6 +104,7 @@ export default {
                     this.$store.commit('alert', {
                         message: 'Successfully deleted lesson!', status: 'success'
                     });
+                    this.$router.push("/lessons/");
                 }
             };
             this.request(params);

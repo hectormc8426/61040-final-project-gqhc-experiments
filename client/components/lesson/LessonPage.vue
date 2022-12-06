@@ -19,7 +19,7 @@
                     </div>
 
                     <div v-else>
-                        <div v-for="lesson in lessons" class="one-lesson">
+                        <div v-for="lesson in $store.state.lessons" class="one-lesson">
                             <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
                                     lesson.title
                             }}</router-link>
