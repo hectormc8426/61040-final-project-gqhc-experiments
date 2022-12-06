@@ -32,14 +32,14 @@ const isContentValid = async (req: Request, res: Response, next: NextFunction) =
 };
 
 const isExistingPost = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.postId) {
+    if (!req.params.lessonId) {
         res.status(400).json({
             error: 'Cannot query when the post id is not provided.'
         });
         return;
     }
 
-    const post = await LessonCollection.findOne(req.body.postId);
+    const post = await LessonCollection.findOne(req.params.lessonId);
 
     if (post === null) { // then the post does not exist in the database -> let the caller know
         res.status(400).json({
@@ -52,14 +52,14 @@ const isExistingPost = async (req: Request, res: Response, next: NextFunction) =
 };
 
 const isNonexistingPost = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.postId) {
+    if (!req.params.lessonId) {
         res.status(400).json({
             error: 'Cannot query when the post id is not provided.'
         });
         return;
     }
 
-    const post = await LessonCollection.findOne(req.body.postId);
+    const post = await LessonCollection.findOne(req.params.lessonId);
 
     if (post !== null) { // then the post does exist in the database -> let the caller know
         res.status(400).json({

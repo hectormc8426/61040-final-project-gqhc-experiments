@@ -1,13 +1,10 @@
 <!-- to show showcase section for a specific lesson -->
 <template>
     <main>
-        <h3>
-            Make a showcase!
-        </h3>
         <!-- Only show form if logged in -->
-        <CreateShowcaseForm v-if="store.state.username" :lessonId="lessonId" />
+        <CreateShowcaseForm v-if="$store.state.username" :lessonId="lessonId" />
         <h3>
-            Showcases
+            Showcases For This Lesson
         </h3>
         <section v-if="$store.state.username">
             <ShowcaseComponent v-for="showcase in showcases" :key="showcase.id" :showcase="showcase" />
@@ -26,11 +23,15 @@ export default {
         CreateShowcaseForm, MarkdownEditor, ShowcaseComponent
     },
     props: {
-        lessonId: string
+        lessonId: String
     },
     data() {
         return {
-            showcases: this.$store.state.showcases.filter((showcase) => (showcase.lessonId === this.lessonId))
+        }
+    },
+    computed: {
+        showcases() {
+            return this.$store.state.showcases.filter((showcase) => (showcase.lessonId === this.lessonId))
         }
     },
     mounted() {

@@ -6,7 +6,7 @@
             </header>
 
             <div>
-            <CreateLessonForm ref="lessonForm" />
+                <CreateLessonForm ref="lessonForm" />
             </div>
 
             <h2>Lessons by others</h2>
@@ -18,22 +18,14 @@
                         <div class="loader"></div>
                     </div>
 
-                <div v-else>
-                    <div v-for="lesson in lessons" class="one-lesson">
-                        <LessonComponent :lesson="lesson" class="lessonClass" />
-                        <div v-for="category in categories" id="ratingBlock">
-                            <RatingComponent :score="ratings[lesson._id][category]" :category="category" />
-                            <CreateRatingForm :contentId="lesson._id" :category="category" />
+                    <div v-else>
+                        <div v-for="lesson in lessons" class="one-lesson">
+                            <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
+                                    lesson.title
+                            }}</router-link>
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
-
-            <div v-if="!loading" id="ratingList">
-                <div v-for="rating in ratings">
-                    <RatingComponent :rating=rating />
-                </div>
+                </section>
             </div>
         </section>
 
@@ -43,10 +35,10 @@
             </header>
             <article>
                 <h3>
-                <router-link to="/login">
-                    Sign in
-                </router-link>
-                to create, edit, and delete freets.
+                    <router-link to="/login">
+                        Sign in
+                    </router-link>
+                    to create, edit, and delete freets.
                 </h3>
             </article>
         </section>
@@ -60,12 +52,10 @@ import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/mixins/markdownMixin.js';
-import RatingComponent from "../rating/RatingComponent";
-import CreateRatingForm from "../rating/CreateRatingForm";
 
 export default {
     name: "LessonPage",
-    components: { CreateRatingForm, RatingComponent, CreateLessonForm, LessonComponent },
+    components: { CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -75,12 +65,10 @@ export default {
             loading: false,
             lessons: [],
             easymde: null,
-            categories: ['Clarity', 'Accuracy', 'Engaging'],
-            ratings: {} // dicts of dicts, rating[lessonId][category] = score
         };
     },
     created() {
-        // let's get our freets
+        // let's get our lessons
         this.load();
     },
     methods: {
@@ -91,23 +79,8 @@ export default {
             if (!r.ok) {
                 throw new Error(res.error);
             }
+            this.$store.commit('refreshLessons');
             this.lessons = res;
-
-            // now that we have lessons, get their corresponding scores in each category
-            for (let i = 0; i < this.lessons.length; i++) {
-                const lessonId = this.lessons[i]._id;
-                let rating = {}; // category : score
-
-                for (let j = 0; j < 3; j++) {
-                    const category = this.categories[j];
-                    const a = await fetch(`api/rating/${lessonId}?category=${category}`);
-                    const b = await a.json();
-                    rating[category] = b['score'];
-                }
-
-                this.ratings[lessonId] = rating;
-            }
-
             this.loading = false;
         },
         async preview() {
@@ -221,11 +194,6 @@ export default {
     100% {
         transform: rotate(360deg);
     }
-}
-
-#ratingBlock {
-    display: inline-block;
-    margin: 8px 24px;
 }
 
 
