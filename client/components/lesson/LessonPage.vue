@@ -6,7 +6,7 @@
             </header>
 
             <div>
-            <CreateLessonForm ref="lessonForm" />
+                <CreateLessonForm ref="lessonForm" />
             </div>
 
             <h2>Lessons by others</h2>
@@ -20,9 +20,10 @@
 
                 <div v-else>
                     <div v-for="lesson in lessons" class="one-lesson">
-                      <LessonComponent :lesson="lesson" class="lessonClass" />
+                      <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
+                          lesson.title
+                        }}</router-link>
                       <LessonTagGroup :lesson="lesson" />
-                      <LessonRatingGroup :lesson="lesson" :let-input="true"/>
                     </div>
                 </div>
             </section>
@@ -35,10 +36,10 @@
             </header>
             <article>
                 <h3>
-                <router-link to="/login">
-                    Sign in
-                </router-link>
-                to create, edit, and delete freets.
+                    <router-link to="/login">
+                        Sign in
+                    </router-link>
+                    to create, edit, and delete freets.
                 </h3>
             </article>
         </section>
@@ -70,7 +71,7 @@ export default {
         };
     },
     created() {
-        // let's get our freets
+        // let's get our lessons
         this.load();
     },
     methods: {
@@ -81,8 +82,8 @@ export default {
             if (!r.ok) {
                 throw new Error(res.error);
             }
+            this.$store.commit('refreshLessons');
             this.lessons = res;
-
             this.loading = false;
         },
         async preview() {
@@ -95,49 +96,6 @@ export default {
             // with the text broken down, let's compile each lesson chunk into the appropriate html
             this.parsedHTML = this.parse(lessonChunks).flat(3);
         },
-        // parse(lessonChunks) {
-        //     // this is to grab each individual html pieces from the chunks and return them in one list
-        //     const parser = new DOMParser(); // a parser to turn a html string to html element
-        //     return lessonChunks.map((chunk) => { // for each chunk
-        //         const { contentType, content } = chunk; // grab the type and content
-        //         if (contentType == 'video') { // if we are dealing with a video
-        //             const link = content;
-        //             const tokens = link.split(/v=/); // get the link and process it
-        //             const videoId = tokens[tokens.length - 1]; // get the video token
-        //             // TODO: this is a gross hard code, but I'll edit it later
-        //             const stringHTML = '<iframe width="560" height="315" ' +
-        //                                 `src="https://www.youtube.com/embed/${ videoId }" ` +
-        //                                 'title="YouTube video player" frameborder="0" ' +
-        //                                 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
-        //                                 'allowfullscreen></iframe>';
-        //             // turn our html string to actual htmls (this comes in form <head></head><body>[ACTUAL CONTENT WE WANT]</body>)
-        //             const html = parser.parseFromString(stringHTML, 'text/html');
-        //             // let's grab what we actually want inside the html nbody
-        //             const nodes = html.getElementsByTagName('body')[0];
-        //             const parsedHTML = Array.from(nodes.children)[0].outerHTML; // turn the collection into an array
-        //             const htmlInString = String(parsedHTML);
-        //             return htmlInString;
-        //         } else if (contentType == 'image') {
-        //             const link = content;
-        //             const markdownForm = "![imgX](" + link + ")";
-        //             const stringHTML = this.$refs.markdownEditor.easymde.markdown(markdownForm);
-        //             const html = parser.parseFromString(stringHTML, 'text/html');
-        //             const nodes = html.getElementsByTagName('body')[0];
-        //             const imageHTML = Array.from(nodes.children)[0];
-        //             return String(imageHTML.outerHTML);
-        //         } else { // then it must be text (it's safe this way too lol)
-        //             // for text, we actually want to convert them using markdown rules/effects
-        //             const stringHTML = this.$refs.markdownEditor.easymde.markdown(content);
-        //             // get actual html instances
-        //             const html = parser.parseFromString(stringHTML, 'text/html');
-        //             const nodes = html.getElementsByTagName('body')[0];
-        //             // and get the string versions of html elements that we want (those inside the body)
-        //             const parsedHTML = Array.from(nodes.children).map((htmlPiece) => String(htmlPiece.outerHTML)); // turn the collection into an array
-        //             return parsedHTML;
-        //         }
-        //     })
-        //     .flat(); // note that one text chunk can come in multiple html elements, so the result of the map operation may be 2D array. gotta flatten that! :D
-        // },
         async imgURLToData(lessonChunks) {
             // wait for all of the data to be turned to binary data
             return await Promise.all(lessonChunks.map(async (chunk) => {

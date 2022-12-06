@@ -6,8 +6,9 @@ import LoginPage from './components/Login/LoginPage.vue';
 import HomePage from './components/Home/HomePage.vue';
 import UserPage from './components/user/UserPage.vue';
 import ShowcasePage from './components/showcase/ShowcasePage.vue';
-import CreateLessonForm from './components/lesson/CreateLessonForm.vue';
 import LessonPage from './components/lesson/LessonPage.vue';
+import TutorialPage from './components/lesson/TutorialPage.vue';
+import LessonComponent from './components/lesson/LessonComponent.vue';
 
 Vue.use(VueRouter);
 
@@ -16,8 +17,10 @@ const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/user', name: 'User', component: UserPage },
-  { path: '/lessons', name: 'Lesson', component: LessonPage },
+  { path: '/lessons', name: 'Lessons', component: LessonPage },
+  { path: '/lessons/:lessonId', name: 'Lesson', component: LessonComponent, props: true },
   { path: '/showcases', name: 'Showcase', component: ShowcasePage },
+  { path: '/tutorial', name: 'Tutorial', component: TutorialPage },
   { path: '*', name: 'Not Found', component: NotFound }
 ];
 

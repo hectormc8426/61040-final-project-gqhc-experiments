@@ -21,6 +21,11 @@ const router = express.Router();
  * @name GET /api/lessons?userId=id
  * 
  * @return {Lesson[]} - A list of all lessons by the user corresponding to the given userId in the database
+ * 
+ * CASE 3:
+ * @name GET /api/lessons?lessonId=id
+ * 
+ * @return {Lesson} - The lesson corresponding to the given lessonId in the database
  */
 router.get(
     '/',
@@ -33,7 +38,12 @@ router.get(
             // then a user is specified so return their lessons only
             const userLessons = await LessonCollection.findAllByUserId(req.query.userId as string);
             res.status(200).json(userLessons.map(util.constructLessonResponse));
-        } else {
+        }
+        else if (req.query.lessonId !== undefined) {
+            const lesson = await LessonCollection.findOne(req.query.lessonId as string);
+            res.status(200).json(util.constructLessonResponse(lesson));
+        }
+        else {
             // then the user is not specified so return all lessons on the platform! (need to be fixed later for performance)
             const lessons = await LessonCollection.findAll();
             // res.setHeader('Content-Type', 'application/json');
@@ -86,7 +96,7 @@ router.delete(
     [
         UserValidator.isUserLoggedIn,
         UserValidator.isCurrentSessionUserExists,
-        // LessonValidator.isUserAuthorizedToEdit,
+        // // LessonValidator.isUserAuthorizedToEdit,
         LessonValidator.isExistingPost,
     ],
     // TODO: add appropriate middlewares
@@ -116,7 +126,7 @@ router.put(
     ],
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
-        const lesson = await LessonCollection.updateOne(req.params.freetId, req.body.title, req.body.content);
+        const lesson = await LessonCollection.updateOne(req.params.lessonId, req.body.title, req.body.content);
         res.status(200).json({
             message: 'Your lesson was updated successfully.',
             lesson: util.constructLessonResponse(lesson)

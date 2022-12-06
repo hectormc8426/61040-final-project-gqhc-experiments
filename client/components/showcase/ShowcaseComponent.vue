@@ -39,7 +39,7 @@ export default {
     },
     computed: {
         htmlContent() {
-            return this.parse(this.showcase.content).reduce((content, chunk) => content + chunk)
+            return this.parse(this.showcase.content).reduce((content, chunk) => content + chunk, "")
         }
     },
     methods: {

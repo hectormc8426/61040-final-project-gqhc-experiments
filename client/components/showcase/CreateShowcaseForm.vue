@@ -43,7 +43,8 @@ export default {
             content: "",
             parsedHTML: [],
             configs: {
-                maxHeight: "100px"
+                maxHeight: "100px",
+                hideIcons: ['side-by-side']
             }
         };
     },

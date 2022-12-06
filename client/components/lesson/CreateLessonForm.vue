@@ -2,10 +2,13 @@
     <div id="lessonForm" class="flex-container">
         <div>
             <label>Title: </label>
-            <input v-model="title" />
+            <input v-model="title" ref="titleInput"/>
             <CreateTagsFormShowTemp ref="TagForm"/>
 
             <MarkdownEditor v-model="content" ref='markdownEditor' />
+            <button v-on:click='showTutorial'>
+                Help
+            </button>
             <button v-on:click='preview'>
                 Preview
             </button>
@@ -46,6 +49,10 @@ export default {
         // this.$store.commit('setMarkdown', this.$refs.markdownEditor);
     },
     methods: {
+        showTutorial() {
+            let routeData = this.$router.resolve({name: '/PLACEHOLDER'}); // just to get the base url
+            window.open(routeData.href + 'tutorial');
+        },
         async preview() {
             // DEBUGGING SESSION
             // console.log('TEST:');
@@ -135,11 +142,30 @@ export default {
                 };
                 options = contentToOptions3();
                 const response2 = await fetch("/api/users", options);
-
                 if (!response2.ok) {
-                  const res = await response2.json();
-                  throw new Error(res.error);
+                    const res = await response2.json();
+                    throw new Error(res.error);
                 }
+
+                // cleaning up the page
+
+                this.$el.querySelector("textarea").content = "";
+
+                // this.$refs.markdownEditor.$data.content = "";
+                this.$refs.titleInput.value = "";
+
+                this.title = "";
+                this.content = "";
+                this.parsedHTML = [];
+
+                console.log('content: ' + this.$refs.markdownEditor.$data.content);
+                console.log('value: ' + this.$refs.titleInput.value);
+
+                console.log(this.title);
+                console.log(this.content);
+
+
+
 
             }
         },
