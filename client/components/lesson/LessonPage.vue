@@ -53,6 +53,7 @@ export default {
             const r = await fetch('api/lessons/');
             const res = await r.json();
             if (!r.ok) {
+                this.loading = false;
                 throw new Error(res.error);
             }
             this.$store.commit('refreshLessons');
