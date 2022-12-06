@@ -100,6 +100,7 @@ export default {
                     await this.$refs.TagForm.submit(res.lesson._id);
                 });
 
+                // Update quest corresponding to lessons completed
                 const quest1 = { "questName": "createOneLesson", "progress": 1 };
                 this.$store.commit("setQuest", quest1);
 
@@ -123,7 +124,7 @@ export default {
                 }
 
 
-
+                // Update quest corresponding to lessons completed
                 const quest2 = { "questName": "createLessons", "progress": 1 };
                 this.$store.commit("setQuest", quest2);
 
