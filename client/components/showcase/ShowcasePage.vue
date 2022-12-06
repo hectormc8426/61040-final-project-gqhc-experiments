@@ -11,10 +11,8 @@
                 Clear Filter
             </button>
         </div>
-        <section v-if="$store.state.username">
-            <ShowcaseComponent v-for="showcase in showcases" :key="showcase.id" :showcase="showcase" />
-            <div v-if="(showcases.length === 0)">No showcases found.</div>
-        </section>
+        <ShowcaseComponent v-for="showcase in showcases" :key="showcase.id" :showcase="showcase" />
+        <div v-if="(showcases.length === 0)">No showcases found.</div>
     </main>
 </template>
 

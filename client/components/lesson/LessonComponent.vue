@@ -1,16 +1,18 @@
 <template>
-    <article class="lesson">
+    <main class="lesson">
         <header>
             <h2>
                 {{ lesson.title }}
             </h2>
-            <h3 class="author">
-                by {{ lesson.author }}
-            </h3>
+            <section class="lesson-info">
+                <h3 class="author">
+                    by {{ lesson.author }}
+                </h3>
+                <p class="info">
+                    {{ lesson.dateModified }}
+                </p>
+            </section>
         </header>
-        <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
-        </div>
-
         <div v-if="$store.state.user._id === lesson.userId" class="actions">
             <button v-if="editing" @click="submitEdit">
                 ✅ Save changes
@@ -26,18 +28,18 @@
             </button>
         </div>
 
-        <p class="info">
-            Posted at {{ lesson.dateModified }}
-        </p>
-        <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
-        <CommentSection :lessonId="lesson._id" />
+        <section class="lesson-content">
+            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk"></div>
+        </section>
+
 
         <section class="ratings">
             <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
-            <CreateRatingForm v-for="category in categories" :key="category" :contentId="lessonId" :category="category"
-                id="ratingBlock" />
         </section>
-    </article>
+
+        <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
+        <CommentSection :lessonId="lesson._id" />
+    </main>
 </template>
 
 <script>
@@ -178,9 +180,21 @@ export default {
 </script>
 
 <style scoped>
-/* article {
-    border: 1px solid black;
-} */
+.info {
+    font-size: 15px;
+}
+
+.lesson-info {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    margin-top: 0;
+}
+
+.lesson-content {
+    border-bottom: 1px solid black;
+}
+
 
 
 #ratingBlock {

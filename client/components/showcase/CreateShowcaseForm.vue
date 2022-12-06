@@ -1,11 +1,8 @@
 <template>
     <section>
-        <h2>
-            Create a Showcase!
-        </h2>
         <div id="showcaseForm" class="flex-container">
-            <div>
-                <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" />
+            <div class="flex-child">
+                <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" class="editor" />
                 <button v-on:click='preview'>
                     Preview
                 </button>
@@ -13,14 +10,13 @@
                     Submit
                 </button>
             </div>
-            <section id="showcasePreview" class="flex-child">
-                <h3>Rendered</h3>
+            <section id="showcase-preview" class="flex-child">
+                <h3 class="render-header">Rendered</h3>
                 <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="showcaseChunk">
                 </div>
             </section>
         </div>
     </section>
-
 </template>
 <script>
 
@@ -134,10 +130,30 @@ export default {
 <style scoped>
 .flex-container {
     display: flex;
+    width: 100%;
+    align-items: flex-start;
 }
 
 .flex-child {
     flex: 1;
+}
+
+.editor {
+    width: 45vw;
+    /* jank fix to make editor stop overflowing */
+}
+
+#showcase-preview {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.showcaseChunk {
+    overflow-wrap: anywhere;
+}
+
+.render-header {
+    margin-top: 0;
 }
 
 section {
