@@ -20,8 +20,9 @@
 
                 <div v-else>
                     <div v-for="lesson in lessons" class="one-lesson">
-                        <LessonComponent :lesson="lesson" class="lessonClass" />
-                        <LessonRatingGroup :lesson="lesson" :let-input="true"/>
+                      <LessonComponent :lesson="lesson" class="lessonClass" />
+                      <LessonTagGroup :lesson="lesson" />
+                      <LessonRatingGroup :lesson="lesson" :let-input="true"/>
                     </div>
                 </div>
             </section>
@@ -52,10 +53,11 @@ import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/mixins/markdownMixin.js';
 import LessonRatingGroup from "../rating/LessonRatingGroup";
+import LessonTagGroup from "../tag/LessonTagGroup";
 
 export default {
     name: "LessonPage",
-    components: {LessonRatingGroup, CreateLessonForm, LessonComponent },
+    components: {LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
