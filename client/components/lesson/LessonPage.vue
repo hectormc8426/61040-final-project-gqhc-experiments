@@ -26,9 +26,8 @@
                             <LessonTagGroup :lesson="lesson" />
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
         </section>
 
         <section v-else>
