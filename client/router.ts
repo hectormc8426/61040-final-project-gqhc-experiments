@@ -7,6 +7,7 @@ import HomePage from './components/Home/HomePage.vue';
 import UserPage from './components/user/UserPage.vue';
 import ShowcasePage from './components/showcase/ShowcasePage.vue';
 import LessonPage from './components/lesson/LessonPage.vue';
+import TutorialPage from './components/lesson/TutorialPage.vue';
 import LessonComponent from './components/lesson/LessonComponent.vue';
 
 Vue.use(VueRouter);
@@ -19,6 +20,7 @@ const routes = [
   { path: '/lessons', name: 'Lessons', component: LessonPage },
   { path: '/lessons/:lessonId', name: 'Lesson', component: LessonComponent, props: true },
   { path: '/showcases', name: 'Showcase', component: ShowcasePage },
+  { path: '/tutorial', name: 'Tutorial', component: TutorialPage },
   { path: '*', name: 'Not Found', component: NotFound }
 ];
 
