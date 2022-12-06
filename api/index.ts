@@ -14,6 +14,7 @@ import { ratingRouter } from '../server/rating/router';
 import { tagRouter } from '../server/tag/router';
 import { lessonRouter } from '../server/lesson/router';
 import { showcaseRouter } from '../server/showcase/router';
+import { commentRouter } from '../server/comment/router';
 import MongoStore from 'connect-mongo';
 
 // Load environmental variables
@@ -72,6 +73,7 @@ app.use('/api/rating', ratingRouter);
 app.use("/api/tag", tagRouter);
 app.use("/api/lessons", lessonRouter);
 app.use("/api/showcases", showcaseRouter);
+app.use("/api/comments", commentRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {

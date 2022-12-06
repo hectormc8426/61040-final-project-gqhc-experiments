@@ -30,6 +30,7 @@
             Posted at {{ lesson.dateModified }}
         </p>
         <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
+        <CommentSection :lessonId="lesson._id" />
 
         <section class="ratings">
             <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
@@ -47,11 +48,12 @@ import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseCompone
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
 import LessonRatingGroup from "@/components/rating/LessonRatingGroup";
+import CommentSection from "@/components/comment/CommentSection";
 
 export default {
     name: 'LessonComponent',
     components: {
-        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup
+        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup, CommentSection
     },
     data() {
         return {
@@ -74,7 +76,8 @@ export default {
     },
     created() {
         this.setData(this.lessonId);
-        this.parsedHTML = this.parse(this.lesson.content);
+        if (this.lesson)
+            this.parsedHTML = this.parse(this.lesson.content);
     },
     computed: {
 
@@ -168,7 +171,7 @@ export default {
                 throw new Error(res.error);
             }
             this.lesson = { ...res };
-
+            console.log(this.lesson);
         },
     }
 };

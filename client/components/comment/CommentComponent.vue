@@ -12,7 +12,7 @@
     </header>
 
     <p class="content">
-      "{{ comment.content }}"
+      {{ comment.content }}
     </p>
     <p class="info">
       Posted at {{ comment.dateModified }}
@@ -85,6 +85,7 @@ export default {
         }
 
         this.$store.commit('refreshComments');
+        this.$emit('updateComments'); // use emit to update comments. Can improve functionality later
 
         params.callback();
       } catch (e) {
