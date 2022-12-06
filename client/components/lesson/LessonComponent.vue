@@ -32,7 +32,7 @@
         <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
 
         <section class="ratings">
-            <LessonRatingGroup :lesson="lesson" />
+            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
             <CreateRatingForm v-for="category in categories" :key="category" :contentId="lessonId" :category="category"
                 id="ratingBlock" />
         </section>
