@@ -83,6 +83,7 @@ export default {
 
           if (res.user) {
             this.$store.commit('refreshAccount');
+            console.log("Loading quest data");
             const visitDate = new Date();
             const visitTime = visitDate.getTime();
             const oldTime = Date.parse(res.user.dailyLoginDate);

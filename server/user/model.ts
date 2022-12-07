@@ -9,6 +9,13 @@ export const questNames: Immutable.Set<string> =
     Immutable.Set(["doOneShowcase", "commentOne", "rateOne",
         "createOneLesson", "createLessons", "createShowcases", "login"]);
 
+//Object type containing fields for 'name', 'currentProgress', 'goalProgress', 'reward', and 'repeatAmount'
+//name is the quest's identity string
+//desc is the quest's description
+//currentProgress is how much a quest has been completed towards the goalProgress. Quest is completed
+//and user receives reward when currentProgress >= goalProgress.
+//repeatAmount dictates whether or not a quest is repeatable. If so, upon quest completion, goalProgress
+//is increased by repeatAmount
 export type Quest = {
     name: string;
     desc: string;
@@ -19,6 +26,7 @@ export type Quest = {
 };
 
 // serves as the starting values for quest. When creating new quests for a user, those quests should be initialized to these values.
+// Map<"name",["desc",currentProgress,goalProgress,reward,repeatAmount]
 export const questList: Immutable.Map<string, [string, number, number, number, number]> =
     Immutable.Map([["doOneShowcase", ["Complete a showcase", 0, 1, 100, 0]],
     ["commentOne", ["Comment on a lesson", 0, 1, 50, 0]],
@@ -37,9 +45,7 @@ export type User = {
     experiencePoints: number;
     quests: Map<string, Quest>;
     dailyLoginDate: Date;
-    //Map of quests names to Objects containing fields for 'name', 'currentProgress', 'goalProgress', and 'reward'
-    //currentProgress is how much a quest has been completed towards the goalProgress. Quest is completed
-    //and user receives reward when currentProgress >= goalProgress.
+
 };
 
 // Type definition for populated User (with cosmetic fields populated)

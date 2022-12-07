@@ -5,7 +5,7 @@
             <input v-model="title" ref="titleInput" />
             <CreateTagsFormShowTemp ref="TagForm" />
 
-            <MarkdownEditor v-model="content" ref='markdownEditor' class="editor" />
+            <MarkdownEditor v-model="content" ref='markdownEditor' class="editor" :configs="configs" />
             <button v-on:click='showTutorial'>
                 Help
             </button>
@@ -19,10 +19,12 @@
         </div>
 
         <section id="lessonPreview" class="flex-child">
-            <h2>Render</h2>
-
-            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
+            <h2 class="render-heading">Render</h2>
+            <div class="preview-content">
+                <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
+                </div>
             </div>
+
         </section>
     </section>
 </template>
@@ -41,7 +43,11 @@ export default {
         return {
             title: "",
             content: "",
-            parsedHTML: []
+            parsedHTML: [],
+            configs: {
+                maxHeight: '40vh',
+                hideIcons: ['side-by-side']
+            }
         };
     },
     mounted() {
@@ -101,6 +107,7 @@ export default {
                     await this.$refs.TagForm.submit(res.lesson._id);
                 });
 
+                // Update quest corresponding to lessons completed
                 const quest1 = { "questName": "createOneLesson", "progress": 1 };
                 this.$store.commit("setQuest", quest1);
 
@@ -124,7 +131,7 @@ export default {
                 }
 
 
-
+                // Update quest corresponding to lessons completed
                 const quest2 = { "questName": "createLessons", "progress": 1 };
                 this.$store.commit("setQuest", quest2);
 
@@ -279,11 +286,34 @@ export default {
     flex: 1;
 }
 
+#lesson-form {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
 .editor {
     width: 45vw;
 }
 
 .lessonChunk {
     overflow-wrap: anywhere;
+}
+
+#lessonPreview {
+    overflow-wrap: anywhere;
+    overflow-y: hidden;
+    max-width: 45vw;
+}
+
+.render-heading {
+    margin-bottom: 0;
+}
+
+.preview-content {
+    height: 55vh;
+    overflow-y: scroll;
+    border: 1px solid black;
+    padding: 0 1em 1em;
 }
 </style>

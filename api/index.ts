@@ -62,6 +62,12 @@ app.use(session({
     secret: '61040', // Should generate a real secret
     resave: true,
     saveUninitialized: false,
+    store: MongoStore.create({
+        clientPromise: client,
+        dbName: 'sessions',
+        autoRemove: 'interval',
+        autoRemoveInterval: 10 // Minutes
+    })
 }));
 
 // This makes sure that if a user is logged in, they still exist in the database

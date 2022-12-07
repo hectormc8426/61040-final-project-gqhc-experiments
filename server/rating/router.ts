@@ -1,8 +1,8 @@
-import type {NextFunction, Request, Response} from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
 
 import RatingCollection from "./collection";
-import {constructRatingResponse} from './util'
+import { constructRatingResponse } from './util'
 
 import * as UserValidator from '../user/middleware';
 import * as RatingValidator from './middleware';
@@ -35,7 +35,7 @@ router.post(
     RatingValidator.isValidScore, // 400
     RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
-    LessonValidator.doesLessonParamExist,  // 404
+    //LessonValidator.doesLessonParamExist,  // 404
     RatingValidator.hasUserNotRatedContent // 409
   ],
   async (req: Request, res: Response) => {
@@ -77,7 +77,7 @@ router.patch(
     RatingValidator.isValidScore, // 400
     RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
-    LessonValidator.doesLessonParamExist, // 404
+    //LessonValidator.doesLessonParamExist, // 404
     RatingValidator.hasUserRatedContent // 409
   ],
   async (req: Request, res: Response) => {
@@ -134,7 +134,7 @@ router.patch(
 router.get(
   '/:contentId?',
   [
-    LessonValidator.doesLessonParamExist, // 404
+    //LessonValidator.doesLessonParamExist, // 404
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     // if category specified
@@ -149,12 +149,12 @@ router.get(
 
     // average
     let net = 0;
-    for (let i=0; i<scores.length; i++) {
+    for (let i = 0; i < scores.length; i++) {
       net += scores[i].score;
     }
 
     if (scores.length > 0) {
-      net = net/scores.length
+      net = net / scores.length
     }
 
     // return
@@ -175,16 +175,16 @@ router.get(
     // find
     const contentId = req.params.contentId;
     const category = (req.query.category as string) ?? '';
-    const scores = await  RatingCollection.findAllByContentIdAndCategory(contentId, category);
+    const scores = await RatingCollection.findAllByContentIdAndCategory(contentId, category);
 
     // average
     let net = 0;
-    for (let i=0; i<scores.length; i++) {
+    for (let i = 0; i < scores.length; i++) {
       net += scores[i].score;
     }
 
     if (scores.length > 0) {
-      net = net/scores.length
+      net = net / scores.length
     }
 
     // return
@@ -201,7 +201,7 @@ router.get(
     const contentId = req.params.contentId;
     const userId = req.session.userId;
     const category = (req.query.category as string) ?? '';
-    const rating = await  RatingCollection.findOne(userId, contentId, category);
+    const rating = await RatingCollection.findOne(userId, contentId, category);
     const score = (rating === null) ? -1 : rating.score;
 
     // return
@@ -242,7 +242,7 @@ router.delete(
   '/:contentId?',
   [
     UserValidator.isUserLoggedIn,  // 403
-    LessonValidator.doesLessonParamExist, // 404
+    //LessonValidator.doesLessonParamExist, // 404
     RatingValidator.hasUserRatedContent // 409
   ],
   async (req: Request, res: Response, next: NextFunction) => {
@@ -275,4 +275,4 @@ router.delete(
   }
 )
 
-export {router as ratingRouter};
+export { router as ratingRouter };

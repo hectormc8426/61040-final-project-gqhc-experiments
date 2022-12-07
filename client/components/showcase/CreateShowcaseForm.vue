@@ -12,7 +12,10 @@
             </div>
             <section id="showcase-preview" class="flex-child">
                 <h3 class="render-header">Rendered</h3>
-                <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="showcaseChunk">
+                <div class="preview-content">
+                    <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index"
+                        class="showcaseChunk">
+                    </div>
                 </div>
             </section>
         </div>
@@ -74,6 +77,9 @@ export default {
                 });
                 this.$store.commit('refreshShowcases');
 
+                // Clear text boxes
+                this.$refs.markdownEditor.$data.content = '';
+                this.preview();
 
                 const quest1 = { "questName": "createShowcases", "progress": 1 };
                 this.$store.commit("setQuest", quest1);
@@ -148,12 +154,19 @@ export default {
     margin-top: 0;
 }
 
+.preview-content {
+    height: 150px;
+    overflow-y: scroll;
+    border: 1px solid black;
+}
+
 .showcaseChunk {
     overflow-wrap: anywhere;
 }
 
 .render-header {
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 section {
