@@ -80,8 +80,8 @@ const isUserAuthorizedToEdit = async (req: Request, res: Response, next: NextFun
     }
 
     const post = await LessonCollection.findOne(req.body.lessonId);
-
-    if (post.userId !== req.session.userId) { // then the post does exist in the database -> let the caller know
+    // hacky
+    if (String(post.userId._id) !== String(req.session.userId)) { // then the post does exist in the database -> let the caller know
         res.status(400).json({
             error: 'Cannot edit the post if the user is not its author.'
         });
