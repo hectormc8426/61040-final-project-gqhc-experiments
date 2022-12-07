@@ -123,8 +123,7 @@ router.put(
     [
         UserValidator.isUserLoggedIn,
         UserValidator.isCurrentSessionUserExists,
-        LessonValidator.isUserAuthorizedToEdit,
-        LessonValidator.isExistingPost,
+        // LessonValidator.isUserAuthorizedToEdit,
     ],
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {

@@ -94,7 +94,7 @@ class LessonCollection {
      * @returns The newly updated lesson
      */
     static async updateOne(lessonId: Types.ObjectId | string, title: string, content: Array<LessonChunk>, originalText: string): Promise<HydratedDocument<Lesson>> {
-        const lesson = await LessonModel.findOne({ lessonId: lessonId });
+        const lesson = await LessonModel.findOne({ _id: lessonId });
         lesson.title = title;
         lesson.content = content;
         lesson.originalText = originalText;

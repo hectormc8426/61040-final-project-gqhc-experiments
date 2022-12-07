@@ -79,7 +79,7 @@ const isUserAuthorizedToEdit = async (req: Request, res: Response, next: NextFun
         return;
     }
 
-    const post = await LessonCollection.findOne(req.body.postId);
+    const post = await LessonCollection.findOne(req.body.lessonId);
 
     if (post.userId !== req.session.userId) { // then the post does exist in the database -> let the caller know
         res.status(400).json({

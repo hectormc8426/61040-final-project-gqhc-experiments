@@ -15,7 +15,7 @@
         </header>
         <div v-if="$store.state.user._id === lesson.userId" class="actions">
             <div v-show="editing">
-                <MarkdownEditor v-model="editContent" ref='draftEditor' />
+                <MarkdownEditor v-model="content" ref='draftEditor' />
             </div>
 
             <button v-if="editing" @click="submitEdit">
@@ -68,7 +68,7 @@ export default {
             parsedHTML: [],
             editing: false,
             lesson: null,
-            editContent: "",
+            content: "",
             categories: ['Clarity', 'Accuracy', 'Engaging'],
         }
     },
@@ -119,7 +119,7 @@ export default {
             };
             this.request(params);
         },
-        submitEdit() {
+        async submitEdit() {
             /**
              * Updates freet to have the submitted draft content.
              */
@@ -128,8 +128,8 @@ export default {
             this.$nextTick(async () => {
                 if (confirm('Are you ready to submit your edits?')) {
                     const title = this.lesson.title;
-                    this.editContent = this.$refs.draftEditor.$easymde.value();
-                    const newContent = this.editContent;
+                    this.content = this.$refs.draftEditor.$data.content;
+                    const newContent = this.content;
                     const contentToOptions = (lessonContent) => {
                         return {
                             method: 'PUT',
@@ -139,6 +139,7 @@ export default {
                                 title: title,
                                 content: lessonContent,
                                 originalText: newContent,
+                                lessonId: this.lesson._id,
                             }),
                             callback: () => {
                                 this.$set(this.alerts, params.message, 'success');
@@ -147,7 +148,7 @@ export default {
                         };
                     };
 
-                    if (this.lesson.originalText === this.$refs.draftEditor.easymde.value()) {
+                    if (this.lesson.originalText === this.$refs.draftEditor.$data.content) {
                         const error = 'Error: Edited lesson content should be different than the current lesson content.';
                         this.$set(this.alerts, error, 'error'); // Set an alert to be the error text, timeout of 3000 ms
                         setTimeout(() => this.$delete(this.alerts, error), 3000);
@@ -157,9 +158,10 @@ export default {
                     const lessonChunks = this.format();
                     await this.imgURLToData(lessonChunks).then(async (lessonChunks2) => {
                         const params = contentToOptions(lessonChunks2);
-                        this.request(params);
+                        // this.request(params);
+                        const response = await fetch(`/api/lessons/${this.lesson._id}`, params);
                     });
-
+                    this.$store.commit('refreshLessons');
                     this.editing = false;
                 }
             });
