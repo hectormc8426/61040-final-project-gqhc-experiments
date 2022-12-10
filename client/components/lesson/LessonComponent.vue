@@ -13,7 +13,7 @@
                 </p>
             </section>
         </header>
-        <div v-if="$store.state.user._id === lesson.userId" class="actions">
+        <div v-if="$store.state.user && $store.state.user._id === lesson.userId" class="actions">
             <div v-show="editing">
                 <MarkdownEditor v-model="content" ref='draftEditor' />
             </div>
