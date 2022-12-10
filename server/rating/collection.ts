@@ -15,7 +15,9 @@ class RatingCollection {
    * @return {} Rating object
    */
   static async addOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: number): Promise<HydratedDocument<Rating>> {
-    const rating = new RatingModel({userId, contentId, category, score});
+    const ratings: { [key: string]: number} = {};
+    ratings[category] = score;
+    const rating = new RatingModel({userId, contentId, ratings});
     await rating.save();
     return rating
   }
@@ -65,9 +67,9 @@ class RatingCollection {
    * @param category - Category of content wrongly scored before
    * @param score - The new score for content
    */
-  static async updateOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: string): Promise<HydratedDocument<Rating>> {
+  static async updateOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: number): Promise<HydratedDocument<Rating>> {
     const rating = await RatingModel.findOne({userId, contentId});
-    rating.ratings.set(category, score);
+    rating.ratings[category] = score;
     await rating.save();
     return rating;
   }

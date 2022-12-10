@@ -5,7 +5,7 @@ export type Rating = {
   _id: Types.ObjectId; // id of rating object
   userId: string; // User who roted
   contentId: string; // id of content being rated
-  ratings: Types.Map<string>;
+  ratings: { [key: string]: number}
   // category: string; // category of the rating, #TODO will this be used? Should we predefine them?
   // score: number;
 }

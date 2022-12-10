@@ -4,8 +4,8 @@
   <div>
     <div v-if="!loading" id="ratingList">
       <h2>Rate This Lesson</h2>
-      <div v-for="category in categories" id="ratingBlock">
-        <RatingComponent :score="rating[category]" :category="category" />
+      <div v-for="category in Object.keys(ratings)" id="ratingBlock">
+        <RatingComponent :score="ratings[category]" :category="category" />
         <CreateRatingForm :contentId="lesson._id" :category="category" v-if="letInput" />
       </div>
     </div>
@@ -16,8 +16,6 @@
 
 import RatingComponent from "./RatingComponent";
 import CreateRatingForm from "./CreateRatingForm";
-
-const CATEGORIES = ['Clarity', 'Accuracy', 'Engaging'];
 
 export default {
   name: "LessonRatingGroup.vue",
@@ -35,19 +33,14 @@ export default {
   data() {
     return {
       loading: true,
-      rating: {},
-      categories: CATEGORIES
+      ratings: {},
     }
   },
   async created() {
-    for (let j = 0; j < 3; j++) {
-      const category = CATEGORIES[j];
-      const response = await fetch(`api/rating/${this.lesson._id}?category=${category}`);
-      const res = await response.json();
-
-      this.rating[category] = res['score'];
-    }
-
+    const url = `api/rating/${this.lesson._id}`;
+    const response = await fetch(url);
+    const res = await response.json();
+    this.ratings = res.ratings;
     this.loading = false;
   },
   methods: {

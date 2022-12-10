@@ -124,7 +124,7 @@ router.get(
     const contentId = req.params.contentId;
     const all_rating_obj = await RatingCollection.findAllByContentId(contentId);
 
-    let ratings = new Map<string, number>;
+    const ratings: { [key: string]: number} = {};
 
     // get net score for each category
     for (let category in Categories) {
@@ -132,12 +132,14 @@ router.get(
       let num_ratings = 0;
 
       for (const rating of all_rating_obj) {
-        if (!rating.ratings.has(category)) continue;  // if this rating does not rate category
+        if (!(category in rating.ratings)) continue;  // if this rating does not rate category
         // @ts-ignore
         net_score += (rating.ratings.get(category) as number) ?? 0;  // guaranteed to be number
         num_ratings++;
       }
-      ratings.set(category, net_score/num_ratings);
+      let net = 0;
+      if (num_ratings !== 0) {net = net/num_ratings}
+      ratings[category] = net;
     }
 
     // return
@@ -177,8 +179,8 @@ router.get(
     let num_ratings = 0;
 
     for (let rating of rating_array) {
-      if (!rating.ratings.has(category)) continue;  // if this rating does not rate category
-      net_score += Number(rating.ratings.get(category));
+      if (!(category in rating.ratings)) continue;  // if this rating does not rate category
+      net_score += rating.ratings[category];
       num_ratings++;
     }
 
@@ -215,12 +217,14 @@ router.get(
     const category = (req.query.category as string) ?? '';
     const rating = await RatingCollection.findOne(userId, contentId);
     let score = -1;
-    if (rating !== null && rating.ratings.has(category)) {score = Number(rating.ratings.get(category))}
+    // if exists, replace
+    console.log(rating.ratings)
+    if (rating !== null && category in rating.ratings) {score = rating.ratings[category]}
 
     // return
     res.status(200).json({
       message: `Retrieved userId=[${userId}] rating on contentId=[${contentId}] in category=[${category}] with score=[${score}]`,
-      score: score
+      score
     });
   },
 );

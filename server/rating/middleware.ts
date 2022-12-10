@@ -13,10 +13,10 @@ const hasUserNotRatedContent = async (req: Request, res: Response, next: NextFun
   const category = (req.query.category as string) ?? '';
   const rating = await RatingCollection.findOne(userId, contentId);
 
-  if (rating === null || rating.ratings.has(category)) {
+  if (rating === null || category in rating.ratings) {
     res.status(409).json({
       error: {
-        userHasAlreadyRated: `userId=[${userId}] has already rated contentId=[${contentId}] in category=[${category}] with score=[${rating.ratings.get(category)}]`
+        userHasAlreadyRated: `userId=[${userId}] has already rated contentId=[${contentId}] in category=[${category}] with score=[${rating.ratings[category]}]`
       }
     });
     return;
@@ -35,7 +35,7 @@ const hasUserRatedContent = async (req: Request, res: Response, next: NextFuncti
   const category = (req.query.category as string) ?? '';
   const rating = await RatingCollection.findOne(userId, contentId);
 
-  if (rating !== null && !rating.ratings.has(category)) {
+  if (rating !== null && !(category in rating.ratings)) {
     res.status(409).json({
       error: {
         userHasNotRated: `userId=[${userId}] has not rated contentId=[${contentId}] in category=[${category}]`
