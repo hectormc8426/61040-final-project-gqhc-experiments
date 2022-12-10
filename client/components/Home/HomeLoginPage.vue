@@ -6,7 +6,9 @@
         <section class="page-content">
             <section class="intro">
                 <h2>Welcome to Music Mentors!</h2>
-                <p>Insert pitch here</p>
+                <p>Learn music alongside a community of people also interested in music. Teach others about music topics
+                    you love. Showcase your learning.</p>
+                <p>Sign in or create an account to track your progress and create lessons.</p>
             </section>
             <section class="login-forms">
                 <LoginForm />
@@ -76,6 +78,7 @@ export default {
 .page-content {
     display: flex;
     justify-content: space-between;
+    gap: 1em;
 }
 
 .intro {
