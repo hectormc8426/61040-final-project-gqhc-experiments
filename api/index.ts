@@ -58,10 +58,12 @@ app.use(express.urlencoded({ extended: false }));
 
 // Initialize cookie session
 // https://www.npmjs.com/package/express-session#options
+// @ts-ignore
 app.use(session({
     secret: '61040', // Should generate a real secret
     resave: true,
     saveUninitialized: false,
+    // @ts-ignore
     store: MongoStore.create({
         clientPromise: client,
         dbName: 'sessions',

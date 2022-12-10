@@ -24,30 +24,18 @@ class RatingCollection {
   // FINDING
 
   /**
-   * Find the rating of user on content
+   * Find the rating object holding all ratings user has done on content
    *
    * @param userId - The one who rated
    * @param contentId - What they rated
-   * @param category - What attribute of the content they rated
    * @return {} Rating Object fitting params in database
    */
-  static async findOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string): Promise<HydratedDocument<Rating>> {
-    return RatingModel.findOne({userId, contentId, category})
+  static async findOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string): Promise<HydratedDocument<Rating>> {
+    return RatingModel.findOne({userId, contentId});
   }
 
   /**
-   * Find all ratings user has on content
-   *
-   * @param userId - The one who rated
-   * @param contentId - What they rated
-   * @return {} Array of all rating objects fitting params in database
-   */
-  static async findAllByUserIdAndContentId(userId: Types.ObjectId | string, contentId: Types.ObjectId | string): Promise<Array<HydratedDocument<Rating>>> {
-    return RatingModel.find({userId, contentId})
-  }
-
-  /**
-   * Find all ratings by user
+   * Find all rating objects by user
    *
    * @param userId - The one who rated
    * @return {} Array of all ratings by user in database
@@ -57,24 +45,13 @@ class RatingCollection {
   }
 
   /**
-   * Find all ratings on content
+   * Find all rating objects on content
    *
    * @param contentId - What was rated
    * @return {} Array of all ratings to content
    */
   static async findAllByContentId(contentId: Types.ObjectId | string): Promise<Array<HydratedDocument<Rating>>> {
     return RatingModel.find({contentId})
-  }
-
-  /**
-   * Find all ratings on content by category
-   *
-   * @param contentId - What was rated
-   * @param category - Category of rating
-   * @return {} Array of all ratings to content
-   */
-  static async findAllByContentIdAndCategory(contentId: Types.ObjectId | string, category: string): Promise<Array<HydratedDocument<Rating>>> {
-    return RatingModel.find({contentId, category})
   }
 
 
@@ -88,11 +65,10 @@ class RatingCollection {
    * @param category - Category of content wrongly scored before
    * @param score - The new score for content
    */
-  static async updateOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: number): Promise<HydratedDocument<Rating>> {
-    const rating = await RatingModel.findOne({userId, contentId, category});
-    rating.score = score;
+  static async updateOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: string): Promise<HydratedDocument<Rating>> {
+    const rating = await RatingModel.findOne({userId, contentId});
+    rating.ratings.set(category, score);
     await rating.save();
-
     return rating;
   }
 
@@ -100,15 +76,20 @@ class RatingCollection {
   // DELETE
 
   /**
-   * Delete specific rating
+   * Delete specific rating in rating object
    *
    * @param userId - The one who no longer wants to rate
    * @param contentId - What they rated
    * @param category - The category to unrate
    */
-  static async deleteOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string): Promise<boolean> {
-    const rating = await RatingModel.deleteOne({userId, contentId, category});
-    return rating !== null;
+  static async removeRatingOnCategory(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string): Promise<boolean> {
+    const rating = await RatingModel.findOne({userId, contentId});
+    // @ts-ignore
+    rating.ratings.set(category, undefined, {strict: false});
+    await rating.save();
+    return true;
+    // const rating = await RatingModel.deleteOne({userId, contentId, category});
+    // return rating !== null;
   }
 
   /**
@@ -117,8 +98,8 @@ class RatingCollection {
    * @param userId - The one who no longer wants to rate
    * @param contentId - What they rated
    */
-  static async deleteManyByUserIdAndContentId(userId: Types.ObjectId | string, contentId: Types.ObjectId | string): Promise<void> {
-    await RatingModel.deleteMany({userId, contentId});
+  static async deleteOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string): Promise<void> {
+    await RatingModel.deleteOne({userId, contentId});
   }
 
   /**

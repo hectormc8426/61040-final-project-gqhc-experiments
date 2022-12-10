@@ -7,8 +7,7 @@ type RatingResponse = {
   _id: string;
   userId: string;
   contentId: string;
-  category: string;
-  score: number;
+  ratings: Map<string, string>;
 };
 
 const constructRatingResponse = (rating: HydratedDocument<Rating>): RatingResponse => {
@@ -22,7 +21,8 @@ const constructRatingResponse = (rating: HydratedDocument<Rating>): RatingRespon
     ...ratingCopy,
     _id: ratingCopy._id.toString(),
     userId: ratingCopy.userId.toString(),
-    contentId: ratingCopy.contentId.toString()
+    contentId: ratingCopy.contentId.toString(),
+    ratings: ratingCopy.ratings
   };
 };
 

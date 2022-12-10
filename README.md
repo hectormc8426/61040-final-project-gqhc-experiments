@@ -141,12 +141,12 @@ But thank you!
 - `404` Content does not exist
 - `409` User has not rated content
 
-### 'GET /api/rating/:contentId' - Get net rating for content
+### 'GET /api/rating/:contentId' - Get net rating score for each category on content
 
 **Returns**
 
 - `200` Success message
-- `rating` Get an averaged rating based on all ratings on content
+- `ratings` A JSON<string, number> mapping category to content's net score in that category
 
 **Throws**
 
@@ -157,7 +157,7 @@ But thank you!
 **Returns**
 
 - `200` Success message
-- `rating` A number denoting rating of content on category
+- `score` A number denoting rating of content on category
 
 **throws**
 
@@ -169,7 +169,7 @@ But thank you!
 **Returns**
 
 - `200` Success message
-- `rating` A number denoting rating of content on category
+- `score` Logged-in user's score on content. -1 if DNE.
 
 **throws**
 
