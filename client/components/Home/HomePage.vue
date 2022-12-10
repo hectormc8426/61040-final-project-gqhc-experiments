@@ -14,24 +14,17 @@
             </section>
         </section>
         <section v-else>
-            <header>
-                <h2>Welcome to Music Mentors!</h2>
-            </header>
-            <article>
-                <h3>
-                    <router-link to="/login" class="sign-in">
-                        Sign in
-                    </router-link>
-                    to track your progress and make lessons.
-                </h3>
-            </article>
+            <HomeLoginPage />
         </section>
     </main>
 </template>
 
 <script>
+import HomeLoginPage from '@/components/Home/HomeLoginPage.vue';
+
 export default {
-    name: 'HomePage'
+    name: 'HomePage',
+    components: { HomeLoginPage }
 }
 
 </script>

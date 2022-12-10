@@ -3,15 +3,15 @@
 
 <template>
   <main>
-    <section>
+    <!-- <section>
       <header>
         <h2>New to Music Mentor?</h2>
       </header>
       <RegisterForm />
-    </section>
+    </section> -->
     <section>
       <header>
-        <h2>Have an account?</h2>
+        <h2>Login to track your progress and make lessons</h2>
       </header>
       <LoginForm />
     </section>
