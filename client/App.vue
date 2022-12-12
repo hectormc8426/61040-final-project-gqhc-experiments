@@ -49,6 +49,7 @@ body {
   font-size: 1.2em;
   font-family: var(--font);
   background-color: var(--primary-color);
+  /*background-color: var(--quaternary-color);*/
 }
 
 main {

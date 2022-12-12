@@ -55,7 +55,7 @@ export default {
 
 #questTitle {
   font-size: var(--h1);
-  margin: 0;
+  margin-top: 0;
 
   color: var(--dark-font-color);
 }
@@ -73,7 +73,7 @@ export default {
 
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--section-gap);
 }
 
 </style>

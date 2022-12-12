@@ -2,7 +2,7 @@
     --primary-color: #FFF7E5;
     --secondary-color: #351A01;
     --tertiary-color: #CBAB6E;
-    --quartenary-color: #FFE4D2;
+    --quaternary-color: #FFE4D2;
     --header-color: #252525;
 
     --font-color: #FFFFFF;
@@ -24,6 +24,7 @@
     /*--main-body-padding: 36px 72px;  !* for the screen *!*/
     --section-padding: 24px;  /* typically dark-brown card padding */
     --card-padding: 16px;
+    --section-gap: 32px;
 
     --margin-left: 12px;  /* Not done. Use this to space elements within div or similar */
 

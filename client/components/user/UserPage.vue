@@ -94,6 +94,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  flex-grow: 1;  /* Allows it to take remaining space */
   gap: 64px;
 }
 
@@ -150,7 +152,7 @@ hr {
 
 
 #questView {
-  flex-grow: 1;  /* Allows it to take remaining space */
+  flex-grow: 5;  /* Allows it to take remaining space */
 }
 
 #expContainer {

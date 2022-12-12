@@ -54,10 +54,15 @@ export default {
 
 <style scoped>
 
+.quest-view {
+  width: 100%;
+}
+
 #questTitle {
   font-size: var(--h4);
   color: var(--dark-font-color);
-  margin: 0;
+  /*margin: 0;*/
+  margin-top: 0;
 }
 
 #questContainer {
@@ -73,7 +78,7 @@ export default {
 
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--section-gap);
 }
 
 
