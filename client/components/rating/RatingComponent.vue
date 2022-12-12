@@ -8,8 +8,10 @@
       </h3>
     </header>
     <div>
-      <!-- here I put circle reflecting score -->
-      {{ this.score.toFixed(1) }}
+      <svg height="100" width="100">
+        <circle cx="50" cy="50" r="40" />
+        {{ this.score.toFixed(1) }}
+      </svg>
     </div>
   </article>
 </template>
@@ -38,5 +40,20 @@ export default {
 
 
 <style scoped>
+
+circle {
+  fill: white;
+  stroke: black;
+  stroke-width: 2;
+  stroke-dasharray: 250;
+  stroke-dashoffset: 1000;
+  animation: rotate .3s linear;
+}
+
+@keyframes rotate {
+  to {
+    stroke-dashoffset: 125;
+  }
+}
 
 </style>

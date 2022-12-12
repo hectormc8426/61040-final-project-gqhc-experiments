@@ -1,8 +1,6 @@
 <template>
     <section>
-        <div>
-            <h3>Username: {{ $store.state.username }} </h3>
-        </div>
+      {{ $store.state.username }}
     </section>
 </template>
 

@@ -47,11 +47,12 @@ body {
   padding: 0;
   margin: 0;
   font-size: 1.2em;
+  font-family: var(--font);
   background-color: var(--primary-color);
 }
 
 main {
-  padding: 0 5em 5em;
+  padding: 3em 5em 5em;
 }
 
 .alerts {

@@ -2,6 +2,7 @@
     --primary-color: #FFF7E5;
     --secondary-color: #351A01;
     --tertiary-color: #CBAB6E;
+    --quartenary-color: #FFE4D2;
     --header-color: #252525;
 
     --font-color: #FFFFFF;
@@ -25,8 +26,10 @@
 
     --margin-left: 12px;  /* Not done. Use this to space elements within div or similar */
 
+    --anim-dur-small: .5s;
+
     --font: Averia Serif Libre;
-    --body-font-size: 24px;
+    --body-font-size: 20px;
     --h0: 64px;
     --h1: 56px;
     --h2: 48px;

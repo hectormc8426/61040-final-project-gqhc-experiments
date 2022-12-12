@@ -5,7 +5,8 @@ import BlockForm from '@/components/common/BlockForm.vue';
 
 export default {
     name: 'LogoutForm',
-    mixins: [BlockForm],
+  components: {BlockForm},
+  mixins: [BlockForm],
     data() {
         return {
             url: '/api/users/session',
@@ -25,3 +26,19 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+
+form {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: var(--card-padding);
+  padding-top: 0;
+  border-radius: var(--round-border-medium);
+}
+
+form h3 {
+  padding: 0 !important;
+}
+
+</style>
