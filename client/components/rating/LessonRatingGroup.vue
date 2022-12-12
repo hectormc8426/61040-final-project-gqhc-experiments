@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     changeUserScore(category, score) {
-      console.log(score);
       this.user_ratings[category] = score;
       this.$forceUpdate()
     },

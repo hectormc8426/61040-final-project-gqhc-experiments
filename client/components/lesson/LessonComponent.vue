@@ -203,7 +203,6 @@ export default {
                 throw new Error(res.error);
             }
             this.lesson = { ...res };
-            console.log(this.lesson);
         },
     }
 };
