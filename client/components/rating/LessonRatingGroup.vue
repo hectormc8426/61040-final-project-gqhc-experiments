@@ -39,8 +39,10 @@ export default {
   async created() {
     const url = `api/rating/${this.lesson._id}`;
     const response = await fetch(url);
+    console.log(response.ok)
     const res = await response.json();
     this.ratings = res.ratings;
+    console.log(res.ratings)
     this.loading = false;
   },
   methods: {

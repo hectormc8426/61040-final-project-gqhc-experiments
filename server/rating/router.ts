@@ -9,6 +9,7 @@ import * as RatingValidator from './middleware';
 import * as LessonValidator from '../lesson/middleware';
 import LessonCollection from "../lesson/collection";
 import Categories from './categories';
+import {compileScript} from "vue/packages/compiler-sfc";
 
 const router = express.Router();
 
@@ -132,13 +133,14 @@ router.get(
       let num_ratings = 0;
 
       for (const rating of all_rating_obj) {
-        if (!(category in rating.ratings)) continue;  // if this rating does not rate category
         // @ts-ignore
-        net_score += (rating.ratings.get(category) as number) ?? 0;  // guaranteed to be number
+        if (!rating.ratings.has(category)) continue;  // if this rating does not rate category
+        // @ts-ignore
+        net_score += Number(rating.ratings.get(category));
         num_ratings++;
       }
       let net = 0;
-      if (num_ratings !== 0) {net = net/num_ratings}
+      if (num_ratings !== 0) {net = net_score/num_ratings}
       ratings[category] = net;
     }
 
