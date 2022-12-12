@@ -33,34 +33,18 @@ export default {
     category: {
       type: String,
       required: true
+    },
+    score: {
+      type: Number,
+      required: false
+    },
+    changeScoreCallback: {
+      type: Function,
+      required: true
     }
-  },
-  data() {
-    return {
-      score: -1,  // which button is active
-
-      loading: true,
-    }
-  },
-  async created() {
-    const url = `api/rating/${this.contentId}?category=${this.category}&useUserId=True`;
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    }
-
-    const response = await fetch(url, requestOptions);
-    const res = await response.json();
-
-    this.score = res.score;
-    this.loading = false;
   },
   methods: {
     async submit(score) {
-      if (this.loading) {  // don't submit until we know to patch or post
-        return;
-      }
-
       const url = `api/rating/${this.contentId}?category=${this.category}`;
       let method = (this.score === -1) ? "POST" : "PATCH";
       method = (this.score === score) ? "DELETE" : method;
@@ -71,7 +55,7 @@ export default {
         body: JSON.stringify({ score })
       };
       const response = await fetch(url, requestOptions);
-      this.score = (method === "DELETE") ? -1 : score;
+      this.changeScoreCallback(this.category, (this.score === score) ? -1 : score);
 
       if (!response.ok) {
         const res = await response.json();
@@ -83,7 +67,6 @@ export default {
       this.$store.commit("setQuest", quest1);
 
       let questToSave = this.$store.state.quests.filter(quest => quest.name == "rateOne")[0];
-      console.log(questToSave);
       const contentToOptions2 = () => {
         return {
           method: 'PATCH',

@@ -6,7 +6,11 @@
       <h2>Rate This Lesson</h2>
       <div v-for="category in Object.keys(ratings)" id="ratingBlock">
         <RatingComponent :score="ratings[category]" :category="category" />
-        <CreateRatingForm :contentId="lesson._id" :category="category" v-if="letInput" />
+        <CreateRatingForm :contentId="lesson._id"
+                          :category="category"
+                          :score="Number(user_ratings[category])"
+                          :change-score-callback="changeUserScore"
+                          v-if="letInput" />
       </div>
     </div>
   </div>
@@ -34,18 +38,36 @@ export default {
     return {
       loading: true,
       ratings: {},
+      user_ratings: {},
     }
   },
   async created() {
     const url = `api/rating/${this.lesson._id}`;
     const response = await fetch(url);
-    console.log(response.ok)
     const res = await response.json();
     this.ratings = res.ratings;
-    console.log(res.ratings)
+
+    // get user's rating if user is allowed to input
+    if (this.letInput) {
+      const url2 = `api/rating/${this.lesson._id}?useUserId=True`
+      const response2 = await fetch(url2);
+      if (response.ok) {
+        const res2 = await response2.json();
+        this.user_ratings = res2.ratings;
+        for (let category in this.ratings) {
+          if (!(category in this.user_ratings)) {this.user_ratings[category] = -1}
+        }
+      }
+    }
+
     this.loading = false;
   },
   methods: {
+    changeUserScore(category, score) {
+      console.log(score);
+      this.user_ratings[category] = score;
+      this.$forceUpdate()
+    },
   }
 }
 </script>

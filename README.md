@@ -164,12 +164,12 @@ But thank you!
 - `400` Invalid category
 - `404` Content does not exist
 
-### 'GET /api/rating/:contentId?:category:useUserId' - Get specific rating
+### 'GET /api/rating/:contentId?:useUserId' - Get specific rating
 
 **Returns**
 
 - `200` Success message
-- `score` Logged-in user's score on content. -1 if DNE.
+- `ratings` A JSON<string, number> mapping category to score user gave. If no rating on category, category DNE as key.
 
 **throws**
 

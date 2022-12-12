@@ -9,7 +9,7 @@
     </header>
     <div>
       <!-- here I put circle reflecting score -->
-      {{ this.score }}
+      {{ this.score.toFixed(1) }}
     </div>
   </article>
 </template>

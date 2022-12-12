@@ -70,6 +70,7 @@ class RatingCollection {
   static async updateOne(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string, score: number): Promise<HydratedDocument<Rating>> {
     const rating = await RatingModel.findOne({userId, contentId});
     rating.ratings[category] = score;
+    rating.markModified('ratings');
     await rating.save();
     return rating;
   }
@@ -86,12 +87,10 @@ class RatingCollection {
    */
   static async removeRatingOnCategory(userId: Types.ObjectId | string, contentId: Types.ObjectId | string, category: string): Promise<boolean> {
     const rating = await RatingModel.findOne({userId, contentId});
-    // @ts-ignore
-    rating.ratings.set(category, undefined, {strict: false});
+    rating.ratings[category] = undefined;
+    rating.markModified('ratings');
     await rating.save();
     return true;
-    // const rating = await RatingModel.deleteOne({userId, contentId, category});
-    // return rating !== null;
   }
 
   /**
