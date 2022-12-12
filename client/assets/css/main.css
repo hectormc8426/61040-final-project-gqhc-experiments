@@ -12,7 +12,8 @@
     --fail-color: #FD9D88;
     --error-color: red;
 
-    --fuzzy-border: 2px solid rgba(0, 0, 0, .15);
+    --fuzzy-border-color: rgba(0, 0, 0, .15);
+    --fuzzy-border: 2px solid var(--fuzzy-border-color);
 
     --round-border-tiny: 8px;
     --round-border-small: 12px;
@@ -20,7 +21,7 @@
     --round-border-large: 24px;
 
     --text-padding: 4px 8px;  /* like tags */
-    --main-body-padding: 48px 96px;  /* for the screen */
+    /*--main-body-padding: 36px 72px;  !* for the screen *!*/
     --section-padding: 24px;  /* typically dark-brown card padding */
     --card-padding: 16px;
 

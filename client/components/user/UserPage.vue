@@ -1,6 +1,7 @@
 <template>
     <main>
       <OngoingQuests id="questView"/>
+      <div class="verticalLine"/>
       <aside id="sidePanel">
         <div id="userPanel">
 
@@ -20,9 +21,11 @@
             </div>
           </div>
 
-
           <LogoutForm />
         </div>
+
+        <hr/>
+
         <CompleteQuests />
       </aside>
     </main>
@@ -76,27 +79,44 @@ main {
   display: flex;
   flex-direction: row;
 
-  gap: 64px;  /* gap between children */
+  gap: 56px;  /* gap between children */
 }
 
 #sidePanel {
-  padding: var(--card-padding);
+  width: fit-content;
+
   /*background-color: var(--secondary-color);*/
-  border-radius: var(--round-border-medium);
+
+  /*padding: var(--card-padding);*/
+  /*margin: 0;*/
+  /*border-radius: var(--round-border-medium);*/
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 64px;
+}
+
+.verticalLine {
+  border-left: 2px solid var(--dark-font-color);
+  min-height: 100%;
+  max-height: 100%;
+}
+
+hr {
+  border-top: 1px solid var(--dark-font-color);
+  min-width: 100%;
 }
 
 #userPanel {
-  width: fit-content;
+  width: 100%;
   height: fit-content;
 
-  color: var(--primary-color);
-  background-color: var(--secondary-color);
+  /*color: var(--primary-color);*/
+  /*background-color: var(--secondary-color);*/
+  color: var(--dark-font-color);
 
-  padding: var(--card-padding);
+  /*padding: var(--card-padding);*/
   border-radius: var(--round-border-medium);
 
   display: flex;
@@ -109,7 +129,7 @@ main {
 /* Overriding AccountInfo style */
 
 #accountInfo {
-  font-size: var(--h2);
+  font-size: var(--h1);
   font-weight: bolder;
 }
 
@@ -117,8 +137,8 @@ main {
  /* Level up stuff */
 
 #levelContainer {
-  color: var(--primary-color);
-  /*color: var(--secondary-color);*/
+  /*color: var(--primary-color);*/
+  /*color: var(--dark-font-color);*/
   /*background-color: var(--primary-color);*/
   /*padding: var(--card-padding);*/
   border-radius: var(--round-border-medium);
@@ -150,8 +170,8 @@ main {
 #expBar {
   width: 100%;
   height: 28px;
-  background-color: var(--primary-color);
-  /*background-color: var(--secondary-color);*/
+  /*background-color: var(--primary-color);*/
+  background-color: var(--secondary-color);
 
   border-radius: var(--round-border-medium);
   border: var(--fuzzy-border);
@@ -169,7 +189,8 @@ main {
   padding: 0;
 
   border-radius: var(--round-border-medium);
-  background-color: var(--success-color);
+  /*background-color: var(--success-color);*/
+  background-color: var(--tertiary-color);
 }
 
 #expNum {
@@ -177,7 +198,7 @@ main {
   height: fit-content;
 
   white-space: nowrap;
-  color: var(--primary-color);
+  /*color: var(--primary-color);*/
   font-size: 20px;
   /*color: var(--secondary-color);*/
 }

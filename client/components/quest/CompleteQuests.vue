@@ -1,8 +1,8 @@
 <template>
   <article class="quest-view">
     <section>
+      <h2 id="questTitle">Completed Quests</h2>
       <div id="questContainer">
-        <h2 id="questTitle">Completed Quests</h2>
         <QuestComponent v-for="quest in $store.getters.completeQuests" :key="quest.name" :quest="quest" />
       </div>
       <br />
@@ -56,6 +56,7 @@ export default {
 
 #questTitle {
   font-size: var(--h4);
+  color: var(--dark-font-color);
   margin: 0;
 }
 
