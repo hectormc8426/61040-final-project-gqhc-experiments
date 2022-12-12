@@ -10,6 +10,8 @@
 
 <script>
 
+import '../../assets/css/main.css';
+
 export default {
   name: 'TagComponent',
   props: {
@@ -23,13 +25,13 @@ export default {
 
 
 <style scoped>
-.tag {
-  outline-style: solid;
-  border: black;
-  background: snow;
-}
 
 #tag {
-  padding: 0 2px;
+  padding: var(--text-padding);
+  background-color: var(--tertiary-color);
+  border-radius: var(--round-border-tiny);
+
+  --body-font: Averia Serif Libre
 }
+
 </style>

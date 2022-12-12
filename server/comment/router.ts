@@ -61,7 +61,6 @@ router.get(
     lessonValidator.doesLessonQueryExist
   ],
   async (req: Request, res: Response) => {
-    console.log("got here");
     const lessonComments = await CommentCollection.findAllByLesson(req.query.lessonId as string);
     const response = lessonComments.map(util.constructCommentResponse);
     res.status(200).json(response);

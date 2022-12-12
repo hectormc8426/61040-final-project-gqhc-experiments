@@ -1,0 +1,35 @@
+:root {
+    --primary-color: #FFF7E5;
+    --secondary-color: #351A01;
+    --tertiary-color: #CBAB6E;
+    --header-color: #252525;
+
+    --font-color: #FFFFFF;
+    --dark-font-color: #252525;
+
+    --success-color: #02A630;
+    --fail-color: #FD9D88;
+    --error-color: red;
+
+    --fuzzy-border: 2px solid rgba(0, 0, 0, .15);
+
+    --round-border-tiny: 8px;
+    --round-border-small: 12px;
+    --round-border-medium: 18px;
+    --round-border-large: 24px;
+
+    --text-padding: 4px 8px;  /* like tags */
+    --main-body-padding: 48px 96px;  /* for the screen */
+    --section-padding: 24px;  /* typically dark-brown card padding */
+    --card-padding: 16px;
+
+    --margin-left: 12px;  /* Not done. Use this to space elements within div or similar */
+
+    --font: Averia Serif Libre;
+    --body-font-size: 24px;
+    --h0: 64px;
+    --h1: 56px;
+    --h2: 48px;
+    --h3: 40px;
+    --h4: 32px
+}
