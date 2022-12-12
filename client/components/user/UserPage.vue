@@ -1,38 +1,42 @@
 <template>
     <main>
-      <QuestView id="questView"/>
-      <aside id="userPanel">
+      <OngoingQuests id="questView"/>
+      <aside id="sidePanel">
+        <div id="userPanel">
 
-            <AccountInfo id="accountInfo"/>
+          <AccountInfo id="accountInfo"/>
 
-            <div id="levelContainer">
-              <div id="level"> Level {{ currentLevel }} </div>
+          <div id="levelContainer">
+            <div id="level"> Level {{ currentLevel }} </div>
 
-              <div id="expContainer">
-                <div id="expBar">
-                  <span id="growBar"></span>
-                </div>
+            <div id="expContainer">
+              <div id="expBar">
+                <span id="growBar"></span>
+              </div>
 
-                <div id="expNum">
-                  {{ currentExperience }} / {{ experienceToLevelUp }}
-                </div>
+              <div id="expNum">
+                {{ currentExperience }} / {{ experienceToLevelUp }}
               </div>
             </div>
+          </div>
 
 
-            <LogoutForm />
-        </aside>
+          <LogoutForm />
+        </div>
+        <CompleteQuests />
+      </aside>
     </main>
 </template>
 
 <script>
 import AccountInfo from '@/components/user/AccountInfo.vue';
 import LogoutForm from '@/components/user/LogoutForm.vue';
-import QuestView from '@/components/quest/QuestView.vue';
+import CompleteQuests from "../quest/CompleteQuests";
+import OngoingQuests from "../quest/OngoingQuests";
 
 export default {
     name: 'UserPage',
-    components: { AccountInfo, LogoutForm, QuestView },
+    components: { AccountInfo, LogoutForm, CompleteQuests, OngoingQuests },
     computed: {
         currentLevel() {
             return this.$store.state.level;
@@ -75,21 +79,14 @@ main {
   gap: 64px;  /* gap between children */
 }
 
-#accountInfo {
-  font-size: var(--h2);
-  font-weight: bolder;
-}
-
-#levelContainer {
-  color: var(--primary-color);
-  /*color: var(--secondary-color);*/
-  /*background-color: var(--primary-color);*/
-  /*padding: var(--card-padding);*/
+#sidePanel {
+  padding: var(--card-padding);
+  /*background-color: var(--secondary-color);*/
   border-radius: var(--round-border-medium);
-}
-
-#level {
-  font-size: var(--body-font-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 #userPanel {
@@ -107,6 +104,30 @@ main {
 
   gap: 32px;
 }
+
+
+/* Overriding AccountInfo style */
+
+#accountInfo {
+  font-size: var(--h2);
+  font-weight: bolder;
+}
+
+
+ /* Level up stuff */
+
+#levelContainer {
+  color: var(--primary-color);
+  /*color: var(--secondary-color);*/
+  /*background-color: var(--primary-color);*/
+  /*padding: var(--card-padding);*/
+  border-radius: var(--round-border-medium);
+}
+
+#level {
+  font-size: var(--body-font-size);
+}
+
 
 #questView {
   flex-grow: 1;  /* Allows it to take remaining space */

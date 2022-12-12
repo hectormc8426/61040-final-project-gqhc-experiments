@@ -1,17 +1,15 @@
 <template>
     <article class="quest">
-        <main>
-            <h2>{{ quest.desc }}</h2>
-            <p v-if="quest.currentProgress < quest.goalProgress">
-                Progress: {{ quest.currentProgress }}/{{ quest.goalProgress }}
-            </p>
-            <p v-else>
-                Progress: COMPLETED ✅
-            </p>
-            <p>
-                Reward: {{ quest.reward }} xp
-            </p>
-        </main>
+      <h2>{{ quest.desc }}</h2>
+      <p v-if="quest.currentProgress < quest.goalProgress">
+          Progress: {{ quest.currentProgress }}/{{ quest.goalProgress }}
+      </p>
+      <p v-else>
+          Progress: COMPLETED ✅
+      </p>
+      <p>
+          Reward: {{ quest.reward }} xp
+      </p>
     </article>
 </template>
 
@@ -63,10 +61,14 @@ export default {
 
 <style scoped>
 .quest {
-    border: 3px solid #212230;
-    padding: 2px;
-    position: relative;
-    background-color: rgb(237, 242, 253);
-    max-height: 10em;
+  width: 100%;
+  height: fit-content;
+
+  padding: var(--card-padding);
+  padding-top: 0;
+  border-radius: var(--round-border-small);
+
+  background-color: var(--primary-color);
+  color: var(--dark-font-color);
 }
 </style> 

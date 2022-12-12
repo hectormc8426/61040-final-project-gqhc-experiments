@@ -1,7 +1,7 @@
 <template>
     <article class="quest-view">
         <section>
-            <h2>~Ongoing Quests~</h2>
+            <h2 id="questTitle">~Ongoing Quests~</h2>
             <QuestComponent v-for="quest in $store.getters.incompleteQuests" :key="quest.name" :quest="quest" />
         </section>
         <section>
@@ -55,5 +55,10 @@ export default {
 </script>
 
 <style scoped>
+
+#questTitle {
+  font-size: var(--h1);
+  margin: 0;
+}
 
 </style> 
