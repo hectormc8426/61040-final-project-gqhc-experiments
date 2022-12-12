@@ -12,6 +12,7 @@
 
 <script>
 import NavBar from "@/components/common/NavBar.vue";
+import "./assets/css/main.css"
 
 export default {
   name: "App",
@@ -46,6 +47,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 1.2em;
+  background-color: var(--primary-color);
 }
 
 main {

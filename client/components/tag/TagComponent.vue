@@ -10,8 +10,6 @@
 
 <script>
 
-import '../../assets/css/main.css';
-
 export default {
   name: 'TagComponent',
   props: {
