@@ -43,6 +43,7 @@ export default {
       setUser: false, // Whether or not stored user should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null, // Function to run after successful form submission
+      showClose: false, // whether to show close button or not
     };
   },
   methods: {
@@ -166,5 +167,11 @@ form h3 {
 textarea {
   font-family: inherit;
   font-size: inherit;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 </style>

@@ -80,4 +80,27 @@ main {
 .alerts .success {
   background-color: rgb(45, 135, 87);
 }
+
+button {
+  border: 1px solid black;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+button:hover {
+  background-color: #DFA57A;
+  -webkit-transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  transition: all ease 1s;
+  cursor: pointer;
+}
+
+/* Fontawesome icons */
+.fa:hover {
+  color: #DFA57A;
+  -webkit-transition: all ease 1s;
+  -moz-transition: all ease 1s;
+  transition: all ease 1s;
+  cursor: pointer;
+}
 </style>
