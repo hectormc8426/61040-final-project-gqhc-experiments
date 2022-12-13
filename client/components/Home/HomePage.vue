@@ -1,6 +1,6 @@
 <template>
     <main>
-        <section v-if="$store.state.username">
+        <section v-if="$store.state.username" id="mainContainer">
             <section class="homepage-header">
                 <div class="welcome-message-container">
                     <h2 class="welcome-message">
@@ -65,6 +65,16 @@ export default {
 </script>
 
 <style scoped>
+
+#mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5em;
+}
+
+/*h2 {*/
+/*  margin-top: 0;*/
+/*}*/
 
 .links {
     display: flex;
