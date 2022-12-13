@@ -20,38 +20,14 @@
             <CreateTagsFormShowTemp ref="tempTags"/>
             <button v-on:click="searchByTags()">Search</button>
           </div>
-<!--            <div id="inputField">-->
-<!--              <input v-model='tagQuery'/>-->
-<!--              <button v-on:click='tagSearch'>-->
-<!--                Search-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </div>-->
+
         </aside>
 
         <div class="verticalLine" />
 
         <div id="mainBody">
 
-          <section id="lessonList">
-            <section class="cardContainer">
-              <h1 id="lessonContainerTitle">Lessons</h1>
-
-              <div v-for="lesson in $store.state.lessons" class="card">
-
-                  <div id="lessonContent">
-                    <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">
-                      <h3 id="lessonTitle"> {{ lesson.title }} </h3>
-                    </router-link>
-                    <LessonTagGroup :lesson="lesson" />
-                  </div>
-
-                  <div id="lessonRating">
-                      <LessonRatingGroup :let-input="false" :lesson="lesson" />
-                  </div>
-              </div>
-            </section>
-          </section>
+          <LessonList :lessons="lessons"/>
 
         </div>
 
@@ -64,17 +40,17 @@ import CreateLessonForm from './CreateLessonForm.vue';
 import LessonComponent from './LessonComponent.vue';
 
 import markdownMixin from '@/mixins/markdownMixin.js';
-import LessonRatingGroup from "../rating/LessonRatingGroup";
-import LessonTagGroup from "../tag/LessonTagGroup";
 import TagComponent from "../tag/TagComponent";
 import RatingComponent from "../rating/RatingComponent";
 import CreateTagsFormShowTemp from "../tag/CreateTagsFormShowTemp";
+import LessonList from "./LessonList";
 
 export default {
     name: "LessonPage",
     components: {
+      LessonList,
       CreateTagsFormShowTemp,
-      RatingComponent, TagComponent, LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
+      RatingComponent, TagComponent, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -216,16 +192,6 @@ main {
   padding-top: 2.5em;
 }
 
-#lessonContainerTitle {
-  font-size: var(--h2);
-  margin: var(--text-padding);
-  /*padding: var(--text-padding);*/
-}
-
-#lessonTitle {
-  margin-top: 20px;
-}
-
 #lessonNameInput {
   display: flex;
   flex-direction: column;
@@ -246,63 +212,11 @@ main {
   border: var(--fuzzy-border);
 }
 
-.card {
-  display: flex;
-  flex-direction: row;
-  min-height:20%;
-  flex-grow: 1;
-}
-
-#lessonContent {
-  min-width: fit-content;
-  width: 60%;
-  flex-grow: 2;
-}
-
-#lessonRating {
-  min-width: fit-content;
-  width: 30%;
-  flex-grow: 1;
-}
-
 a {
   color: var(--dark-font-color);
   font-size: var(--h4);
   text-decoration: none;
 }
-
-.links {
-    display: flex;
-    gap: 1em;
-}
-
-.one-lesson {
-    border: 1px solid black;
-    padding: 1em;
-    width: 100%;
-}
-
-
-.lesson-container {
-    display: grid;
-    display: flex;
-    justify-content: space-between;
-    gap: 1em; 
-    flex:1;
-    flex-direction: column;
-}
-
-.lesson-label {
-    margin-right: 0;
-    margin-left: 0;
-    margin-bottom: 0;
-    padding-left: 0.2em;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    font-size: var(--h3);
-}
-
 
 .welcome-message {
     font-size: var(--h1);

@@ -18,20 +18,21 @@
                     THIS SHOULD BE STREAK
                 </div> -->
             </section>
-            
-            <section class="cardContainer">
-                <h2 class="lesson-label"> Most Recent Lessons </h2>
-                <section class="lesson-container">
-                    <div v-for="lesson in recentLessons" class="card">
-                        <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">
-                            <h3>
-                                {{ lesson.title }}
-                            </h3>
-                        </router-link>
-                        <LessonTagGroup :lesson="lesson" />
-                    </div>
-                </section>
-            </section>
+
+            <LessonList :lessons="recentLessons"/>
+<!--            <section class="cardContainer">-->
+<!--                <h2 class="lesson-label"> Most Recent Lessons </h2>-->
+<!--                <section class="lesson-container">-->
+<!--                    <div v-for="lesson in recentLessons" class="card">-->
+<!--                        <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">-->
+<!--                            <h3>-->
+<!--                                {{ lesson.title }}-->
+<!--                            </h3>-->
+<!--                        </router-link>-->
+<!--                        <LessonTagGroup :lesson="lesson" />-->
+<!--                    </div>-->
+<!--                </section>-->
+<!--            </section>-->
         </section>
         <section v-else>
             <HomeLoginPage />
@@ -43,10 +44,11 @@
 import HomeLoginPage from '@/components/Home/HomeLoginPage.vue';
 import LessonTagGroup from "../tag/LessonTagGroup";
 import LevelBar from "../quest/LevelBar";
+import LessonList from "../lesson/LessonList";
 
 export default {
     name: 'HomePage',
-    components: {LevelBar, HomeLoginPage, LessonTagGroup },
+    components: {LessonList, LevelBar, HomeLoginPage, LessonTagGroup },
     data() {
         return {
             recentLessons:[],

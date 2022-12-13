@@ -1,7 +1,7 @@
 <!-- Renders the ratings for a given lesson. Can optionally show user input so they can rate lesson -->
 
 <template>
-  <div>
+  <div id="lessonRatingGroup">
     <div v-if="!loading" id="ratingContainer">
       <h2 v-if="letInput">Rate This Lesson</h2>
       <div id="ratingList">
@@ -92,6 +92,12 @@ h2 {
   wrap-option: none;
 }
 
+#lessonRatingGroup {
+  min-width: fit-content;
+  width: 30%;
+  flex-grow: 1;
+}
+
 #ratingContainer {
   display: flex;
   flex-direction: row;
@@ -106,6 +112,7 @@ h2 {
   display: flex;
   flex-direction: row;
   width: 100%;
+  gap: 8px;
 
   justify-content: space-around;
 
