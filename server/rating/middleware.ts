@@ -7,16 +7,16 @@ import Categories from "./categories";
  * Checks if signed-in user has not already rated content
  * If they have throw 409 error
  */
-const hasUserNotRatedContentInCategory = async (req: Request, res: Response, next: NextFunction) => {
+const hasUserNotRatedContent = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.session.userId;
   const contentId = req.params.contentId;
   const category = (req.query.category as string) ?? '';
-  const rating = await RatingCollection.findOne(userId, contentId);
+  const rating = await RatingCollection.findOne(userId, contentId, category);
 
-  if (rating !== null && category in rating.ratings) {
+  if (rating) {
     res.status(409).json({
       error: {
-        userHasAlreadyRated: `userId=[${userId}] has already rated contentId=[${contentId}] in category=[${category}] with score=[${rating.ratings[category]}]`
+        userHasAlreadyRated: `userId=[${userId}] has already rated contentId=[${contentId}] in category=[${rating.category}] with score=[${rating.score}]`
       }
     });
     return;
@@ -26,40 +26,19 @@ const hasUserNotRatedContentInCategory = async (req: Request, res: Response, nex
 };
 
 /**
- * Checks if signed-in user has already rated content in category
+ * Checks if signed-in user has already rated content
  * If they have not, throw 409 error
  */
-const hasUserRatedContentInCategory = async (req: Request, res: Response, next: NextFunction) => {
-  const contentId = req.params.contentId;
-  const userId = req.session.userId;
-  const rating = await RatingCollection.findOne(userId, contentId);
-
-  const category = (req.query.category as string) ?? '';
-
-  if (rating === null || !(category in rating.ratings)) {
-    res.status(409).json({
-      error: {
-        userHasNotRated: `userId=[${userId}] has not rated contentId=[${contentId}] in category=[${category}]`
-      }
-    });
-    return;
-  }
-
-  next();
-};
-
-/**
- * Checks if user has rated any part of content
- */
 const hasUserRatedContent = async (req: Request, res: Response, next: NextFunction) => {
-  const contentId = req.params.contentId;
   const userId = req.session.userId;
-  const rating = await RatingCollection.findOne(userId, contentId);
+  const contentId = req.params.contentId;
+  const category = (req.query.category as string) ?? '';
+  const rating = await RatingCollection.findOne(userId, contentId, category);
 
-  if (rating === null) {
+  if (!rating) {
     res.status(409).json({
       error: {
-        userHasNotRated: `userId=[${userId}] has not rated contentId=[${contentId}]`
+        userHasNotRated: 'User has not rated the content'
       }
     });
     return;
@@ -89,7 +68,7 @@ const isValidScore = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 /**
- * Checks if category is one of the valid categories
+ * Checks if category is one of the 3 pre-defined categories
  * Throw 400 if not
  */
 const isValidCategory = async (req:Request, res: Response, next: NextFunction) => {
@@ -108,9 +87,8 @@ const isValidCategory = async (req:Request, res: Response, next: NextFunction) =
 };
 
 export {
-  hasUserRatedContentInCategory,
   hasUserRatedContent,
-  hasUserNotRatedContentInCategory,
+  hasUserNotRatedContent,
   isValidScore,
   isValidCategory
 };

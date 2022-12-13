@@ -8,9 +8,7 @@ import * as UserValidator from '../user/middleware';
 import * as RatingValidator from './middleware';
 import * as LessonValidator from '../lesson/middleware';
 import LessonCollection from "../lesson/collection";
-import Categories from './categories';
-import {compileScript} from "vue/packages/compiler-sfc";
-import RatingModel from "./model";
+import Categories from "./categories";
 
 const router = express.Router();
 
@@ -39,7 +37,7 @@ router.post(
     RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
     //LessonValidator.doesLessonParamExist,  // 404
-    // RatingValidator.hasUserNotRatedContentInCategory // 409
+    RatingValidator.hasUserNotRatedContent // 409
   ],
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
@@ -47,15 +45,7 @@ router.post(
     const category = (req.query.category as string) ?? '';
     const score = req.body.score;
 
-    let rating = await RatingCollection.findOne(userId, contentId);
-    if (rating === null) {
-      console.log("add");
-      rating = await RatingCollection.addOne(userId, contentId, category, score);
-    } else {
-      console.log("update");
-      rating = await RatingCollection.updateOne(userId, contentId, category, score);
-    }
-
+    const rating = await RatingCollection.addOne(userId, contentId, category, score);
 
     res.status(201).json({
       message: 'You have successfully rated the content',
@@ -89,7 +79,7 @@ router.patch(
     RatingValidator.isValidCategory, // 400
     UserValidator.isUserLoggedIn,  // 403
     //LessonValidator.doesLessonParamExist, // 404
-    // RatingValidator.hasUserRatedContentInCategory // 409
+    RatingValidator.hasUserRatedContent // 409
   ],
   async (req: Request, res: Response) => {
     const userId = req.session.userId;
@@ -106,8 +96,7 @@ router.patch(
 );
 
 /**
- * Get an object mapping category -> score
- * This object is rating of content per category
+ * Get an aggregation of all ratings on content
  *
  * @name GET /api/rating/:contentId
  *
@@ -125,40 +114,37 @@ router.get(
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     // if category specified
-    if (req.query.category !== undefined || req.query.useUserId !== undefined) {
+    if (req.query.category !== undefined) {
       next();
       return;
     }
 
     // find
     const contentId = req.params.contentId;
-    const all_rating_obj = await RatingCollection.findAllByContentId(contentId);
+    const ratingsQuery = await RatingCollection.findAllByContentId(contentId);
 
-    const ratings: { [key: string]: number} = {};
-
-    // get net score for each category
+    const ratings: { [key: string]: number } = {};
     for (let category in Categories) {
-      let net_score = 0;
-      let num_ratings = 0;
-
-      for (const rating of all_rating_obj) {
-        if (!(category in rating.ratings)) continue;  // if this rating does not rate category
-        net_score += Number(rating.ratings[category]);
-        num_ratings++;
+      ratings[category] = 0;
+      let num = 0;
+      for (let rating of ratingsQuery) {
+        if (rating.category === category) {
+          ratings[category] += rating.score;
+          num++;
+        }
       }
-      let net = 0;
-      if (num_ratings !== 0) {net = net_score/num_ratings}
-      ratings[category] = net;
+
+      if (num !== 0) { ratings[category] = ratings[category] / num}
     }
 
     // return
     res.status(200).json({
-      message: `Successfully compiled net score for each category for contentId=[${contentId}]`,
+      message: `Successfully retrieved full net score for each category for contentId=[${contentId}]`,
       ratings
     });
   },
 /**
- * Receive a singular number
+ * Get rating of a specific category
  *
  * @name GET /api/rating/:contentId?:category
  *
@@ -170,7 +156,7 @@ router.get(
  * @throws {400} Invalid Category
  */
   [
-    // RatingValidator.isValidCategory
+    RatingValidator.isValidCategory
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.query.useUserId !== undefined) {
@@ -178,38 +164,31 @@ router.get(
       return;
     }
 
-    // validating here so that user is not impacted
-    await RatingValidator.isValidCategory(req, res, () => {});
-
     // find
     const contentId = req.params.contentId;
-    const rating_array = await RatingCollection.findAllByContentId(contentId);
-
-    // aggregate
-    const category = req.query.category as string;
-    let net_score = 0;
-    let num_ratings = 0;
-
-    for (let rating of rating_array) {
-      if (!(category in rating.ratings)) continue;  // if this rating does not rate category
-      net_score += rating.ratings[category];
-      num_ratings++;
-    }
+    const category = (req.query.category as string) ?? '';
+    const scores = await RatingCollection.findAllByContentIdAndCategory(contentId, category);
 
     // average
-    let score = net_score;
-    if (num_ratings > 0) {score = score/num_ratings}
+    let net = 0;
+    for (let i = 0; i < scores.length; i++) {
+      net += scores[i].score;
+    }
+
+    if (scores.length > 0) {
+      net = net / scores.length
+    }
 
     // return
     res.status(200).json({
-      message: `contentId=[${contentId}] has score=[${score}] in category=[${category}]`,
-      score
+      message: `Successfully retrieved full score for contentId=[${contentId}] in category=[${category}] with score=[${net}]`,
+      score: net
     });
   },
 /**
  * Get a singular rating of a user of content on a specific category
  *
- * @name GET /api/rating/:contentId?:useUserId
+ * @name GET /api/rating/:contentId?:category:useUserId
  *
  * @pathParam contentId - ID of content being rated
  * @queryParam category - Category of content to rate
@@ -220,19 +199,20 @@ router.get(
  * @throws {400} Invalid Category
  */
   [
-    UserValidator.isUserLoggedIn,
-    RatingValidator.hasUserRatedContent
+    UserValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response) => {
     // find
     const contentId = req.params.contentId;
     const userId = req.session.userId;
-    const rating = await RatingCollection.findOne(userId, contentId);
+    const category = (req.query.category as string) ?? '';
+    const rating = await RatingCollection.findOne(userId, contentId, category);
+    const score = (rating === null) ? -1 : rating.score;
 
     // return
     res.status(200).json({
-      message: `Retrieved userId=[${userId}] rating on contentId=[${contentId}]`,
-      ratings: rating.ratings
+      message: `Retrieved userId=[${userId}] rating on contentId=[${contentId}] in category=[${category}] with score=[${score}]`,
+      score
     });
   },
 );
@@ -249,28 +229,6 @@ router.get(
  * @throws {404} - Content does not exist
  * @throws {409} - User has not rated content
  */
-router.delete(
-  '/:contentId?',
-  [
-    UserValidator.isUserLoggedIn,  // 403
-    //LessonValidator.doesLessonParamExist, // 404
-    RatingValidator.hasUserRatedContentInCategory // 409
-  ],
-  async (req: Request, res: Response, next: NextFunction) => {
-    // if category, do that instead
-    if (req.query.category !== undefined) {
-      next();
-      return;
-    }
-
-    const userId = req.session.userId;
-    const contentId = req.params.contentId;
-    await RatingCollection.deleteOne(userId, contentId);
-
-    res.status(200).json({
-      message: 'User has undone all ratings on content'
-    });
-  },
 /**
  * Delete a user's specific rating of content on category
  *
@@ -285,6 +243,28 @@ router.delete(
  * @throws {404} - Content does not exist
  * @throws {404} - User has not rated content
  */
+router.delete(
+  '/:contentId?',
+  [
+    UserValidator.isUserLoggedIn,  // 403
+    //LessonValidator.doesLessonParamExist, // 404
+    RatingValidator.hasUserRatedContent // 409
+  ],
+  async (req: Request, res: Response, next: NextFunction) => {
+    // if category, do that instead
+    if (req.query.category !== undefined) {
+      next();
+      return;
+    }
+
+    const userId = req.session.userId;
+    const contentId = req.params.contentId;
+    await RatingCollection.deleteManyByUserIdAndContentId(userId, contentId);
+
+    res.status(200).json({
+      message: 'User has undone all ratings on content'
+    });
+  },
   [
     RatingValidator.isValidCategory, // 400
   ],
@@ -292,7 +272,7 @@ router.delete(
     const userId = req.session.userId;
     const contentId = req.params.contentId;
     const category = (req.query.category as string) ?? '';
-    await RatingCollection.removeRatingOnCategory(userId, contentId, category);
+    await RatingCollection.deleteOne(userId, contentId, category);
 
     res.status(200).json({
       message: `User has deleted rating of ${contentId} on category ${category}`
