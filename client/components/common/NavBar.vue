@@ -91,6 +91,10 @@ nav div {
 
 .title:hover {
     border-color: var(--tertiary-color);
+    -webkit-transition: all ease 1s;
+    -moz-transition: all ease 1s;
+    transition: all ease 1s;
+    cursor: pointer;
 }
 
 img {
