@@ -20,13 +20,16 @@
     --round-border-medium: 18px;
     --round-border-large: 24px;
 
-    --text-padding: 4px 8px;  /* like tags */
+    --text-padding: 4px 8px;
+    /* like tags */
     /*--main-body-padding: 36px 72px;  !* for the screen *!*/
-    --section-padding: 24px;  /* typically dark-brown card padding */
+    --section-padding: 24px;
+    /* typically dark-brown card padding */
     --card-padding: 16px;
     --section-gap: 32px;
 
-    --margin-left: 12px;  /* Not done. Use this to space elements within div or similar */
+    --margin-left: 12px;
+    /* Not done. Use this to space elements within div or similar */
 
     --anim-dur-small: .5s;
 
@@ -65,4 +68,41 @@
 
     background-color: var(--primary-color);
     color: var(--dark-font-color);
+}
+
+a {
+    color: var(--tertiary-color);
+}
+
+a:hover {
+    color: var(--primary-color);
+    -webkit-transition: all ease 1s;
+    -moz-transition: all ease 1s;
+    transition: all ease 1s;
+}
+
+
+button {
+    border: var(--fuzzy-border);
+    border-radius: var(--round-border-tiny);
+    background-color: var(--tertiary-color);
+    font-size: inherit;
+    font-family: inherit;
+}
+
+button:hover {
+    background-color: var(--tertiary-color);
+    -webkit-transition: all ease 1s;
+    -moz-transition: all ease 1s;
+    transition: all ease 1s;
+    cursor: pointer;
+}
+
+/* Fontawesome icons */
+.fa:hover {
+    color: var(--tertiary-color);
+    -webkit-transition: all ease 1s;
+    -moz-transition: all ease 1s;
+    transition: all ease 1s;
+    cursor: pointer;
 }
