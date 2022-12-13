@@ -7,6 +7,10 @@
                         Welcome Back, <br> {{ $store.state.username }}!
                     </h2>
                 </div>
+
+                <div id="questContainer">
+                  <LevelBar/>
+                </div>
                 <!-- <div class="streaks">
                     THIS SHOULD BE STREAK
                 </div> -->
@@ -35,10 +39,11 @@
 <script>
 import HomeLoginPage from '@/components/Home/HomeLoginPage.vue';
 import LessonTagGroup from "../tag/LessonTagGroup";
+import LevelBar from "../quest/LevelBar";
 
 export default {
     name: 'HomePage',
-    components: { HomeLoginPage, LessonTagGroup },
+    components: {LevelBar, HomeLoginPage, LessonTagGroup },
     data() {
         return {
             recentLessons:[],
@@ -83,8 +88,21 @@ export default {
 
 .homepage-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     gap: 1em;
+}
+
+
+#questContainer {
+  width: 40%;
+  flex-grow: 1;
+}
+
+.welcome-message-container {
+  width: 60%;
+  flex-grow: 3;
 }
 
 .home-option {

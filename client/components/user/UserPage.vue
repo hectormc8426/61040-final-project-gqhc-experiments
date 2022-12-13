@@ -7,19 +7,7 @@
 
           <AccountInfo id="accountInfo"/>
 
-          <div id="levelContainer">
-            <div id="level"> Level {{ currentLevel }} </div>
-
-            <div id="expContainer">
-              <div id="expBar">
-                <span id="growBar"></span>
-              </div>
-
-              <div id="expNum">
-                {{ currentExperience }} / {{ experienceToLevelUp }}
-              </div>
-            </div>
-          </div>
+          <LevelBar />
 
           <LogoutForm />
         </div>
@@ -36,10 +24,11 @@ import AccountInfo from '@/components/user/AccountInfo.vue';
 import LogoutForm from '@/components/user/LogoutForm.vue';
 import CompleteQuests from "../quest/CompleteQuests";
 import OngoingQuests from "../quest/OngoingQuests";
+import LevelBar from "../quest/LevelBar";
 
 export default {
     name: 'UserPage',
-    components: { AccountInfo, LogoutForm, CompleteQuests, OngoingQuests },
+    components: {LevelBar, AccountInfo, LogoutForm, CompleteQuests, OngoingQuests },
     computed: {
         currentLevel() {
             return this.$store.state.level;
@@ -84,12 +73,6 @@ main {
 #sidePanel {
   width: fit-content;
 
-  /*background-color: var(--secondary-color);*/
-
-  /*padding: var(--card-padding);*/
-  /*margin: 0;*/
-  /*border-radius: var(--round-border-medium);*/
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,74 +111,8 @@ hr {
   font-weight: bolder;
 }
 
-
- /* Level up stuff */
-
-/*#levelContainer {*/
-/*  !*color: var(--primary-color);*!*/
-/*  !*color: var(--dark-font-color);*!*/
-/*  !*background-color: var(--primary-color);*!*/
-/*  !*padding: var(--card-padding);*!*/
-/*  border-radius: var(--round-border-medium);*/
-/*}*/
-
-#level {
-  font-size: var(--body-font-size);
-}
-
-
 #questView {
   flex-grow: 5;  /* Allows it to take remaining space */
-}
-
-#expContainer {
-  width: 100%;
-  height: fit-content;
-  /*background-color: var(--secondary-color);*/
-
-  border-radius: var(--round-border-medium);
-  /*padding: var(--text-padding);*/
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-}
-
-#expBar {
-  width: 100%;
-  height: 28px;
-  /*background-color: var(--primary-color);*/
-  background-color: var(--secondary-color);
-
-  border-radius: var(--round-border-medium);
-  border: var(--fuzzy-border);
-
-  overflow: hidden;
-  display: flex; /* center align growBar */
-  align-items: center;
-}
-
-#growBar {
-  height: 100%;
-  width: 0;
-
-  margin: 0; /* necessary for anim to look good */
-  padding: 0;
-
-  border-radius: var(--round-border-medium);
-  /*background-color: var(--success-color);*/
-  background-color: var(--tertiary-color);
-}
-
-#expNum {
-  width: fit-content;
-  height: fit-content;
-
-  white-space: nowrap;
-  /*color: var(--primary-color);*/
-  font-size: 20px;
-  /*color: var(--secondary-color);*/
 }
 
 </style>
