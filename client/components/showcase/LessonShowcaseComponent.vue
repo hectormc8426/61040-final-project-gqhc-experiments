@@ -2,19 +2,19 @@
 <template>
     <section>
         <!-- Only show form if logged in -->
-        <h2>
-            Create A Showcase
-        </h2>
-        <div>
-            Demonstrate your learning from this lesson by making a showcase!
-        </div>
-        <CreateShowcaseForm v-if="$store.state.username" :lessonId="lessonId" />
-        <h3>
-            Showcases For This Lesson
-        </h3>
-        <section v-if="$store.state.username">
-            <ShowcaseComponent v-for="showcase in showcases" :key="showcase.id" :showcase="showcase" />
+        <section>
+            <h2>
+                Create A Showcase
+            </h2>
+            <div>
+                Demonstrate your learning from this lesson by making a showcase!
+            </div>
+            <CreateShowcaseForm v-if="$store.state.username" :lessonId="lessonId" />
         </section>
+        <h2>
+            Showcases For This Lesson
+        </h2>
+        <ShowcaseCarousel :showcases="showcases" />
     </section>
 </template>
 
@@ -22,11 +22,12 @@
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 import CreateShowcaseForm from '@/components/showcase/CreateShowcaseForm.vue';
 import ShowcaseComponent from '@/components/showcase/ShowcaseComponent.vue';
+import ShowcaseCarousel from '@/components/showcase/ShowcaseCarousel.vue';
 
 export default {
     name: 'LessonShowcaseComponent',
     components: {
-        CreateShowcaseForm, MarkdownEditor, ShowcaseComponent
+        CreateShowcaseForm, MarkdownEditor, ShowcaseComponent, ShowcaseCarousel
     },
     props: {
         lessonId: String
