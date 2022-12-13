@@ -122,7 +122,7 @@ export default {
           const tagnames = this.$refs.tempTags.getTagnames();
           console.log(tagnames);
           if (tagnames) {
-            const r = await fetch(`/api/lessons/search/${tagnames}`);
+            const r = await fetch(`/api/lessons/search/${JSON.stringify(tagnames)}`);
             const res = await r.json();
             // this.$store.commit('setLessons', res);
             this.$store.commit({
