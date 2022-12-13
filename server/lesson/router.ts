@@ -53,6 +53,18 @@ router.get(
     }
 );
 
+router.get(
+    '/recent',
+    // TODO: add appropriate middlewares
+    [
+
+    ],
+    async (req: Request, res: Response) => {
+        const lessons = await LessonCollection.findRecentLessons();
+        res.status(200).json(lessons.map(util.constructLessonResponse));
+    }
+);
+
 /**
  * Create a new lesson.
  * 
@@ -72,11 +84,9 @@ router.post(
     // TODO: add appropriate middlewares
     async (req: Request, res: Response) => {
         const userId = (req.session.userId as string) ?? '';
-        console.log('user id: ' + userId);
         const title = req.body.title;
         const content = req.body.content;
         const originalText = req.body.originalText;
-        console.log('lol marker');
         const lesson = await LessonCollection.addOne(userId, title, content, originalText);
         res.status(201).json({
             message: "Your lesson was created successfully.",
