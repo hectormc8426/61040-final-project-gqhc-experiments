@@ -39,7 +39,7 @@
     --h4: 32px
 }
 
-.dBrownContainer {
+.cardContainer {
     width: 100%;
     height: fit-content;
 
@@ -55,7 +55,7 @@
     gap: var(--section-gap);
 }
 
-.lBrownCard {
+.card {
     width: 100%;
     height: fit-content;
 

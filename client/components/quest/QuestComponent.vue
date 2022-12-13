@@ -1,5 +1,5 @@
 <template>
-    <article class="lBrownCard">
+    <article class="card">
       <h2>{{ quest.desc }}</h2>
       <p v-if="quest.currentProgress < quest.goalProgress">
           Progress: {{ quest.currentProgress }}/{{ quest.goalProgress }}
@@ -61,7 +61,7 @@ export default {
 
 <style scoped>
 
-.lBrownCard {
+.card {
   width: 100%;
 }
 

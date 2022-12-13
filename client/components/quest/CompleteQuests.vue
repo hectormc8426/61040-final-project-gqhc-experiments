@@ -2,7 +2,7 @@
   <article class="quest-view">
     <section>
       <h2 id="questTitle">Completed Quests</h2>
-      <div class="dBrownContainer">
+      <div class="cardContainer">
         <QuestComponent v-for="quest in $store.getters.completeQuests" :key="quest.name" :quest="quest" />
       </div>
       <br />
