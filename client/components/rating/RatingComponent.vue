@@ -7,18 +7,13 @@
         {{ this.category }}
       </h3>
     </header>
-    <div class="square">
-      <div class="circle">
-        <div id="score"> {{ this.score.toFixed(1) }} </div>
-
-        <!--      <svg height="100" width="100" id="ratingScore">-->
-        <!--        <circle cx="50" cy="50" r="40" class="ratingCircle" :id="id">-->
-        <!--          <div id="score"> {{ this.score.toFixed(1) }} </div>-->
-        <!--        </circle>-->
-        <!--      </svg>-->
-
+      <div id="ratingContainer">
+        <svg height="100" width="100" id="ratingSVG">
+          <circle cx="50" cy="50" r="40" id="ratingCircle" />
+        </svg>
+        <div id="ratingScore"> {{ this.score.toFixed(1) }} </div>
       </div>
-    </div>
+
   </article>
 </template>
 
@@ -39,36 +34,18 @@ export default {
   },
   data() {
     return {
-      id: null
+      strokeDashoffset: 0,
+      rgba: 'rgba(0, 0, 0, 1)'
     }
   },
   mounted() {
-    this.id = this._uid;
-    // this.growRatingCircle();
+    this.growRatingCircle();
   },
   methods: {
     growRatingCircle() {
-      // const dOffset = -250 * (1 - this.score / 5);
-      let item = document.getElementById('score');
-      item.style.cssText += `border-color: rgb(${255 * (1 - relScore)}, ${255 * relScore}, 0)`
-
-      // item.setAttribute('id', this.category);
-      // item = document.getElementById(this.category);
-      // item.style.cssText += `stroke-dashoffset:${dOffset}`;
-      // item.style.strokeDashoffset = String(1000 * this.score/5);
-      // item.style.animation = 'animation: rotate 2s linear forwards';
-      // item.style.cssText += `stroke: rgb(${255*(1-relScore)}, ${255*relScore}, 0)`;
-      // item.animate({
-      //   strokeDashoffset: [-250, dOffset]
-      //   // width: [0, (this.currentExperience / this.experienceToLevelUp) * 100 + '%'],
-      // },
-      // {
-      //   duration: 2000,
-      //   fill: "forwards",
-      //   easing: "ease-out",
-      //   // stroke: `rgb(${255*(1-relScore)}, ${255*relScore}, 0)`
-      // })
-      // item.textContent=this.currentExperience;
+      const relScore = this.score/5;
+      this.strokeDashoffset = -250 * (1 - relScore);
+      this.rgba = `rgba(${255*(1-relScore**2)}, ${255*(relScore**2)}, 0, 1)`;
     }
   }
 }
@@ -83,69 +60,37 @@ export default {
   align-items: center;
 }
 
-#ratingScore {
-
+#ratingContainer {
+  display: grid;
+  place-items: center;
+  grid-template-areas: "inner-div";
 }
 
-.square {
-  width: fit-content;
-  /*height:0;*/
-  /*width:100%;*/
-  /*padding-bottom:100%;*/
+#ratingSVG {
+  grid-area: inner-div;
 }
 
-.circle {
-  /*position: absolute;*/
-
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  /*padding: 10px;*/
-  /*background: #fff;*/
-  border: 3px solid #000;
-  color: #000;
-
-  display: flex;
-  align-items: center;
-  /*text-align: center;*/
-}
-
-.ratingCircle {
+#ratingCircle {
   fill: transparent;
-  /*stroke: black;*/
-  /*stroke-width: 2;*/
-  /*stroke-dasharray: 250;*/
-  /*stroke-dashoffset: 250;*/
-  /*animation: rotate 2s linear forwards;*/
-
-  display: flex;
-  z-index: 0;
-
-  text-align: center;
-  /*line-height: 120px;*/
+  stroke: v-bind(rgba);
+  stroke-width: 5;
+  stroke-dasharray: 250;
+  stroke-dashoffset: -250;
+  animation: rotate 2s linear forwards;
 }
 
-#score {
-  width: 100%;
-  height: fit-content;
+#ratingScore {
+  grid-area: inner-div;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /*z-index: 5;*/
-
-  /*color: var(--dark-font-color);*/
-  /*position: fixed;*/
-  /*top: 50vh;*/
-  /*left: 50vw;*/
-  /*transform: translate(-50%,-50%);*/
 }
 
-/*@keyframes rotate {*/
-/*  to {*/
-/*    stroke-dashoffset: 125;*/
-/*  }*/
-/*}*/
+@keyframes rotate {
+  to {
+    stroke-dashoffset: v-bind(strokeDashoffset);
+  }
+}
 
 </style>
