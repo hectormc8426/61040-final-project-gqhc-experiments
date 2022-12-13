@@ -42,10 +42,7 @@ export default {
     }
   },
   async created() {
-    const url = `api/rating/${this.lesson._id}`;
-    const response = await fetch(url);
-    const res = await response.json();
-    this.ratings = res.ratings;
+    await this.updateRatings();
 
     // get user's rating if user is allowed to input
     if (this.letInput) {
@@ -64,10 +61,17 @@ export default {
     this.loading = false;
   },
   methods: {
-    changeUserScore(category, score) {
+    async changeUserScore(category, score) {
       this.user_ratings[category] = score;
+      await this.updateRatings();
       this.$forceUpdate()
     },
+    async updateRatings() {
+      const url = `api/rating/${this.lesson._id}`;
+      const response = await fetch(url);
+      const res = await response.json();
+      this.ratings = res.ratings;
+    }
   }
 }
 </script>
