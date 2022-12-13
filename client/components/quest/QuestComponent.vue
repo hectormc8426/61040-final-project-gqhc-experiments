@@ -1,5 +1,5 @@
 <template>
-    <article class="quest">
+    <article class="lBrownCard">
       <h2>{{ quest.desc }}</h2>
       <p v-if="quest.currentProgress < quest.goalProgress">
           Progress: {{ quest.currentProgress }}/{{ quest.goalProgress }}
@@ -60,15 +60,9 @@ export default {
 </script>
 
 <style scoped>
-.quest {
+
+.lBrownCard {
   width: 100%;
-  height: fit-content;
-
-  padding: var(--card-padding);
-  padding-top: 0;
-  border-radius: var(--round-border-small);
-
-  background-color: var(--primary-color);
-  color: var(--dark-font-color);
 }
+
 </style> 

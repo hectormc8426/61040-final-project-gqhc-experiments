@@ -2,7 +2,7 @@
   <article class="quest-view">
     <section>
       <h2 id="questTitle">Completed Quests</h2>
-      <div id="questContainer">
+      <div class="dBrownContainer">
         <QuestComponent v-for="quest in $store.getters.completeQuests" :key="quest.name" :quest="quest" />
       </div>
       <br />
@@ -63,22 +63,6 @@ export default {
   color: var(--dark-font-color);
   /*margin: 0;*/
   margin-top: 0;
-}
-
-#questContainer {
-  width: 100%;
-  height: fit-content;
-
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-
-  padding: var(--card-padding);
-  border-radius: var(--round-border-medium);
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  gap: var(--section-gap);
 }
 
 
