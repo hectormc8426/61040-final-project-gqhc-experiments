@@ -2,15 +2,14 @@
 
 <template>
     <section class="showcase-component">
-        <div>
-            author: {{ showcase.author }}
-        </div>
-        <div>
-            date: {{ showcase.dateCreated }}
-        </div>
+        <header>
+            <p>
+                Posted by <b>{{ showcase.author }}</b> on {{ showcase.dateCreated }}
+            </p>
+        </header>
         <article v-html="htmlContent">
         </article>
-        <MarkdownEditor v-if="editing" ref='markdownEditor' v-model="content" />
+        <!-- <MarkdownEditor class="editor" v-if="editing" ref='markdownEditor' v-model="content" />
         <div v-if="$store.state.username === showcase.author" class="actions">
             <button v-if="editing" @click="submitEdit">
                 ✅ Save changes
@@ -24,7 +23,7 @@
             <button @click="deleteShowcase">
                 🗑️ Delete
             </button>
-        </div>
+        </div> -->
     </section>
 </template>
 
@@ -155,5 +154,12 @@ export default {
 .showcase-component {
     padding: 20px;
     width: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor {
+    height: 20vh;
 }
 </style>

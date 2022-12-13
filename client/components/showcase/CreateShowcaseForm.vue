@@ -3,21 +3,23 @@
         <div id="showcaseForm" class="flex-container">
             <div class="flex-child">
                 <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" class="editor" />
-                <button v-on:click='preview'>
-                    Preview
-                </button>
-                <button v-on:click='submit'>
-                    Submit
-                </button>
+                <div class="controllers">
+                    <button v-on:click='preview'>
+                        Preview
+                    </button>
+                    <button v-on:click='submit'>
+                        Submit
+                    </button>
+                </div>
             </div>
-            <section id="showcase-preview" class="flex-child">
+            <div id="showcase-preview" class="flex-child">
                 <h3 class="render-header">Rendered</h3>
                 <div class="preview-content">
                     <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index"
                         class="showcaseChunk">
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </section>
 </template>
@@ -158,7 +160,8 @@ export default {
 .flex-container {
     display: flex;
     width: 100%;
-    align-items: flex-start;
+    align-items: space-between;
+    gap: 32px;
 }
 
 .flex-child {
@@ -175,9 +178,12 @@ export default {
     margin-top: 0;
 }
 
+
 .preview-content {
-    height: 150px;
+    height: 160px;
+    padding: 0px 20px;
     overflow-y: scroll;
+    overflow-x: scroll;
     border: 1px solid black;
 }
 
@@ -192,5 +198,11 @@ export default {
 
 section {
     padding: 20px;
+}
+
+.controllers {
+    display: flex;
+    justify-content: flex-end;
+
 }
 </style>

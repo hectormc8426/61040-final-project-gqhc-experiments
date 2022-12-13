@@ -6,9 +6,9 @@
             <h2>
                 Showcase Your Learning!
             </h2>
-            <div>
+            <p>
                 Demonstrate your learning from this lesson by making a showcase!
-            </div>
+            </p>
             <CreateShowcaseForm class="card" :lessonId="lessonId" />
         </section>
         <h2>
