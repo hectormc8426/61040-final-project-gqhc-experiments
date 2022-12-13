@@ -8,13 +8,26 @@
                 </div>
 
                 <div v-else>
-                    <div v-for="lesson in $store.state.lessons" class="one-lesson">
-                        <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
-                                lesson.title
-                        }}</router-link>
-                        <LessonTagGroup :lesson="lesson" />
+                    <div>
+                        <input v-model='query'/>
+                        <button v-on:click='search'>
+                            Search
+                        </button>
                     </div>
                 </div>
+
+                <section class="cardContainer">
+                    <h2 class="lesson-label"> Most Recent Lessons </h2>
+                    <section class="lesson-container">
+                        <div v-for="lesson in $store.state.lessons" class="card">
+                            <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
+                                    lesson.title
+                            }}</router-link>
+                            <LessonTagGroup :lesson="lesson" />
+                        </div>
+                    </section>
+                </section>
+                
             </section>
         </div>
     </main>
@@ -35,6 +48,7 @@ export default {
     mixins: { markdownMixin },
     data() {
         return {
+            query: "",
             title: "",
             content: "",
             parsedHTML: [],
@@ -59,6 +73,19 @@ export default {
             this.$store.commit('refreshLessons');
             this.lessons = res;
             this.loading = false;
+        },
+        async search() {
+            if (this.query) {
+                const r = await fetch(`/api/lessons/search/${this.query}`);
+                const res = await r.json();
+                // this.$store.commit('setLessons', res);
+                this.$store.commit({
+                    type: 'setLessons',
+                    lessons: res
+                });
+            } else {
+                this.$store.commit('refreshLessons');
+            }
         },
         async preview() {
             // accessing the text content within the markdown editor
@@ -122,10 +149,52 @@ export default {
     }
 }
 
+.links {
+    display: flex;
+    gap: 1em;
+}
 
 .one-lesson {
     border: 1px solid black;
     padding: 1em;
     width: 100%;
 }
+
+
+.lesson-container {
+    display: grid;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em; 
+    flex:1;
+    flex-direction: column;
+}
+
+.lesson-label {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding-left: 0.2em;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: var(--h3);
+}
+
+.card {
+    min-height:20%;
+    flex-grow: 1;
+}
+
+a {
+    color: var(--dark-font-color);
+    font-size: var(--h4);
+    text-decoration: none;
+}
+
+.welcome-message {
+    font-size: var(--h1);
+    text-align: center;
+}
+
 </style>

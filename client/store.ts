@@ -73,12 +73,15 @@ const store = new Vuex.Store({
        */
       state.showcases = showcases;
     },
-    setLessons(state, lessons) {
+    setLessons(state, payload) {
       /**
        * Update the stored lessons to the specified one
        * @param lesson - the new showcases to set
        */
-      state.showcases = lessons;
+      console.log("-------------------");
+      console.log(payload.lessons);
+      console.log("0----------------");
+      state.lessons = payload.lessons;
     },
     setQuest(state, questNameAndProgress) {
       /**

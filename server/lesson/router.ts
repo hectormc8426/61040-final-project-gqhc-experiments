@@ -65,6 +65,19 @@ router.get(
     }
 );
 
+router.get(
+    '/search/:name',
+    // TODO: add appropriate middlewares
+    [
+
+    ],
+    async (req: Request, res: Response) => {
+        const lessons = await LessonCollection.findLessonsByName(req.params.name);
+        console.log('essons' + lessons);
+        res.status(200).json(lessons.map(util.constructLessonResponse));
+    }
+);
+
 /**
  * Create a new lesson.
  * 

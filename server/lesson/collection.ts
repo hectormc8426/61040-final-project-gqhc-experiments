@@ -78,6 +78,16 @@ class LessonCollection {
     }
 
     /**
+     * Return lessons whose title contains the given string
+     * 
+     * @returns a list of lessons containing the given name
+     */
+    static async findLessonsByName(name: string): Promise<Array<HydratedDocument<Lesson>>> {
+        let pattern = new RegExp(name, "i");
+        return LessonModel.find({ title: pattern });
+    }
+
+    /**
      * Delete a lesson with the given lessonId
      * 
      * @param lessonId - The id of the lesson that will be deleted, if any
