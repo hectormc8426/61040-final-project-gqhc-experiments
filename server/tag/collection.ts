@@ -70,6 +70,7 @@ class TagCollection {
       for (const otherList of results) {
         let isContained = false;
         for (const otherItem of otherList) {
+          // @ts-ignore
           if (otherItem.contentId.originalContent === result.contentId.originalContent) {
             isContained = true;
             break;

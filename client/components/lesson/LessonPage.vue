@@ -1,35 +1,32 @@
 <template>
     <main>
         <aside id="searchBar">
-          <div class="loader" v-if="loading"/>
+<!--          <div class="loader" v-if="loading"/>-->
 
-<<<<<<< HEAD
           <div id="lessonNameInput">
-            Lesson Name
-            <div id="inputField">
-              <input v-model='query'/>
-              <button v-on:click='search'>
-=======
-          <div v-else id="lessonNameInput">
             <h3 id="lessonNameTitle"> Lesson Name </h3>
             <div id="inputGroup">
               <input v-model='query' id="inputField"/>
               <button v-on:click='search' id="inputButton">
->>>>>>> 9fc52a63fde2fbd4a0d2c6a0dfe2f41bee938e2e
                 Search
               </button>
             </div>
           </div>
 
+<!--          <hr style="width: 100%; border: 1px solid black"/>-->
+
           <div id="lessonNameInput">
-            Tag name
-            <div id="inputField">
-              <input v-model='tagQuery'/>
-              <button v-on:click='tagSearch'>
-                Search
-              </button>
-            </div>
+            <h3 id="lessonNameTitle"> Input Tags </h3>
+            <CreateTagsFormShowTemp ref="tempTags"/>
+            <button v-on:click="searchByTags()">Search</button>
           </div>
+<!--            <div id="inputField">-->
+<!--              <input v-model='tagQuery'/>-->
+<!--              <button v-on:click='tagSearch'>-->
+<!--                Search-->
+<!--              </button>-->
+<!--            </div>-->
+<!--          </div>-->
         </aside>
 
         <div class="verticalLine" />
@@ -71,10 +68,13 @@ import LessonRatingGroup from "../rating/LessonRatingGroup";
 import LessonTagGroup from "../tag/LessonTagGroup";
 import TagComponent from "../tag/TagComponent";
 import RatingComponent from "../rating/RatingComponent";
+import CreateTagsFormShowTemp from "../tag/CreateTagsFormShowTemp";
 
 export default {
     name: "LessonPage",
-    components: {RatingComponent, TagComponent, LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
+    components: {
+      CreateTagsFormShowTemp,
+      RatingComponent, TagComponent, LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -117,6 +117,21 @@ export default {
             } else {
                 this.$store.commit('refreshLessons');
             }
+        },
+        async searchByTags() {
+          const tagnames = this.$refs.tempTags.getTagnames();
+          console.log(tagnames);
+          if (tagnames) {
+            const r = await fetch(`/api/lessons/search/${tagnames}`);
+            const res = await r.json();
+            // this.$store.commit('setLessons', res);
+            this.$store.commit({
+              type: 'setLessons',
+              lessons: res
+            });
+          } else {
+            this.$store.commit('refreshLessons');
+          }
         },
         async preview() {
             // accessing the text content within the markdown editor

@@ -8,8 +8,8 @@
       </button>
     </div>
 
-    <div v-for="tagname in tagnames" id="tempTags">
-      <TempTag :tagname="tagname" :callback="removeTempTag" />
+    <div id="tempTagContainer">
+      <TempTag v-for="tagname in tagnames" :callback="removeTempTag" :tagname="tagname" :key="tagnames"/>
     </div>
 
   </article>
@@ -36,7 +36,7 @@ export default {
   methods: {
     addTempTag() {
       if (this.tagname !== '' && !this.tagnames.includes(this.tagname)) {
-        this.tagnames.push(this.tagname);
+        this.tagnames.push(this.tagname.toLowerCase());
       }
       this.tagname = '';
     },
@@ -60,6 +60,9 @@ export default {
           throw new Error(res.error);
         }
       }
+    },
+    getTagnames() {
+      return this.tagnames
     }
   }
 }
@@ -68,7 +71,7 @@ export default {
 <style scoped>
 .TempTagForm {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 8px;
   border: 0;
   margin: 8px 0;
@@ -92,6 +95,11 @@ export default {
   /*margin: 0 0 12px 0;*/
 }
 
+#tempTagContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 8px
+}
 
 #input {
   height: fit-content;

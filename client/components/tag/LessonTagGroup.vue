@@ -4,7 +4,7 @@
   <div>
     <div v-if="!loading" id="tagList">
 
-      <TagComponent v-for="tag in tags" id="tagBlock" :tagname="tag.tagname" />
+      <TagComponent v-for="tag in tags" id="tagBlock" :tagname="tag.tagname" :key="tags"/>
 
     </div>
   </div>
