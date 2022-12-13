@@ -36,11 +36,15 @@ export default {
   },
   methods: {
     growRatingCircle() {
+      const score = (this.score === -1)? 0 : this.score;
+      const dOffset = 250 - 250 * score / 5;
+      console.log(dOffset);
       const item = document.getElementById('ratingCircle');
-      item.style.strokeDashoffset = String(1000 * this.score/5);
+      // item.style.cssText += `stroke-dashoffset:${dOffset}`;
+      // item.style.strokeDashoffset = String(1000 * this.score/5);
       // item.style.animation = 'animation: rotate 2s linear forwards';
       item.animate({
-        strokeDashoffset: [0, 1000 * this.score / 5]
+        strokeDashoffset: [-125+dOffset, -125]
         // width: [0, (this.currentExperience / this.experienceToLevelUp) * 100 + '%'],
       },
       {
@@ -62,8 +66,8 @@ export default {
   fill: white;
   stroke: black;
   stroke-width: 2;
-  stroke-dasharray: 1000;
-  /*stroke-dashoffset: 1000;*/
+  stroke-dasharray: 250;
+  /*stroke-dashoffset: 250;*/
   /*animation: rotate 2s linear forwards;*/
 }
 
