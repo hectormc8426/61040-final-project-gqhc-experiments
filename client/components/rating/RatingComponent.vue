@@ -55,6 +55,10 @@ export default {
 
 <style scoped>
 
+h3 {
+  margin-top: 12px;
+}
+
 .rating {
   display: flex;
   flex-direction: column;
