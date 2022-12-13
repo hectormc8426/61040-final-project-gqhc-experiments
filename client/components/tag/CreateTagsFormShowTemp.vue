@@ -78,6 +78,7 @@ export default {
 
   font-size: 18px;
 
+  max-width: 20vw;
 }
 
 #tempTags {
@@ -98,7 +99,11 @@ export default {
 #tempTagContainer {
   display: flex;
   flex-direction: row;
-  gap: 8px
+  gap: 8px;
+
+  width: 100%;
+  white-space: initial;
+  overflow: auto;
 }
 
 #input {
