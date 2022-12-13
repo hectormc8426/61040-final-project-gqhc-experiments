@@ -45,7 +45,7 @@ export default {
   methods: {
     growRatingCircle() {
       const relScore = this.score/5;
-      this.strokeDashoffset = -250 * (1 - relScore);
+      this.strokeDashoffset = -255 * (1 - relScore);
       this.rgba = `rgba(${255*(1-relScore**2)}, ${255*(relScore**2)}, 0, .7)`;
     }
   }
@@ -79,8 +79,8 @@ h3 {
   fill: transparent;
   stroke: v-bind(rgba);
   stroke-width: 5;
-  stroke-dasharray: 250;
-  stroke-dashoffset: -250;
+  stroke-dasharray: 255;
+  stroke-dashoffset: -255;
   animation: rotate 2s linear forwards;
 }
 
