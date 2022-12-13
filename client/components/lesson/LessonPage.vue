@@ -20,7 +20,7 @@
 
           <section id="lessonList">
             <section class="cardContainer">
-              <h2 id="lessonTitle">Lessons</h2>
+              <h1 id="lessonContainerTitle">Lessons</h1>
 
               <div v-for="lesson in $store.state.lessons" class="card">
 
@@ -32,7 +32,7 @@
                   </div>
 
                   <div id="lessonRating">
-                      <LessonRatingGroup :let-input="false" lesson="lesson" />
+                      <LessonRatingGroup :let-input="false" :lesson="lesson" />
                   </div>
               </div>
             </section>
@@ -169,10 +169,18 @@ main {
 
 #searchBar {
   flex-grow: 1;
+  padding-top: 2em;
 }
 
 #mainBody {
   flex-grow: 7;
+  padding-top: 2.5em;
+}
+
+#lessonContainerTitle {
+  font-size: var(--h2);
+  margin: var(--text-padding);
+  /*padding: var(--text-padding);*/
 }
 
 #lessonNameInput {
