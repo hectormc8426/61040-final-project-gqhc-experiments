@@ -94,7 +94,7 @@ h2 {
 
 #lessonRatingGroup {
   min-width: fit-content;
-  width: 30%;
+  width: 100%;
   flex-grow: 1;
 }
 
@@ -116,7 +116,7 @@ h2 {
 
   justify-content: space-around;
 
-  /*flex-grow: 1;*/
+  flex-grow: 1;
 }
 
 #ratingBlock {

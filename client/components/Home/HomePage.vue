@@ -82,15 +82,6 @@ export default {
   gap: 5em;
 }
 
-/*h2 {*/
-/*  margin-top: 0;*/
-/*}*/
-
-.links {
-    display: flex;
-    gap: 1em;
-}
-
 .homepage-header {
     display: flex;
     flex-direction: row;
@@ -118,37 +109,6 @@ export default {
 .welcome-message-container {
   width: fit-content;
   /*flex-grow: 3;*/
-}
-
-.home-option {
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 2em;
-}
-
-.lesson-container {
-    display: grid;
-    display: flex;
-    justify-content: space-between;
-    gap: 1em; 
-    flex:1;
-    flex-direction: column;
-}
-
-.lesson-label {
-    margin-right: 0;
-    margin-left: 0;
-    margin-bottom: 0;
-    padding-left: 0.2em;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    font-size: var(--h3);
-}
-
-.card {
-    min-height:20%;
-    flex-grow: 1;
 }
 
 a {
