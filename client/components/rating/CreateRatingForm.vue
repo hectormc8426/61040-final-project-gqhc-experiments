@@ -84,8 +84,14 @@ export default {
 </script>
 
 <style scoped>
+
+.ratingForm {
+  text-align: center;
+}
+
 #rating_options {
   display: inline-block;
+  margin: 0 1px;
 }
 
 #active {

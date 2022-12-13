@@ -2,11 +2,10 @@
 
 <template>
   <div>
-    <div v-if="!loading" id="ratingList">
-      Tags:
-      <div v-for="tag in tags" id="tagBlock">
-        <TagComponent :tagname="tag.tagname" />
-      </div>
+    <div v-if="!loading" id="tagList">
+
+      <TagComponent v-for="tag in tags" id="tagBlock" :tagname="tag.tagname" />
+
     </div>
   </div>
 </template>
@@ -44,8 +43,14 @@ export default {
 </script>
 
 <style scoped>
-#tagBlock {
-  display: inline-block;
-  margin: 8px 15px;
+#tagList {
+  display: flex;
+  flex-direction: row;
+  padding: var(--text-padding);
+  gap: 32px;
 }
+/*#tagBlock {*/
+/*  display: inline-block;*/
+/*  margin: 8px 15px;*/
+/*}*/
 </style>
