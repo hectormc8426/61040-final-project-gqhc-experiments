@@ -2,20 +2,22 @@
     <section id="lessonForm" class="flex-container">
         <div class="flex-child">
             <label>Title: </label>
-            <input v-model="title" ref="titleInput" id="titleInput"/>
+            <input v-model="title" ref="titleInput" id="titleInput" />
             <CreateTagsFormShowTemp ref="TagForm" />
 
             <MarkdownEditor v-model="content" ref='markdownEditor' class="editor" :configs="configs" />
-            <button v-on:click='showTutorial'>
-                Help
-            </button>
-            <button v-on:click='preview'>
-                Preview
-            </button>
+            <div class="controller">
+                <button v-on:click='showTutorial'>
+                    Help
+                </button>
+                <button v-on:click='preview'>
+                    Preview
+                </button>
 
-            <button v-on:click='submit'>
-                Submit
-            </button>
+                <button v-on:click='submit'>
+                    Submit
+                </button>
+            </div>
         </div>
 
         <section id="lessonPreview" class="flex-child">
@@ -46,7 +48,28 @@ export default {
             parsedHTML: [],
             configs: {
                 maxHeight: '40vh',
-                hideIcons: ['side-by-side']
+                toolbar: [
+                    "bold",
+                    "italic",
+                    "heading",
+                    "|",
+                    "quote",
+                    "unordered-list",
+                    "ordered-list",
+                    "|",
+                    "link",
+                    "image",
+                    "|",
+                    {
+                        name: "guide",
+                        action: (editor) => {
+                            let routeData = this.$router.resolve({ name: '/PLACEHOLDER' }); // just to get the base url
+                            window.open(routeData.href + 'tutorial');
+                        },
+                        className: "fa fa-question-circle",
+                        title: "Markdown Guide",
+                    }
+                ]
             }
         };
     },
@@ -318,16 +341,20 @@ export default {
 }
 
 button {
-  margin-right: 12px;
+    margin-right: 12px;
+}
+
+.controller {
+    display: flex;
+    justify-content: flex-end;
 }
 
 #titleInput {
-  height: fit-content;
-  width: 300px;
-  border-radius: var(--round-border-tinytiny);
-  border: var(--fuzzy-border);
-  border-color: rgba(0, 0, 0, .25);
-  padding: var(--text-padding);
+    height: fit-content;
+    width: 300px;
+    border-radius: var(--round-border-tinytiny);
+    border: var(--fuzzy-border);
+    border-color: rgba(0, 0, 0, .25);
+    padding: var(--text-padding);
 }
-
 </style>

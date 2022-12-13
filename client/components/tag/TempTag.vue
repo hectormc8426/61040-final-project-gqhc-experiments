@@ -3,7 +3,9 @@
 
 <template>
   <article class="tempTag">
-    <button id="tag" v-text="tagname" v-on:click="callback(tagname)">
+    <button id="tag" v-on:click="callback(tagname)">
+      {{ tagname }}
+      <i class='fa fa-solid fa-xmark'></i>
     </button>
   </article>
 </template>

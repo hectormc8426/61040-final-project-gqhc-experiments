@@ -4,7 +4,7 @@
   <div>
     <div v-if="!loading" id="tagList">
 
-      <TagComponent v-for="tag in tags" id="tagBlock" :tagname="tag.tagname" :key="tags"/>
+      <TagComponent v-for="tag in tags" :key="tag.tagname" id="tagBlock" :tagname="tag.tagname" />
 
     </div>
   </div>
@@ -49,6 +49,7 @@ export default {
   padding: var(--text-padding);
   gap: 32px;
 }
+
 /*#tagBlock {*/
 /*  display: inline-block;*/
 /*  margin: 8px 15px;*/
