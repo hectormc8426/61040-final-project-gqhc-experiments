@@ -7,17 +7,9 @@
     </div>
     <div id="rating_options" v-for="i in 5">
 
-      <div v-if="i === score">
-        <button v-on:click="submit(i)" id="active">
-          <div v-text="i" />
-        </button>
-      </div>
-
-      <div v-else>
-        <button v-on:click="submit(i)" id="inactive">
-          <div v-text="i" />
-        </button>
-      </div>
+      <button v-on:click="submit(i)" :id="(i===score)? 'active': 'inactive'">
+        <div v-text="i"/>
+      </button>
 
     </div>
   </article>
@@ -97,7 +89,13 @@ export default {
 }
 
 #active {
-  background: lawngreen;
+  color: var(--primary-color);
+  background: var(--secondary-color);
+}
+
+#active:hover {
+  color: var(--secondary-color);
+  background-color: var(--tertiary-color);
 }
 
 #inactive {

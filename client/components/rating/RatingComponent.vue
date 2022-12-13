@@ -35,17 +35,20 @@ export default {
   data() {
     return {
       strokeDashoffset: 0,
-      rgba: 'rgba(0, 0, 0, 1)'
+      rgba: 'rgba(0, 0, 0, .7)'
     }
   },
   mounted() {
+    this.growRatingCircle();
+  },
+  update() {
     this.growRatingCircle();
   },
   methods: {
     growRatingCircle() {
       const relScore = this.score/5;
       this.strokeDashoffset = -250 * (1 - relScore);
-      this.rgba = `rgba(${255*(1-relScore**2)}, ${255*(relScore**2)}, 0, 1)`;
+      this.rgba = `rgba(${255*(1-relScore**2)}, ${255*(relScore**2)}, 0, .7)`;
     }
   }
 }
