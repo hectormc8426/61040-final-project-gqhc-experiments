@@ -4,10 +4,10 @@
           <div class="loader" v-if="loading"/>
 
           <div v-else id="lessonNameInput">
-            Lesson Name
-            <div id="inputField">
-              <input v-model='query'/>
-              <button v-on:click='search'>
+            <h3 id="lessonNameTitle"> Lesson Name </h3>
+            <div id="inputGroup">
+              <input v-model='query' id="inputField"/>
+              <button v-on:click='search' id="inputButton">
                 Search
               </button>
             </div>
@@ -25,9 +25,9 @@
               <div v-for="lesson in $store.state.lessons" class="card">
 
                   <div id="lessonContent">
-                    <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
-                        lesson.title
-                      }}</router-link>
+                    <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">
+                      <h3 id="lessonTitle"> {{ lesson.title }} </h3>
+                    </router-link>
                     <LessonTagGroup :lesson="lesson" />
                   </div>
 
@@ -168,8 +168,12 @@ main {
 }
 
 #searchBar {
+  height: fit-content;
   flex-grow: 1;
   padding-top: 2em;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5.5em;
 }
 
 #mainBody {
@@ -183,14 +187,28 @@ main {
   /*padding: var(--text-padding);*/
 }
 
+#lessonTitle {
+  margin-top: 20px;
+}
+
 #lessonNameInput {
   display: flex;
   flex-direction: column;
 }
 
-#inputField {
+#lessonNameTitle {
+  margin-top: 0;
+}
+
+#inputGroup {
   display: flex;
   flex-direction: row;
+  gap: 8px;
+}
+
+#inputField {
+  border-radius: var(--round-border-tiny);
+  border: var(--fuzzy-border);
 }
 
 .card {
@@ -201,12 +219,15 @@ main {
 }
 
 #lessonContent {
+  min-width: fit-content;
   width: 60%;
-  flex-grow: 6;
+  flex-grow: 2;
 }
 
 #lessonRating {
+  min-width: fit-content;
   width: 30%;
+  flex-grow: 1;
 }
 
 a {
