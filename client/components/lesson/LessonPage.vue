@@ -1,35 +1,45 @@
 <template>
     <main>
-        <h2>All Lessons</h2>
-        <div id="lessonList">
-            <section id="lessonList">
-                <div v-if="loading">
-                    <div class="loader"></div>
-                </div>
+        <aside id="searchBar">
+          <div class="loader" v-if="loading"/>
 
-                <div v-else>
-                    <div>
-                        <input v-model='query'/>
-                        <button v-on:click='search'>
-                            Search
-                        </button>
-                    </div>
-                </div>
+          <div v-else id="lessonNameInput">
+            Lesson Name
+            <div id="inputField">
+              <input v-model='query'/>
+              <button v-on:click='search'>
+                Search
+              </button>
+            </div>
+          </div>
+        </aside>
 
-                <section class="cardContainer">
-                    <h2 class="lesson-label"> Most Recent Lessons </h2>
-                    <section class="lesson-container">
-                        <div v-for="lesson in $store.state.lessons" class="card">
-                            <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
-                                    lesson.title
-                            }}</router-link>
-                            <LessonTagGroup :lesson="lesson" />
-                        </div>
-                    </section>
-                </section>
-                
+        <div class="verticalLine" />
+
+        <div id="mainBody">
+
+          <section id="lessonList">
+            <section class="cardContainer">
+              <h2 id="lessonTitle">Lessons</h2>
+
+              <div v-for="lesson in $store.state.lessons" class="card">
+
+                  <div id="lessonContent">
+                    <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">{{
+                        lesson.title
+                      }}</router-link>
+                    <LessonTagGroup :lesson="lesson" />
+                  </div>
+
+                  <div id="lessonRating">
+                      <LessonRatingGroup :let-input="false" lesson="lesson" />
+                  </div>
+              </div>
             </section>
+          </section>
+
         </div>
+
     </main>
 </template>
 
@@ -41,10 +51,12 @@ import LessonComponent from './LessonComponent.vue';
 import markdownMixin from '@/mixins/markdownMixin.js';
 import LessonRatingGroup from "../rating/LessonRatingGroup";
 import LessonTagGroup from "../tag/LessonTagGroup";
+import TagComponent from "../tag/TagComponent";
+import RatingComponent from "../rating/RatingComponent";
 
 export default {
     name: "LessonPage",
-    components: { LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
+    components: {RatingComponent, TagComponent, LessonTagGroup, LessonRatingGroup, CreateLessonForm, LessonComponent },
     mixins: { markdownMixin },
     data() {
         return {
@@ -149,6 +161,52 @@ export default {
     }
 }
 
+main {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+#searchBar {
+  flex-grow: 1;
+}
+
+#mainBody {
+  flex-grow: 7;
+}
+
+#lessonNameInput {
+  display: flex;
+  flex-direction: column;
+}
+
+#inputField {
+  display: flex;
+  flex-direction: row;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  min-height:20%;
+  flex-grow: 1;
+}
+
+#lessonContent {
+  width: 60%;
+  flex-grow: 6;
+}
+
+#lessonRating {
+  width: 30%;
+}
+
+a {
+  color: var(--dark-font-color);
+  font-size: var(--h4);
+  text-decoration: none;
+}
+
 .links {
     display: flex;
     gap: 1em;
@@ -181,16 +239,6 @@ export default {
     font-size: var(--h3);
 }
 
-.card {
-    min-height:20%;
-    flex-grow: 1;
-}
-
-a {
-    color: var(--dark-font-color);
-    font-size: var(--h4);
-    text-decoration: none;
-}
 
 .welcome-message {
     font-size: var(--h1);

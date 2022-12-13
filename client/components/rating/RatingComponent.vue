@@ -2,11 +2,9 @@
 
 <template>
   <article class="rating">
-    <header>
       <h3>
         {{ this.category }}
       </h3>
-    </header>
       <div id="ratingContainer">
         <svg height="100" width="100" id="ratingSVG">
           <circle cx="50" cy="50" r="40" id="ratingCircle" />

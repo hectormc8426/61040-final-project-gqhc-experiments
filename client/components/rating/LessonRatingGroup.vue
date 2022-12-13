@@ -3,7 +3,7 @@
 <template>
   <div>
     <div v-if="!loading" id="ratingContainer">
-      <h2>Rate This Lesson</h2>
+      <h2 v-if="letInput">Rate This Lesson</h2>
       <div id="ratingList">
         <div v-for="category in Object.keys(ratings)" id="ratingBlock">
           <RatingComponent :score="ratings[category]" :category="category" />
