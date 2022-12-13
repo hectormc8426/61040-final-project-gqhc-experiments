@@ -60,32 +60,31 @@ class TagCollection {
    */
   static async findAllPopulatedByTagname(tags: string[]) {
     let results = await Promise.all(tags.map(async (tag) => await TagModel.find({ tagname: (new RegExp(tag, "i")) }).populate("contentId")));
-    console.log("results" + results);
-    // if (results.length == 0) {
-    //   return [];
-    // }
-    // const filtered = [];
-    // const history = new Set();
-    // for (const result of results[0]) {
-    //   let inAll = true;
-    //   for (const otherList of results) {
-    //     for (const otherItem of otherList) {
-    //       if (otherItem.originalContent === result.originalContent) {
-
-    //       }
-    //     }
-    //   }
-    //   if (results.length == 0)
-    //     return [];
-    //   else {
-    //     for (const tag of result) {
-    //       if (!history.has(tag.contentId)) {
-    //         filtered.push()
-    //       }
-    //     }
-    //   }
-    // }
-    // return TagModel.find({ tagname: pattern }).populate("contentId");
+    // console.log("results" + results);
+    if (results.length == 0) {
+      return [];
+    }
+    const filtered = [];
+    for (const result of results[0]) {
+      let inAll = true;
+      for (const otherList of results) {
+        let isContained = false;
+        for (const otherItem of otherList) {
+          if (otherItem.contentId.originalContent === result.contentId.originalContent) {
+            isContained = true;
+            break;
+          }
+        }
+        if (!isContained) {
+          inAll = false;
+          break;
+        }
+      }
+      if (inAll) {
+        filtered.push(result);
+      }
+    }
+    return filtered;
   }
 
 
