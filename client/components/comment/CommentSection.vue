@@ -3,8 +3,8 @@
         <h2>
             Comments
         </h2>
-        <CreateCommentForm :parentFreetId="lessonId" @updateComments="updateComments" />
-        <CommentComponent v-for="comment in comments" :comment="comment" :parentLessonInstance="lesson"
+        <CreateCommentForm class="card" :parentLessonId="lessonId" @updateComments="updateComments" />
+        <CommentComponent class="card" v-for="comment in comments" :comment="comment" :parentLessonInstance="lesson"
             @updateComments="updateComments" :key="comment._id" />
     </section>
 </template>
@@ -61,10 +61,5 @@ export default {
 </script>
 
 <style scoped>
-.comment {
-    border: 1px solid #264027;
-    padding: 20px;
-    position: relative;
-    background-color: rgb(221, 235, 191);
-}
+
 </style>

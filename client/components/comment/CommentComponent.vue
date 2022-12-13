@@ -96,7 +96,7 @@ export default {
   }
 };
 </script>
-
+<!-- 
 <style scoped>
 .comment {
   border: 1px solid #264027;
@@ -104,4 +104,4 @@ export default {
   position: relative;
   background-color: rgb(221, 235, 191);
 }
-</style>
+</style> -->

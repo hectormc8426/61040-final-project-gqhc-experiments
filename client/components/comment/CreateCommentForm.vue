@@ -6,14 +6,14 @@ export default {
     name: 'CreateCommentForm',
     mixins: [BlockForm],
     props: {
-        parentFreetId: {
+        parentLessonId: {
             type: String,
             required: true
         }
     },
     data() {
         return {
-            url: `/api/comments/${this.parentFreetId}`,
+            url: `/api/comments/${this.parentLessonId}`,
             method: 'POST',
             hasBody: true,
             fields: [

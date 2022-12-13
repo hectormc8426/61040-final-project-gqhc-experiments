@@ -43,7 +43,28 @@ export default {
             parsedHTML: [],
             configs: {
                 maxHeight: "100px",
-                hideIcons: ['side-by-side']
+                toolbar: [
+                    "bold",
+                    "italic",
+                    "heading",
+                    "|",
+                    "quote",
+                    "unordered-list",
+                    "ordered-list",
+                    "|",
+                    "link",
+                    "image",
+                    "|",
+                    {
+                        name: "guide",
+                        action: (editor) => {
+                            let routeData = this.$router.resolve({ name: '/PLACEHOLDER' }); // just to get the base url
+                            window.open(routeData.href + 'tutorial');
+                        },
+                        className: "fa fa-question-circle",
+                        title: "Markdown Guide",
+                    }
+                ]
             }
         };
     },
