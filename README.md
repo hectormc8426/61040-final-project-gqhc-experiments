@@ -157,7 +157,7 @@ But thank you!
 **Returns**
 
 - `200` Success message
-- `score` A number denoting rating of content on category
+- `ratings` Object mapping category to net score
 
 **throws**
 

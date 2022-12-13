@@ -50,10 +50,8 @@ export default {
       const userResponse = await fetch(userUrl);
 
       if (userResponse.ok) {
-        const userRes = await userResponse.json();
-        this.user_ratings = userRes.ratings;
         for (let category in this.ratings) {
-          if (!(category in this.user_ratings)) {this.user_ratings[category] = -1}
+          await this.updateUserRatings(category);
         }
       }
     }
@@ -71,6 +69,16 @@ export default {
       const response = await fetch(url);
       const res = await response.json();
       this.ratings = res.ratings;
+    },
+    async updateUserRatings(category) {
+      const url = `api/rating/${this.lesson._id}?category=${category}&useUserId=True`
+      const userResponse = await fetch(url);
+      this.user_ratings[category] = -1;
+
+      if (userResponse.ok) {
+        const userRes = await userResponse.json();
+        this.user_ratings[category] = userRes.score;
+      }
     }
   }
 }
