@@ -2,7 +2,7 @@
     <section id="lessonForm" class="flex-container">
         <div class="flex-child">
             <label>Title: </label>
-            <input v-model="title" ref="titleInput" />
+            <input v-model="title" ref="titleInput" id="titleInput"/>
             <CreateTagsFormShowTemp ref="TagForm" />
 
             <MarkdownEditor v-model="content" ref='markdownEditor' class="editor" :configs="configs" />
@@ -316,4 +316,18 @@ export default {
     border: 1px solid black;
     padding: 0 1em 1em;
 }
+
+button {
+  margin-right: 12px;
+}
+
+#titleInput {
+  height: fit-content;
+  width: 300px;
+  border-radius: var(--round-border-tinytiny);
+  border: var(--fuzzy-border);
+  border-color: rgba(0, 0, 0, .25);
+  padding: var(--text-padding);
+}
+
 </style>

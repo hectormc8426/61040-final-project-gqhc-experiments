@@ -1,6 +1,6 @@
 <template>
   <article class="TempTagForm">
-    <div id="tagInput">
+    <div id="tagInputContainer">
       Add a tag:
       <input v-model="tagname" id="input" />
       <button v-on:click="addTempTag()">
@@ -66,20 +66,39 @@ export default {
 </script>
 
 <style scoped>
-.tempTagForm {
-  display: block;
+.TempTagForm {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  border: 0;
+  margin: 8px 0;
+
+  font-size: 18px;
+
 }
 
 #tempTags {
-  display: inline-block;
+  /*display: inline-block;*/
+  /*display: flex;*/
+  /*flex-direction: row;*/
+  /*gap: 8px;*/
 }
 
-#tagInput {
-  display: inline-block;
-  margin: 0 0 12px 0;
+#tagInputContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  /*margin: 0 0 12px 0;*/
 }
+
 
 #input {
+  height: fit-content;
   width: 74px;
+  border-radius: var(--round-border-tinytiny);
+  border: var(--fuzzy-border);
+  border-color: rgba(0, 0, 0, .25);
+  padding: var(--text-padding);
 }
 </style>
