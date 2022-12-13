@@ -66,7 +66,6 @@ export default {
         })
         // item.textContent=this.currentExperience;
       }
-
     }
 }
 
@@ -97,12 +96,6 @@ main {
 
   flex-grow: 1;  /* Allows it to take remaining space */
   gap: 64px;
-}
-
-.verticalLine {
-  border-left: 2px solid var(--dark-font-color);
-  min-height: 100%;
-  max-height: 100%;
 }
 
 hr {
@@ -138,13 +131,13 @@ hr {
 
  /* Level up stuff */
 
-#levelContainer {
-  /*color: var(--primary-color);*/
-  /*color: var(--dark-font-color);*/
-  /*background-color: var(--primary-color);*/
-  /*padding: var(--card-padding);*/
-  border-radius: var(--round-border-medium);
-}
+/*#levelContainer {*/
+/*  !*color: var(--primary-color);*!*/
+/*  !*color: var(--dark-font-color);*!*/
+/*  !*background-color: var(--primary-color);*!*/
+/*  !*padding: var(--card-padding);*!*/
+/*  border-radius: var(--round-border-medium);*/
+/*}*/
 
 #level {
   font-size: var(--body-font-size);

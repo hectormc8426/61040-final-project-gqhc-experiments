@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <div v-if="!loading" id="ratingList">
+    <div v-if="!loading" id="ratingContainer">
       <h2>Rate This Lesson</h2>
       <div v-for="category in Object.keys(ratings)" id="ratingBlock">
         <RatingComponent :score="ratings[category]" :category="category" />
@@ -49,11 +49,12 @@ export default {
 
     // get user's rating if user is allowed to input
     if (this.letInput) {
-      const url2 = `api/rating/${this.lesson._id}?useUserId=True`
-      const response2 = await fetch(url2);
-      if (response.ok) {
-        const res2 = await response2.json();
-        this.user_ratings = res2.ratings;
+      const userUrl = `api/rating/${this.lesson._id}?useUserId=True`
+      const userResponse = await fetch(userUrl);
+
+      if (userResponse.ok) {
+        const userRes = await userResponse.json();
+        this.user_ratings = userRes.ratings;
         for (let category in this.ratings) {
           if (!(category in this.user_ratings)) {this.user_ratings[category] = -1}
         }
@@ -72,8 +73,28 @@ export default {
 </script>
 
 <style scoped>
+
+#ratingContainer {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+#ratingList {
+  display: flex;
+  flex-direction: row;
+
+  /*flex-grow: 1;*/
+}
+
 #ratingBlock {
-  display: inline-block;
-  margin: 8px 24px;
+  display: flex;
+  flex-direction: column;
+  /*display: inline-block;*/
+  /*margin: 8px 24px;*/
 }
 </style>

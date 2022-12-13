@@ -1,5 +1,7 @@
 <template>
   <article class="ratingForm">
+<!--    <h3> {{ category }} </h3>-->
+
     <div>
       Your rating:
     </div>

@@ -65,6 +65,10 @@ nav div {
   text-decoration: none;
 }
 
+.link:hover {
+  color: var(--tertiary-color);
+}
+
 .verticalLine {
   border-left: 2px solid var(--primary-color);
   min-height: 100%;
@@ -75,6 +79,10 @@ nav div {
   margin: 0 8px;
   padding: 4px 6px;
   border: 2px solid var(--primary-color);
+}
+
+.title:hover {
+  border-color: var(--tertiary-color);
 }
 
 img {

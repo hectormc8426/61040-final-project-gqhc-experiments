@@ -66,3 +66,9 @@
     background-color: var(--primary-color);
     color: var(--dark-font-color);
 }
+
+.verticalLine {
+    border-left: 2px solid var(--dark-font-color);
+    min-height: 100%;
+    max-height: 100%;
+}

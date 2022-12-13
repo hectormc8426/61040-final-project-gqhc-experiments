@@ -9,7 +9,7 @@
     </header>
     <div>
       <svg height="100" width="100">
-        <circle cx="50" cy="50" r="40" />
+        <circle cx="50" cy="50" r="40" id="ratingCircle"/>
         {{ this.score.toFixed(1) }}
       </svg>
     </div>
@@ -31,29 +31,46 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-    };
+  mounted() {
+    this.growRatingCircle();
   },
+  methods: {
+    growRatingCircle() {
+      const item = document.getElementById('ratingCircle');
+      item.style.strokeDashoffset = String(1000 * this.score/5);
+      // item.style.animation = 'animation: rotate 2s linear forwards';
+      item.animate({
+        strokeDashoffset: [0, 1000 * this.score / 5]
+        // width: [0, (this.currentExperience / this.experienceToLevelUp) * 100 + '%'],
+      },
+      {
+
+        duration: 2000,
+        fill: "forwards",
+        easing: "ease-out",
+      })
+      // item.textContent=this.currentExperience;
+    }
+  }
 }
 </script>
 
 
 <style scoped>
 
-circle {
+#ratingCircle {
   fill: white;
   stroke: black;
   stroke-width: 2;
-  stroke-dasharray: 250;
-  stroke-dashoffset: 1000;
-  animation: rotate .3s linear;
+  stroke-dasharray: 1000;
+  /*stroke-dashoffset: 1000;*/
+  /*animation: rotate 2s linear forwards;*/
 }
 
-@keyframes rotate {
-  to {
-    stroke-dashoffset: 125;
-  }
-}
+/*@keyframes rotate {*/
+/*  to {*/
+/*    stroke-dashoffset: 125;*/
+/*  }*/
+/*}*/
 
 </style>
