@@ -18,6 +18,12 @@
                 Search
             </router-link>
 
+            <div class="verticalLine" />
+
+            <router-link v-if="$store.state.username" to="/user" class="link">
+              Quests
+            </router-link>
+
         </div>
 
         <div class="right">

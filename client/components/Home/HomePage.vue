@@ -9,7 +9,10 @@
                 </div>
 
                 <div id="questContainer">
-                  <LevelBar/>
+<!--                  <router-link v-if="$store.state.username" to="/user" class="link">-->
+<!--                    <button> Go to quests </button>-->
+<!--                  </router-link>-->
+                  <LevelBar id="levelBar"/>
                 </div>
                 <!-- <div class="streaks">
                     THIS SHOULD BE STREAK
@@ -89,20 +92,30 @@ export default {
 .homepage-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     gap: 1em;
 }
 
 
 #questContainer {
-  width: 40%;
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+
+  min-width: 25%;
+  width: fit-content;
+  /*flex-grow: 1;*/
+}
+
+#levelBar {
+  width: 100%;
 }
 
 .welcome-message-container {
-  width: 60%;
-  flex-grow: 3;
+  width: fit-content;
+  /*flex-grow: 3;*/
 }
 
 .home-option {
@@ -143,6 +156,7 @@ a {
 }
 
 .welcome-message {
+    width: fit-content;
     font-size: var(--h1);
     text-align: center;
 }
