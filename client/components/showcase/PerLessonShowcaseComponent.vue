@@ -1,3 +1,5 @@
+<!-- Showcase component within a lesson -->
+
 <template>
     <section class="showcase-component">
         <div>
@@ -5,9 +7,6 @@
         </div>
         <div>
             date: {{ showcase.dateCreated }}
-        </div>
-        <div>
-            Posted in: {{ showcase.lesson }}
         </div>
         <article v-html="htmlContent">
         </article>
@@ -34,7 +33,7 @@ import markdownMixin from '@/mixins/markdownMixin.js';
 import MarkdownEditor from '@/components/common/MarkdownEditor.vue';
 
 export default {
-    name: 'ShowcaseComponent',
+    name: 'PerLessonShowcaseComponent',
     components: { MarkdownEditor },
     mixins: { markdownMixin },
     props: {
@@ -154,7 +153,6 @@ export default {
 
 <style scoped>
 .showcase-component {
-    border: 1px solid black;
     padding: 20px;
     width: 100%;
 }
