@@ -4,13 +4,15 @@
   <div>
     <div v-if="!loading" id="ratingContainer">
       <h2>Rate This Lesson</h2>
-      <div v-for="category in Object.keys(ratings)" id="ratingBlock">
-        <RatingComponent :score="ratings[category]" :category="category" />
-        <CreateRatingForm :contentId="lesson._id"
-                          :category="category"
-                          :score="Number(user_ratings[category])"
-                          :change-score-callback="changeUserScore"
-                          v-if="letInput" />
+      <div id="ratingList">
+        <div v-for="category in Object.keys(ratings)" id="ratingBlock">
+          <RatingComponent :score="ratings[category]" :category="category" />
+          <CreateRatingForm :contentId="lesson._id"
+                            :category="category"
+                            :score="Number(user_ratings[category])"
+                            :change-score-callback="changeUserScore"
+                            v-if="letInput" />
+        </div>
       </div>
     </div>
   </div>
@@ -86,12 +88,16 @@ export default {
 
 <style scoped>
 
+h2 {
+  wrap-option: none;
+}
+
 #ratingContainer {
   display: flex;
   flex-direction: row;
 
   width: 100%;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
 
   align-items: center;
 }
@@ -99,6 +105,9 @@ export default {
 #ratingList {
   display: flex;
   flex-direction: row;
+  width: 100%;
+
+  justify-content: space-around;
 
   /*flex-grow: 1;*/
 }
