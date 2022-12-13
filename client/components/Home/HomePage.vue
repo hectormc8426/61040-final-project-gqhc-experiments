@@ -1,16 +1,29 @@
 <template>
     <main>
         <section v-if="$store.state.username">
-            <header>
-                <h2>Welcome @{{ $store.state.username }}</h2>
-            </header>
-            <section class="links">
-                <router-link to="/create" class="link">
-                    <div class="home-option">Create A Lesson!</div>
-                </router-link>
-                <router-link to="/lessons" class="link">
-                    <div class="home-option">View All Lessons!</div>
-                </router-link>
+            <section class="homepage-header">
+                <div class="welcome-message-container">
+                    <h2 class="welcome-message">
+                        Welcome Back, <br> {{ $store.state.username }}!
+                    </h2>
+                </div>
+                <!-- <div class="streaks">
+                    THIS SHOULD BE STREAK
+                </div> -->
+            </section>
+            
+            <section class="cardContainer">
+                <h2 class="lesson-label"> Most Recent Lessons </h2>
+                <section class="lesson-container">
+                    <div v-for="lesson in recentLessons" class="card">
+                        <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">
+                            <h3>
+                                {{ lesson.title }}
+                            </h3>
+                        </router-link>
+                        <LessonTagGroup :lesson="lesson" />
+                    </div>
+                </section>
             </section>
         </section>
         <section v-else>
@@ -21,17 +34,46 @@
 
 <script>
 import HomeLoginPage from '@/components/Home/HomeLoginPage.vue';
+import LessonTagGroup from "../tag/LessonTagGroup";
 
 export default {
     name: 'HomePage',
-    components: { HomeLoginPage }
+    components: { HomeLoginPage, LessonTagGroup },
+    data() {
+        return {
+            recentLessons:[],
+        };
+    },
+    created() {
+        this.load();
+    },
+    methods: {
+        async load() {
+            const r = await fetch('api/lessons/recent');
+            const res = await r.json();
+            if (!r.ok) {
+                throw new Error(res.error);
+            }
+            this.recentLessons = res;
+        },
+    },
+
+    computed: {
+    }
 }
 
 </script>
 
-<style>
+<style scoped>
+
 .links {
     display: flex;
+    gap: 1em;
+}
+
+.homepage-header {
+    display: flex;
+    justify-content: space-between;
     gap: 1em;
 }
 
@@ -40,4 +82,41 @@ export default {
     border-radius: 5px;
     padding: 2em;
 }
+
+.lesson-container {
+    display: grid;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em; 
+    flex:1;
+    flex-direction: column;
+}
+
+.lesson-label {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding-left: 0.2em;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: var(--h3);
+}
+
+.card {
+    min-height:20%;
+    flex-grow: 1;
+}
+
+a {
+    color: var(--dark-font-color);
+    font-size: var(--h4);
+    text-decoration: none;
+}
+
+.welcome-message {
+    font-size: var(--h1);
+    text-align: center;
+}
+
 </style>

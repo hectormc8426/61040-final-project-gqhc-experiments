@@ -69,6 +69,15 @@ class LessonCollection {
     }
 
     /**
+     * Get up to 10 most recent lessons
+     * 
+     * @returns a list of up to ten most recent lessons
+     */
+    static async findRecentLessons(): Promise<Array<HydratedDocument<Lesson>>> {
+        return LessonModel.find().sort({ dateModified: -1 }).limit(10);
+    }
+
+    /**
      * Delete a lesson with the given lessonId
      * 
      * @param lessonId - The id of the lesson that will be deleted, if any
