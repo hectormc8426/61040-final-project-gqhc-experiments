@@ -2,28 +2,28 @@
     <nav>
         <div class="left">
             <!-- <img src="../../public/logo.svg"> -->
-          <router-link to="/" class=link>
-            <h1 class="title">
-              Music Mentors
-            </h1>
-          </router-link>
+            <router-link to="/" class=link>
+                <h1 class="title">
+                    Music Mentors
+                </h1>
+            </router-link>
 
-          <router-link v-if="$store.state.username" to="/create" class="link">
-            Create
-          </router-link>
+            <router-link v-if="$store.state.username" to="/create" class="link">
+                Create
+            </router-link>
 
-          <div class="verticalLine"/>
+            <div class="verticalLine" />
 
-          <router-link to="/lessons" class="link">
-            Search
-          </router-link>
+            <router-link to="/lessons" class="link">
+                Search
+            </router-link>
 
         </div>
 
         <div class="right">
-<!--            <router-link to="/showcases" class=link>-->
-<!--                Showcases-->
-<!--            </router-link>-->
+            <!--            <router-link to="/showcases" class=link>-->
+            <!--                Showcases-->
+            <!--            </router-link>-->
             <router-link v-if="$store.state.username" to="/user" class="link">
                 {{ $store.state.username }}
             </router-link>
@@ -52,37 +52,39 @@ nav {
 
     position: fixed;
     width: 100%;
+
+    z-index: 99;
 }
 
 nav div {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
-.link{
-  color: var(--primary-color);
-  text-decoration: none;
+.link {
+    color: var(--primary-color);
+    text-decoration: none;
 }
 
 .link:hover {
-  color: var(--tertiary-color);
+    color: var(--tertiary-color);
 }
 
 .verticalLine {
-  border-left: 2px solid var(--primary-color);
-  min-height: 100%;
+    border-left: 2px solid var(--primary-color);
+    min-height: 100%;
 }
 
 .title {
-  font-size: 32px;
-  margin: 0 8px;
-  padding: 4px 6px;
-  border: 2px solid var(--primary-color);
+    font-size: 32px;
+    margin: 0 8px;
+    padding: 4px 6px;
+    border: 2px solid var(--primary-color);
 }
 
 .title:hover {
-  border-color: var(--tertiary-color);
+    border-color: var(--tertiary-color);
 }
 
 img {

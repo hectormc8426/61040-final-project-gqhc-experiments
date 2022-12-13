@@ -1,48 +1,49 @@
 <template>
     <main class="lesson">
-        <header>
-            <h2>
-                {{ lesson.title }}
-            </h2>
-            <section class="lesson-info">
-                <h3 class="author">
-                    by {{ lesson.author }}
-                </h3>
-                <p class="info">
-                    {{ lesson.dateModified }}
-                </p>
-            </section>
-        </header>
-        <div v-if="$store.state.user && $store.state.user._id === lesson.userId" class="actions">
-            <div v-show="editing">
-                <MarkdownEditor v-model="content" ref='draftEditor' />
+        <article>
+            <header>
+                <h2>
+                    {{ lesson.title }}
+                </h2>
+                <section class="lesson-info">
+                    <p class="author">
+                        Author: {{ lesson.author }}
+                    </p>
+                    <p class="info">
+                        Published: {{ lesson.dateModified }}
+                    </p>
+                </section>
+            </header>
+            <div v-if="$store.state.user && $store.state.user._id === lesson.userId" class="actions">
+                <div v-show="editing">
+                    <MarkdownEditor v-model="content" ref='draftEditor' />
+                </div>
+
+                <button v-if="editing" @click="submitEdit">
+                    ✅ Save changes
+                </button>
+                <button v-if="editing" @click="stopEditing">
+                    🚫 Discard changes
+                </button>
+                <button v-if="!editing" @click="startEditing">
+                    ✏️ Edit
+                </button>
+                <button @click="deleteLesson">
+                    🗑️ Delete
+                </button>
             </div>
-
-            <button v-if="editing" @click="submitEdit">
-                ✅ Save changes
-            </button>
-            <button v-if="editing" @click="stopEditing">
-                🚫 Discard changes
-            </button>
-            <button v-if="!editing" @click="startEditing">
-                ✏️ Edit
-            </button>
-            <button @click="deleteLesson">
-                🗑️ Delete
-            </button>
-        </div>
-
-        <section class="lesson-content">
-            <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk"></div>
-        </section>
-
-
+            <section class="lesson-content">
+                <div v-html="chunkHTML" v-for="chunkHTML in parsedHTML" :key="chunkHTML.index" class="lessonChunk">
+                </div>
+            </section>
+        </article>
         <section class="ratings">
             <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
         </section>
 
-        <LessonShowcaseComponent v-if="$store.state.username" :lessonId="lesson._id" />
-        <CommentSection :lessonId="lesson._id" />
+        <LessonShowcaseComponent class="cardContainer" :lessonId="lesson._id" />
+
+        <CommentSection class="cardContainer" :lessonId="lesson._id" />
     </main>
 </template>
 
@@ -209,10 +210,6 @@ export default {
 </script>
 
 <style scoped>
-.info {
-    font-size: 15px;
-}
-
 .lesson-info {
     display: flex;
     align-items: baseline;
@@ -223,6 +220,7 @@ export default {
 .lesson-content {
     border-bottom: 1px solid black;
 }
+
 
 
 

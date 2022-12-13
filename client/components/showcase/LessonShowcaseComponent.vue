@@ -2,18 +2,23 @@
 <template>
     <section>
         <!-- Only show form if logged in -->
-        <section>
+        <section v-if="$store.state.username">
             <h2>
-                Create A Showcase
+                Showcase Your Learning!
             </h2>
             <div>
                 Demonstrate your learning from this lesson by making a showcase!
             </div>
-            <CreateShowcaseForm v-if="$store.state.username" :lessonId="lessonId" />
+            <CreateShowcaseForm class="card" :lessonId="lessonId" />
         </section>
         <h2>
             Showcases For This Lesson
         </h2>
+        <section v-if="!$store.state.username">
+            <div>
+                <router-link to="/">Login or create an account</router-link> to make showcases
+            </div>
+        </section>
         <ShowcaseCarousel :showcases="showcases" />
     </section>
 </template>

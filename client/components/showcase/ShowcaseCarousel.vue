@@ -1,6 +1,6 @@
 <template>
     <section>
-        <flickity class="flickity" ref="flickity" :options="flickityOptions">
+        <flickity class="flickity card" ref="flickity" :options="flickityOptions">
             <PerLessonShowcaseComponent class="carousel-cell" v-for="showcase in showcases" :showcase="showcase"
                 :key="showcase._id" />
         </flickity>
@@ -26,7 +26,7 @@ export default {
     data() {
         return {
             flickityOptions: {
-                prevNextButtons: true,
+                prevNextButtons: this.showcases.length > 1,
                 wrapAround: true,
                 draggable: false,
                 // any options from Flickity can be used
@@ -35,11 +35,11 @@ export default {
     }
 }</script>
 
-<style scoped>
+<style>
 .flickity {
     border: 1px solid black;
     overflow: scroll;
-    max-height: 50vh;
+    height: 30vh;
 }
 
 .flickity-page-dots {
