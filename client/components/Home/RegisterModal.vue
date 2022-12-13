@@ -40,7 +40,7 @@ form {
     position: relative;
     border-radius: 10px;
     width: 50vw;
-    background-color: #fff;
+    background-color: var(--primary-color);
 }
 
 article>div {

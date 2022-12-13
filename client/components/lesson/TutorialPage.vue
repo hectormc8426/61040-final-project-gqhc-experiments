@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <main>
         <h2>
             How to use the editor:
         </h2>
@@ -8,21 +8,25 @@
         </p>
         <ul>
             <li>
-                The text editor you see in the lesson page uses markdown editor. Markdown is an easy and clean language to format your text.
+                The text editor you see in the lesson page uses markdown editor. Markdown is an easy and clean language
+                to format your text.
             </li>
             <li>
                 You can treat it simply as a normal text editor, but you can do some cool things with it.
             </li>
             <li>
-                If you want to bolden your text (character, word, sentence, etc.), surround it with two */asterisk symbol.
+                If you want to bold your text (character, word, sentence, etc.), surround it with two */asterisk
+                symbols.
                 For example: **hello**
             </li>
             <li>
-                If you want to italicize your text (character, word, sentence, etc.), surround it with the underline character (_).
+                If you want to italicize your text (character, word, sentence, etc.), surround it with the underline
+                character (_).
                 For example: _hello_
             </li>
             <li>
-                If you want to make a title, add # (from 1-6) before the text you want to designate as a title (one # meaning
+                If you want to make a title, add # (from 1-6) before the text you want to designate as a title (one #
+                meaning
                 the biggest title there can be and six # meaning the smallest).
             </li>
         </ul>
@@ -33,7 +37,7 @@
         <a href='https://www.markdowntutorial.com/'> Markdown Tutorial </a>
 
         <p>
-            But normal markdown doesn't support videos. So we also have our own rules to accomodate!
+            But normal markdown doesn't support videos. So we also have our own rules to accommodate!
         </p>
 
         <ul>
@@ -47,7 +51,8 @@
                 Don't include brackets!
             </li>
             <li>
-                After each time you embed an image(s) or video(s), make sure to separate it from other elements by typing "---" between it and other elements (other embedded images, videos, or text in general).
+                After each time you embed an image(s) or video(s), <b>make sure to separate it from other elements by
+                    typing "---" between it and other elements (other embedded images, videos, or text in general).</b>
             </li>
         </ul>
 
@@ -58,7 +63,7 @@
         <p>
             Hello this is a lesson text.
         </p>
-        
+
 
         <p>
             ---
@@ -75,7 +80,7 @@
         <p>
             !video:videolink1
         </p>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -92,6 +97,5 @@ export default {
 
 
 <style scoped>
-
 
 </style>

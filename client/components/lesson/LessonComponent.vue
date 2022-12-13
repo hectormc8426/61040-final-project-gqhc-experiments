@@ -221,7 +221,9 @@ export default {
     border-bottom: 1px solid black;
 }
 
-
+h2 {
+    margin: 0;
+}
 
 
 #ratingBlock {

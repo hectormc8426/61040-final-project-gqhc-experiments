@@ -91,7 +91,8 @@ button {
 }
 
 button:hover {
-    background-color: var(--tertiary-color);
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
     -webkit-transition: all ease 1s;
     -moz-transition: all ease 1s;
     transition: all ease 1s;
@@ -117,33 +118,4 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: var(--section-gap);
-}
-
-.flickity {
-    border: 1px solid black;
-    overflow: scroll;
-    height: 50vh;
-}
-
-.flickity-button {
-    position: sticky;
-    bottom: 5em;
-}
-
-.flickity-button:hover {
-    color: var(--tertiary-color);
-}
-
-.flickity-button.previous {
-    left: 20px;
-}
-
-.flickity-button.next {
-    right: 20px;
-    float: right;
-}
-
-.flickity-page-dots {
-    position: sticky;
-    bottom: 10px;
 }

@@ -35,15 +35,16 @@ export default {
     }
 }</script>
 
-<style>
+<style scoped>
 section {
     overflow: auto;
 }
-
+</style>
+<style>
 .flickity {
     border: 1px solid black;
     overflow: scroll;
-    height: 50vh;
+    max-height: 50vh;
 }
 
 .flickity-button {
@@ -58,11 +59,11 @@ section {
 }
 
 .flickity-button.previous {
-    left: 20px;
+    left: 5px;
 }
 
 .flickity-button.next {
-    right: 20px;
+    right: 5px;
     float: right;
 }
 

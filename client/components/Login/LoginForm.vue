@@ -39,7 +39,7 @@ form {
   margin-bottom: 14px;
   position: relative;
   border-radius: 10px;
-  width: 50vw;
+  width: 40vw;
 }
 
 article>div {
@@ -61,14 +61,6 @@ form h3 {
 }
 
 textarea {
-  font-family: inherit;
-  font-size: inherit;
-}
-
-button {
-  padding: 5px;
-  border: 1px solid;
-  border-radius: 5px;
   font-family: inherit;
   font-size: inherit;
 }

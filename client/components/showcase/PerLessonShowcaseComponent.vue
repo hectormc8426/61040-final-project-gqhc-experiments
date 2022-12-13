@@ -152,11 +152,12 @@ export default {
 
 <style scoped>
 .showcase-component {
-    padding: 20px;
+    padding: 0 2em;
     width: 100%;
     overflow: auto;
     display: flex;
     flex-direction: column;
+    height: auto;
 }
 
 .editor {

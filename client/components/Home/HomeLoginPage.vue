@@ -43,6 +43,10 @@ export default {
 </script>
 
 <style scoped>
+section {
+    overflow: none;
+}
+
 .register-modal {
     position: fixed;
     /* Stay in place */
@@ -71,9 +75,6 @@ export default {
     position: relative;
 }
 
-.create {
-    border-radius: 5px;
-}
 
 .page-content {
     display: flex;
@@ -84,11 +85,13 @@ export default {
 .intro {
     display: flex;
     flex-direction: column;
+    width: 45vw;
 }
 
 .login-forms {
     display: flex;
     flex-direction: column;
+    width: 40vw;
 }
 
 .exit {
