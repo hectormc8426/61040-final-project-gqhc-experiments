@@ -165,6 +165,7 @@ main {
   display: flex;
   flex-direction: row;
   gap: 32px;
+  min-height: 100vh;
 }
 
 #searchBar {
