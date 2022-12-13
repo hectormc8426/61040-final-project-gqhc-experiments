@@ -49,7 +49,9 @@ nav {
 
     justify-content: space-between;
     align-items: center;
-    position: relative;
+
+    position: fixed;
+    width: 100%;
 }
 
 nav div {

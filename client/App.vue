@@ -53,7 +53,7 @@ body {
 }
 
 main {
-  padding: 3em 4em 5em;
+  padding: 7em 4em 5em;
 }
 
 .alerts {
