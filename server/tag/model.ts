@@ -1,5 +1,5 @@
-import type {Types, Document} from 'mongoose';
-import {Schema, model} from 'mongoose';
+import type { Types, Document } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 export type Tag = {
   _id: Types.ObjectId; // id of tag object
@@ -10,7 +10,8 @@ export type Tag = {
 const TagSchema = new Schema({
   contentId: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: "Lesson"
   },
   tagname: {
     type: String,

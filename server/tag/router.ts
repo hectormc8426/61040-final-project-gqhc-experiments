@@ -1,4 +1,4 @@
-import type {Request, Response} from 'express';
+import type { Request, Response } from 'express';
 import express from 'express';
 
 import TagCollection from "./collection";
@@ -68,6 +68,30 @@ router.get(
 );
 
 /**
+ * Get all tags based on tag query
+ *
+ * @param contentId - id of content
+ * @return {} - list of all tagnames on content
+ *
+ * @throws {404} Content does not exist
+ */
+router.get(
+  '/search/:tag?',
+  [
+    // TODO content exists
+  ],
+  async (req: Request, res: Response) => {
+    const tagsQuery = JSON.parse(req.params.tag); // list of tags
+    const tags = await TagCollection.findAllPopulatedByTagname(tagsQuery);
+
+    res.status(200).json({
+      message: 'Here are all tags on content',
+      tags: tags
+    });
+  }
+);
+
+/**
  * Delete tag on content with tagname
  *
  * @param contentId - id of content
@@ -97,4 +121,4 @@ router.delete(
   }
 );
 
-export {router as tagRouter};
+export { router as tagRouter };

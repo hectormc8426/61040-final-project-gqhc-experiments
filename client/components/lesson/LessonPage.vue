@@ -3,11 +3,21 @@
         <aside id="searchBar">
           <div class="loader" v-if="loading"/>
 
-          <div v-else id="lessonNameInput">
+          <div id="lessonNameInput">
             Lesson Name
             <div id="inputField">
               <input v-model='query'/>
               <button v-on:click='search'>
+                Search
+              </button>
+            </div>
+          </div>
+
+          <div id="lessonNameInput">
+            Tag name
+            <div id="inputField">
+              <input v-model='tagQuery'/>
+              <button v-on:click='tagSearch'>
                 Search
               </button>
             </div>
@@ -60,6 +70,7 @@ export default {
     mixins: { markdownMixin },
     data() {
         return {
+            tagQuery: "",
             query: "",
             title: "",
             content: "",
