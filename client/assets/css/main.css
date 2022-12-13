@@ -15,6 +15,7 @@
     --fuzzy-border-color: rgba(0, 0, 0, .15);
     --fuzzy-border: 2px solid var(--fuzzy-border-color);
 
+    --round-border-tinytiny: 4px;
     --round-border-tiny: 8px;
     --round-border-small: 12px;
     --round-border-medium: 18px;
@@ -68,6 +69,8 @@
 
     background-color: var(--primary-color);
     color: var(--dark-font-color);
+
+    overflow: clip;
 }
 
 a {
