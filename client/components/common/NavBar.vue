@@ -2,27 +2,33 @@
     <nav>
         <div class="left">
             <!-- <img src="../../public/logo.svg"> -->
+          <router-link to="/" class=link>
             <h1 class="title">
-                Music Mentors
+              Music Mentors
             </h1>
+          </router-link>
+
+          <router-link v-if="$store.state.username" to="/create" class="link">
+            Create
+          </router-link>
+
+          <div class="verticalLine"/>
+
+          <router-link to="/lessons" class="link">
+            Search
+          </router-link>
+
         </div>
+
         <div class="right">
-            <router-link to="/" class=link>
-                Home
-            </router-link>
-            <router-link v-if="$store.state.username" to="/create" class="link">
-                Create A Lesson
-            </router-link>
-            <router-link to="/lessons">
-                Lessons
-            </router-link>
-            <router-link to="/showcases" class=link>
-                Showcases
-            </router-link>
-            <router-link v-if="$store.state.username" to="/user">
+<!--            <router-link to="/showcases" class=link>-->
+<!--                Showcases-->
+<!--            </router-link>-->
+            <router-link v-if="$store.state.username" to="/user" class="link">
                 {{ $store.state.username }}
             </router-link>
         </div>
+
         <section class="alerts">
             <article v-for="(status, alert, index) in $store.state.alerts" :key="index" :class="status">
                 <p>{{ alert }}</p>
@@ -36,16 +42,37 @@ nav {
     padding: 1vw 2vw;
     background-color: var(--header-color);
     color: var(--primary-color);
+    font-size: 22px;
+
     display: flex;
+    flex-direction: row;
+
     justify-content: space-between;
     align-items: center;
     position: relative;
-    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+nav div {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.link{
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.verticalLine {
+  border-left: 2px solid var(--primary-color);
+  min-height: 100%;
 }
 
 .title {
-    font-size: 32px;
-    margin: 0 5px;
+  font-size: 32px;
+  margin: 0 8px;
+  padding: 4px 6px;
+  border: 2px solid var(--primary-color);
 }
 
 img {
@@ -58,7 +85,7 @@ img {
 }
 
 .right {
-    font-size: 20px;
+    /*font-size: 20px;*/
     display: grid;
     gap: 16px;
     grid-auto-flow: column;
