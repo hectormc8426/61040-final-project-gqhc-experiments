@@ -1,15 +1,15 @@
 <template>
     <article class="card">
-      <h2>{{ quest.desc }}</h2>
-      <p v-if="quest.currentProgress < quest.goalProgress">
-          Progress: {{ quest.currentProgress }}/{{ quest.goalProgress }}
-      </p>
-      <p v-else>
-          Progress: COMPLETED ✅
-      </p>
-      <p>
-          Reward: {{ quest.reward }} xp
-      </p>
+        <h2>{{ quest.desc }}</h2>
+        <p v-if="quest.currentProgress < quest.goalProgress">
+            Progress: {{ quest.currentProgress }}/{{ quest.goalProgress }}
+        </p>
+        <p v-else>
+            Progress: COMPLETED <i class="fa fa-solid fa-square-check"></i>
+        </p>
+        <p>
+            Reward: {{ quest.reward }} xp
+        </p>
     </article>
 </template>
 
