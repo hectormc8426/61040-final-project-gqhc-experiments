@@ -64,14 +64,17 @@ class TagCollection {
     if (results.length == 0) {
       return [];
     }
+    console.log('result' + results);
     const filtered = [];
     for (const result of results[0]) {
       let inAll = true;
       for (const otherList of results) {
         let isContained = false;
         for (const otherItem of otherList) {
+          console.log('REACHED HEREEEEEE 2222');
           // @ts-ignore
           if (otherItem.contentId.originalContent === result.contentId.originalContent) {
+            console.log('REACHED HEREEEEEE');
             isContained = true;
             break;
           }
