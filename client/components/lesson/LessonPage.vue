@@ -4,7 +4,7 @@
             <!--          <div class="loader" v-if="loading"/>-->
 
             <div id="lessonNameInput">
-                <h3 id="lessonNameTitle"> Search by Title </h3>
+                <h3 id="lessonNameTitle"> Search By Title </h3>
                 <div id="inputGroup">
                     <input v-model='query' id="inputField" />
                     <button v-on:click='search' id="inputButton">
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <!-- </div> -->
-            <hr/>
+            <hr />
             <!--          <hr style="width: 100%; border: 1px solid black"/>-->
 
             <div id="lessonNameInput">
@@ -182,20 +182,20 @@ main {
 }
 
 #searchBar {
-  height: fit-content;
-  flex-grow: 1;
-  padding-top: 2em;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 5.5em;
+    height: fit-content;
+    flex-grow: 1;
+    padding-top: 2em;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5.5em;
 
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
 }
 
 hr {
-  width: 100%;
+    width: 100%;
 }
 
 #mainBody {
