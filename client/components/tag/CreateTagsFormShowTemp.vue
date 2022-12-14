@@ -35,8 +35,9 @@ export default {
   },
   methods: {
     addTempTag() {
-      if (this.tagname !== '' && !this.tagnames.includes(this.tagname)) {
-        this.tagnames.push(this.tagname.toLowerCase());
+      const tagname = this.tagname.toLowerCase();
+      if (tagname !== '' && !this.tagnames.includes(tagname)) {
+        this.tagnames.push(tagname);
       }
       this.tagname = '';
     },
