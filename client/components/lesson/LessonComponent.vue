@@ -24,16 +24,16 @@
                 </div>
 
                 <button v-if="editing" @click="submitEdit">
-                    ✅ Save changes
+                    <i class="fa fa-solid fa-check"></i> Save changes
                 </button>
                 <button v-if="editing" @click="stopEditing">
-                    🚫 Discard changes
+                    <i class="fa fa-solid fa-ban"></i> Discard changes
                 </button>
                 <button v-if="!editing" @click="startEditing">
-                    ✏️ Edit
+                    <i class="fa fa-solid fa-pen-to-square"></i> Edit
                 </button>
                 <button @click="deleteLesson">
-                    🗑️ Delete
+                    <i class="fa fa-solid fa-x"></i> Delete Lesson
                 </button>
             </div>
             <section class="lesson-content">
@@ -222,7 +222,8 @@ export default {
     margin-top: 0;
 }
 
-.lesson-content {
+article {
+    padding-bottom: 2vh;
     border-bottom: 1px solid black;
 }
 

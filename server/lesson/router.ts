@@ -5,6 +5,9 @@ import * as LessonValidator from './middleware';
 import * as UserValidator from '../user/middleware';
 import * as util from './util';
 import ShowcaseCollection from '../showcase/collection';
+import RatingCollection from "../rating/collection";
+import TagCollection from "../tag/collection";
+import CommentCollection from "../comment/collection";
 
 const router = express.Router();
 
@@ -125,6 +128,9 @@ router.delete(
     async (req: Request, res: Response) => {
         await LessonCollection.deleteOne(req.params.lessonId);
         await ShowcaseCollection.deleteByLessonId(req.params.lessonId);
+        await RatingCollection.deleteManyByContentId(req.params.lessonId);
+        await TagCollection.deleteManyByContentId(req.params.lessonId);
+        await CommentCollection.deleteManyLesson(req.params.lessonId);
 
         res.status(200).json({
             message: 'Your lesson was deleted successfully.'

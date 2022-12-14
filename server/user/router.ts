@@ -5,6 +5,9 @@ import * as userValidator from './middleware';
 import UserCollection from './collection';
 import ShowcaseCollection from '../showcase/collection';
 import LessonCollection from '../lesson/collection';
+import RatingCollection from "../rating/collection";
+import TagCollection from "../tag/collection";
+import CommentCollection from "../comment/collection";
 
 const router = express.Router();
 
@@ -167,6 +170,9 @@ router.delete(
         // Delete associated showcases and lessons
         await ShowcaseCollection.deleteByUser(userId);
         await LessonCollection.deleteMany(userId);
+        await RatingCollection.deleteManyByUserId(userId);
+        await CommentCollection.deleteManyUser(userId);
+
 
         req.session.userId = undefined;
         res.status(200).json({

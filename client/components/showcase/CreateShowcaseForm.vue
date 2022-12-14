@@ -4,6 +4,9 @@
             <div class="flex-child">
                 <MarkdownEditor v-model="content" ref='markdownEditor' :configs="configs" class="editor" />
                 <div class="controllers">
+                    <button v-on:click='showTutorial'>
+                        Help
+                    </button>
                     <button v-on:click='preview'>
                         Preview
                     </button>
@@ -71,7 +74,10 @@ export default {
         };
     },
     methods: {
-
+        showTutorial() {
+            let routeData = this.$router.resolve({ name: '/PLACEHOLDER' }); // just to get the base url
+            window.open(routeData.href + 'tutorial');
+        },
         async submit() {
             if (confirm('Submit your showcase?')) {
                 const contentToOptions = (showcaseContent) => {
