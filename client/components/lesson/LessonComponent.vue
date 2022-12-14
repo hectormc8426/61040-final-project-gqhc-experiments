@@ -42,7 +42,7 @@
             </section>
         </article>
         <section class="ratings">
-            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" :show-title="true"/>
+            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" :show-title="true" />
         </section>
 
         <LessonShowcaseComponent class="cardContainer" :lessonId="lesson._id" />
@@ -222,7 +222,8 @@ export default {
     margin-top: 0;
 }
 
-.lesson-content {
+article {
+    padding-bottom: 2vh;
     border-bottom: 1px solid black;
 }
 
