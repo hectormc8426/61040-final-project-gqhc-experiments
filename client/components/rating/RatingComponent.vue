@@ -39,7 +39,7 @@ export default {
   mounted() {
     this.growRatingCircle();
   },
-  update() {
+  beforeUpdate() {
     this.growRatingCircle();
   },
   methods: {
