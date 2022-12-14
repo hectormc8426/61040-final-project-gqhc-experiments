@@ -4,7 +4,7 @@
             <!--          <div class="loader" v-if="loading"/>-->
 
             <div id="lessonNameInput">
-                <h3 id="lessonNameTitle"> Lesson Name </h3>
+                <h3 id="lessonNameTitle"> Search by Title </h3>
                 <div id="inputGroup">
                     <input v-model='query' id="inputField" />
                     <button v-on:click='search' id="inputButton">
@@ -17,7 +17,7 @@
             <!--          <hr style="width: 100%; border: 1px solid black"/>-->
 
             <div id="lessonNameInput">
-                <h3 id="lessonNameTitle"> Input Tags </h3>
+                <h3 id="lessonNameTitle"> Search By Tags </h3>
                 <CreateTagsFormShowTemp ref="tempTags" />
                 <button v-on:click="searchByTags()">Search</button>
             </div>
