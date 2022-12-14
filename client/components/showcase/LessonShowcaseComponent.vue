@@ -16,10 +16,10 @@
         </h2>
         <section v-if="!$store.state.username">
             <div>
-                <router-link to="/">Login or create an account</router-link> to make showcases
+                <router-link to="/">Sign in or create an account</router-link> to make showcases
             </div>
         </section>
-        <ShowcaseCarousel :showcases="showcases" />
+        <ShowcaseCarousel v-if="(showcases.length > 0)" :showcases="showcases" />
     </section>
 </template>
 

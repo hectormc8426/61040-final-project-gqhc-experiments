@@ -7,11 +7,8 @@
       <div id="ratingList">
         <div v-for="category in Object.keys(ratings)" id="ratingBlock">
           <RatingComponent :score="ratings[category]" :category="category" />
-          <CreateRatingForm :contentId="lesson._id"
-                            :category="category"
-                            :score="Number(user_ratings[category])"
-                            :change-score-callback="changeUserScore"
-                            v-if="letInput" />
+          <CreateRatingForm :contentId="lesson._id" :category="category" :score="Number(user_ratings[category])"
+            :change-score-callback="changeUserScore" v-if="letInput" />
         </div>
       </div>
     </div>
@@ -87,7 +84,6 @@ export default {
 </script>
 
 <style scoped>
-
 h2 {
   wrap-option: none;
 }

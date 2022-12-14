@@ -13,6 +13,10 @@
                         Published: {{ lesson.dateModified }}
                     </p>
                 </section>
+                <section class="tag-info">
+                    <p>Tags:</p>
+                    <LessonTagGroup :lesson="lesson" />
+                </section>
             </header>
             <div v-if="$store.state.user && $store.state.user._id === lesson.userId" class="actions">
                 <div v-show="editing">
@@ -38,7 +42,7 @@
             </section>
         </article>
         <section class="ratings">
-            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
+            <PerLessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
         </section>
 
         <LessonShowcaseComponent class="cardContainer" :lessonId="lesson._id" />
@@ -54,13 +58,14 @@ import markdownMixin from '@/mixins/markdownMixin.js';
 import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseComponent.vue';
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
-import LessonRatingGroup from "@/components/rating/LessonRatingGroup";
+import PerLessonRatingGroup from "@/components/rating/PerLessonRatingGroup";
 import CommentSection from "@/components/comment/CommentSection";
+import LessonTagGroup from "@/components/tag/LessonTagGroup";
 
 export default {
     name: 'LessonComponent',
     components: {
-        LessonShowcaseComponent, RatingComponent, CreateRatingForm, LessonRatingGroup, CommentSection, MarkdownEditor
+        LessonShowcaseComponent, RatingComponent, CreateRatingForm, PerLessonRatingGroup, CommentSection, MarkdownEditor, LessonTagGroup
     },
     mixins: { markdownMixin },
     data() {
@@ -229,5 +234,10 @@ h2 {
 #ratingBlock {
     display: inline-block;
     margin: 8px 24px;
+}
+
+.tag-info {
+    display: flex;
+    align-items: center;
 }
 </style>

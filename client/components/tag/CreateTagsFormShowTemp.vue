@@ -9,7 +9,7 @@
     </div>
 
     <div id="tempTagContainer">
-      <TempTag v-for="tagname in tagnames" :callback="removeTempTag" :tagname="tagname" :key="tagnames"/>
+      <TempTag v-for="tagname in tagnames" :callback="removeTempTag" :tagname="tagname" :key="tagname.name" />
     </div>
 
   </article>
