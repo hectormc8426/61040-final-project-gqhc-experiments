@@ -11,10 +11,11 @@
 
 <script>
 import QuestComponent from '@/components/quest/QuestComponent.vue';
+import QuestProgressPopup from '@/components/quest/QuestProgressPopup.vue';
 
 export default {
   name: 'QuestView',
-  components: { QuestComponent },
+  components: { QuestComponent, QuestProgressPopup },
   computed: {
 
   },
@@ -52,12 +53,10 @@ export default {
 </script>
 
 <style scoped>
-
 #questTitle {
   font-size: var(--h1);
   margin-top: 0;
 
   color: var(--dark-font-color);
 }
-
 </style>

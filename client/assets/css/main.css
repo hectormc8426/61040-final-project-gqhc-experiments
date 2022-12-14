@@ -126,3 +126,21 @@ button:hover {
 input {
     font-family: inherit;
 }
+
+.levelCircle {
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    line-height: 1em;
+
+    -moz-border-radius: 30px;
+    /* or 50% */
+    border-radius: 30px;
+    /* or 50% */
+
+    background-color: rgb(248, 216, 8);
+    color: black;
+    text-align: center;
+    font-size: 1em;
+    font-weight: bolder;
+}

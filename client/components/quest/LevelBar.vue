@@ -1,6 +1,6 @@
 <template>
   <div id="levelContainer">
-    <div id="level"> Level {{ currentLevel }} </div>
+    <span id="level"> Level <span class="levelCircle">{{ currentLevel }} </span></span>
 
     <div id="expContainer">
       <div id="expBar">
@@ -32,15 +32,15 @@ export default {
     },
   },
   methods: {
-    growExp () {
+    growExp() {
       const item = document.getElementById('growBar');
       item.animate({
-            width: [0, (this.currentExperience / this.experienceToLevelUp) * 100 + '%'],
-          },
-          {
-            duration: 1000,
-            fill: "forwards"
-          })
+        width: [0, (this.currentExperience / this.experienceToLevelUp) * 100 + '%'],
+      },
+        {
+          duration: 1000,
+          fill: "forwards"
+        })
       // item.textContent=this.currentExperience;
     }
   }
@@ -48,7 +48,6 @@ export default {
 </script>
 
 <style scoped>
-
 #levelContainer {
   min-width: 10vw;
   width: 100%;
@@ -82,7 +81,8 @@ export default {
   border: var(--fuzzy-border);
 
   overflow: hidden;
-  display: flex; /* center align growBar */
+  display: flex;
+  /* center align growBar */
   align-items: center;
 }
 
@@ -90,7 +90,8 @@ export default {
   height: 100%;
   width: 0;
 
-  margin: 0; /* necessary for anim to look good */
+  margin: 0;
+  /* necessary for anim to look good */
   padding: 0;
 
   border-radius: var(--round-border-medium);
@@ -104,5 +105,4 @@ export default {
   white-space: nowrap;
   font-size: 20px;
 }
-
 </style>

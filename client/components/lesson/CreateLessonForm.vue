@@ -188,8 +188,7 @@ export default {
 
                 this.$store.commit('refreshLessons');
 
-
-
+                this.$router.push({ name: 'Home' });
 
             }
         },

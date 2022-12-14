@@ -21,7 +21,7 @@
             <div class="verticalLine" />
 
             <router-link v-if="$store.state.username" to="/user" class="link">
-              Quests
+                Quests
             </router-link>
 
         </div>
@@ -33,6 +33,7 @@
             <router-link v-if="$store.state.username" to="/user" class="link">
                 {{ $store.state.username }}
             </router-link>
+
         </div>
 
         <section class="alerts">

@@ -45,7 +45,8 @@ export type User = {
     experiencePoints: number;
     quests: Map<string, Quest>;
     dailyLoginDate: Date;
-
+    loginStreak: number;
+    loginDays: Array<Date>;
 };
 
 // Type definition for populated User (with cosmetic fields populated)
@@ -57,6 +58,8 @@ export type PopulatedUser = {
     experiencePoints: number;
     quests: Map<string, Quest>
     dailyLoginDate: Date;
+    loginStreak: number;
+    loginDays: Array<Date>;
 }
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -89,6 +92,14 @@ const UserSchema = new Schema({
     },
     dailyLoginDate: {
         type: Date,
+        required: true
+    },
+    loginStreak: {
+        type: Number,
+        required: true
+    },
+    loginDays: {
+        type: Array,
         required: true
     }
 });

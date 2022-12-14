@@ -88,10 +88,13 @@ export default {
             const visitDate = new Date();
             const visitTime = visitDate.getTime();
             const oldTime = Date.parse(res.user.dailyLoginDate);
-            console.log(typeof oldTime);
-            console.log(res.user.dailyLoginDate)
+            let streak = res.user.loginStreak ? res.user.loginStreak : 1;
+            const loginDates = res.user.loginDates ? res.user.loginDates : new Array([visitDate]);
 
             if (visitTime - oldTime >= 8.64e7) {
+
+              streak += 1;
+              loginDates.push(visitDate);
 
               const quest1 = { "questName": "login", "progress": 1 };
               this.$store.commit("setQuest", quest1);
@@ -114,6 +117,34 @@ export default {
                 const res = await response.json();
                 throw new Error(res.error);
               }
+
+              this.$store.commit('alert', {
+                message: 'QUEST COMPLETE: Login Everyday!', status: 'quest'
+              });
+            }
+
+            if (visitTime - oldTime >= 2 * 8.64e7) {
+              streak = 1
+            }
+
+            this.$store.commit('setLoginStreak', streak);
+            this.$store.commit('setLoginDates', loginDates);
+
+            const contentToOptions2 = () => {
+              return {
+                method: 'PATCH',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  loginDays: loginDates,
+                  loginStreak: streak
+                }),
+              };
+            };
+            let options = contentToOptions2();
+            const response = await fetch("/api/users", options);
+            if (!response.ok) {
+              const res = await response.json();
+              throw new Error(res.error);
             }
           }
         }

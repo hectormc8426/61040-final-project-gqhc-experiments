@@ -42,7 +42,7 @@
             </section>
         </article>
         <section class="ratings">
-            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" :show-title="true"/>
+            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" :show-title="true" />
         </section>
 
         <LessonShowcaseComponent class="cardContainer" :lessonId="lesson._id" />

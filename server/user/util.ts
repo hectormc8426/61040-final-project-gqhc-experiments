@@ -10,6 +10,8 @@ type UserResponse = {
   experiencePoints: number;
   quests: Array<Quest>;
   dailyLoginDate: Date;
+  loginStreak: number;
+  loginDays: Array<Date>;
 };
 
 /**
@@ -43,6 +45,8 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
     experiencePoints: userCopy.experiencePoints,
     quests: constructQuestResponse(user.quests),
     dailyLoginDate: userCopy.dailyLoginDate,
+    loginStreak: userCopy.loginStreak,
+    loginDays: userCopy.loginDays
   };
 };
 

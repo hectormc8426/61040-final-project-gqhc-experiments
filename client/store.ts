@@ -22,6 +22,8 @@ const store = new Vuex.Store({
     quests: null,
     comments: [],
     lessons: [],
+    loginStreak: null,
+    loginDates: []
     // TODO: Fill this with appropriate states
   },
   getters: {
@@ -73,6 +75,20 @@ const store = new Vuex.Store({
        */
       state.showcases = showcases;
     },
+    setLoginStreak(state, streak) {
+      /**
+       * Update the stored setLoginStreak to the specified one
+       * @param streak - the new streak value
+       */
+      state.loginStreak = streak;
+    },
+    setLoginDates(state, dates) {
+      /**
+       * Update the stored loginDates to the specified list of dates
+       * @param streak - the new loginDates value
+       */
+      state.loginDates = dates;
+    },
     setLessons(state, payload) {
       /**
        * Update the stored lessons to the specified one
@@ -107,12 +123,26 @@ const store = new Vuex.Store({
 
       if (!completed) {
         state.quests[questIndex].currentProgress += questNameAndProgress.progress;
+
         if (state.quests[questIndex].currentProgress >= state.quests[questIndex].goalProgress) {
           state.experiencePoints += state.quests[questIndex].reward;
+
+          const celebrationMsg = 'QUEST COMPLETE: ' + state.quests[questIndex].desc
+          Vue.set(state.alerts, celebrationMsg, 'questDone');
+          setTimeout(() => {
+            Vue.delete(state.alerts, celebrationMsg);
+          }, 3000);
 
           if (state.quests[questIndex].repeatAmount > 0) {
             state.quests[questIndex].goalProgress += state.quests[questIndex].repeatAmount;
           }
+        }
+        else {
+          const celebrationMsg = 'QUEST PROGRESS: ' + state.quests[questIndex].desc
+          Vue.set(state.alerts, celebrationMsg, 'quest');
+          setTimeout(() => {
+            Vue.delete(state.alerts, celebrationMsg);
+          }, 3000);
         }
       }
       state.level = Math.floor(state.experiencePoints / pointsToLevel + 1);
@@ -129,7 +159,7 @@ const store = new Vuex.Store({
       state.experiencePoints = res.user.experiencePoints;
       state.level = Math.floor(res.user.experiencePoints / pointsToLevel + 1);
       state.quests = res.user.quests;
-
+      state.loginStreak = res.user.loginStreak;
       console.log(state.quests);
     },
     async refreshShowcases(state) {
