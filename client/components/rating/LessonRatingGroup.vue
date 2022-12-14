@@ -2,11 +2,11 @@
 
 <template>
   <div id="lessonRatingGroup">
-    <div v-if="!loading" id="ratingContainer">
+    <div id="ratingContainer">
       <h2 v-if="letInput">Rate This Lesson</h2>
       <h2 v-else-if="showTitle">Ratings For This Lesson</h2>
 
-      <div id="ratingList">
+      <div v-if="!loading" id="ratingList">
         <div v-for="category in Object.keys(ratings)" id="ratingBlock">
           <RatingComponent :score="ratings[category]" :category="category" />
           <CreateRatingForm :contentId="lesson._id" :category="category" :score="Number(user_ratings[category])"
