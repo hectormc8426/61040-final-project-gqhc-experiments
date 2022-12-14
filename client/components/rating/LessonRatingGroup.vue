@@ -4,6 +4,8 @@
   <div id="lessonRatingGroup">
     <div v-if="!loading" id="ratingContainer">
       <h2 v-if="letInput">Rate This Lesson</h2>
+      <h2 v-else-if="showTitle">Ratings For This Lesson</h2>
+
       <div id="ratingList">
         <div v-for="category in Object.keys(ratings)" id="ratingBlock">
           <RatingComponent :score="ratings[category]" :category="category" />
@@ -31,6 +33,10 @@ export default {
     letInput: {
       type: Boolean,
       required: true
+    },
+    showTitle: {
+      type: Boolean,
+      required: true,
     }
   },
   data() {

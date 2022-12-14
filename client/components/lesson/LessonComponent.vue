@@ -42,7 +42,7 @@
             </section>
         </article>
         <section class="ratings">
-            <PerLessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" />
+            <LessonRatingGroup :lesson="lesson" :letInput="$store.state.username !== null" :show-title="true"/>
         </section>
 
         <LessonShowcaseComponent class="cardContainer" :lessonId="lesson._id" />
@@ -58,14 +58,14 @@ import markdownMixin from '@/mixins/markdownMixin.js';
 import LessonShowcaseComponent from '@/components/showcase/LessonShowcaseComponent.vue';
 import RatingComponent from "@/components/rating/RatingComponent";
 import CreateRatingForm from "@/components/rating/CreateRatingForm";
-import PerLessonRatingGroup from "@/components/rating/PerLessonRatingGroup";
 import CommentSection from "@/components/comment/CommentSection";
 import LessonTagGroup from "@/components/tag/LessonTagGroup";
+import LessonRatingGroup from "../rating/LessonRatingGroup";
 
 export default {
     name: 'LessonComponent',
     components: {
-        LessonShowcaseComponent, RatingComponent, CreateRatingForm, PerLessonRatingGroup, CommentSection, MarkdownEditor, LessonTagGroup
+        LessonShowcaseComponent, LessonRatingGroup, RatingComponent, CreateRatingForm, CommentSection, MarkdownEditor, LessonTagGroup
     },
     mixins: { markdownMixin },
     data() {
