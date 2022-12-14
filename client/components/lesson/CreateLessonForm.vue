@@ -189,7 +189,10 @@ export default {
                 this.parsedHTML = [];
 
                 this.$store.commit('refreshLessons');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7d803f51403904a1e20edb3a0548e1807e282c90
                 console.log(lessonId);
                 this.$router.push(`/lessons/${lessonId}`);
             }
