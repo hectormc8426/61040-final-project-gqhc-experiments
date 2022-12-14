@@ -129,9 +129,9 @@ input {
 
 .levelCircle {
     display: inline-block;
-    height: 1em;
-    width: 1em;
-    line-height: 1em;
+    height: 1.2em;
+    width: 1.2em;
+    line-height: 1.2em;
 
     -moz-border-radius: 30px;
     /* or 50% */

@@ -116,6 +116,7 @@ export default {
 
                 this.content = this.$refs.markdownEditor.$data.content;
                 const lessonChunks = this.format();
+                let lessonId = '';
                 await this.imgURLToData(lessonChunks).then(async (lessonChunks2) => {
                     const options = contentToOptions(lessonChunks2);
 
@@ -127,6 +128,7 @@ export default {
 
                     // add tags to lesson
                     const res = await response.json();
+                    lessonId = res.lesson._id;
                     await this.$refs.TagForm.submit(res.lesson._id);
                 });
 
@@ -187,9 +189,14 @@ export default {
                 this.parsedHTML = [];
 
                 this.$store.commit('refreshLessons');
+<<<<<<< HEAD
 
                 this.$router.push({ name: 'Home' });
 
+=======
+                console.log(lessonId);
+                this.$router.push(`/lessons/${lessonId}`);
+>>>>>>> efa3bcd5b055fa09dd231f45e666dd486c0eea93
             }
         },
         format() {

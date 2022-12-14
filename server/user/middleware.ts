@@ -34,7 +34,7 @@ const isValidUsername = (req: Request, res: Response, next: NextFunction) => {
     });
     return;
   }
-  if (req.body.username.length > 20) {
+  if (req.body.username && req.body.username.length > 20) {
     res.status(400).json({
       error: 'Username must not be more than 20 characters.'
     });

@@ -86,16 +86,16 @@ main {
 }
 
 .alerts .quest {
-  transform: translate(-20%, 10%);
-  width: 150%;
-  background-color: rgb(178, 125, 0);
+  transform: translate(-15%, 10%);
+  width: 200%;
+  background-color: rgb(177, 65, 0);
   border-color: var(--header-color) !important;
   margin: 0.5em !important;
 }
 
 .alerts .questDone {
-  transform: translate(-20%, 10%);
-  width: 150%;
+  transform: translate(-15%, 10%);
+  width: 200%;
   background-color: rgb(45, 135, 87);
   border-color: var(--header-color) !important;
   margin: 0.5em !important;
