@@ -97,18 +97,21 @@ export default {
             }
         },
         async searchByTags() {
-          const tagnames = this.$refs.tempTags.getTagnames();
-          console.log(tagnames);
-          if (tagnames) {
-            const r = await fetch(`/api/tag/search/${JSON.stringify(tagnames)}`);
-            const res = await r.json();
-            this.$store.commit({
-              type: 'setLessons',
-              lessons: res
-            });
-          } else {
-            this.$store.commit('refreshLessons');
-          }
+            const tagnames = this.$refs.tempTags.getTagnames();
+            console.log("tag names", tagnames);
+            if (tagnames.length > 0) {
+                const r = await fetch(`/api/tag/search/${JSON.stringify(tagnames)}`);
+                const res = await r.json();
+
+                const lessons = res.tags.map((tag) => tag.contentId);
+                this.$store.commit({
+                    type: 'setLessons',
+                    lessons: lessons
+                });
+                console.log("set lessons", lessons);
+            } else {
+                this.$store.commit('refreshLessons');
+            }
         },
         async preview() {
             // accessing the text content within the markdown editor

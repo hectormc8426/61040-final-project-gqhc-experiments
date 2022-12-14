@@ -3,7 +3,7 @@
     <section class="cardContainer">
       <h1 id="lessonContainerTitle">Lessons</h1>
 
-      <div v-for="lesson in $store.state.lessons.slice().reverse()" class="card">
+      <div v-for="lesson in ($store.state.lessons).slice().reverse()" class="card">
 
         <div id="lessonContent">
           <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">

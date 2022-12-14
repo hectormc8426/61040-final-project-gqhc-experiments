@@ -60,21 +60,20 @@ class TagCollection {
    */
   static async findAllPopulatedByTagname(tags: string[]) {
     let results = await Promise.all(tags.map(async (tag) => await TagModel.find({ tagname: (new RegExp(tag, "i")) }).populate("contentId")));
-    // console.log("results" + results);
     if (results.length == 0) {
       return [];
     }
-    console.log('result' + results);
+    // console.log('result' + results);
     const filtered = [];
     for (const result of results[0]) {
       let inAll = true;
       for (const otherList of results) {
         let isContained = false;
         for (const otherItem of otherList) {
-          console.log('REACHED HEREEEEEE 2222');
+          // console.log('REACHED HEREEEEEE 2222');
           // @ts-ignore
           if (otherItem.contentId.originalContent === result.contentId.originalContent) {
-            console.log('REACHED HEREEEEEE');
+            // console.log('REACHED HEREEEEEE');
             isContained = true;
             break;
           }
