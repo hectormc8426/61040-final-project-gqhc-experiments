@@ -3,7 +3,7 @@
     <section class="cardContainer">
       <h1 id="lessonContainerTitle">Lessons</h1>
 
-      <div v-for="lesson in $store.state.lessons" class="card">
+      <div v-for="lesson in $store.state.lessons.slice().reverse()" class="card">
 
         <div id="lessonContent">
           <router-link class="link" :to="{ name: 'Lesson', params: { lessonId: lesson._id } }">
@@ -38,7 +38,6 @@ export default {
 
 
 <style scoped>
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -69,7 +68,7 @@ main {
 .card {
   display: flex;
   flex-direction: row;
-  min-height:20%;
+  min-height: 20%;
   flex-grow: 1;
 }
 
@@ -84,6 +83,4 @@ a {
   font-size: var(--h4);
   text-decoration: none;
 }
-
-
 </style>

@@ -1,33 +1,34 @@
 <template>
     <main>
         <aside id="searchBar">
-<!--          <div class="loader" v-if="loading"/>-->
+            <!--          <div class="loader" v-if="loading"/>-->
 
-          <div id="lessonNameInput">
-            <h3 id="lessonNameTitle"> Lesson Name </h3>
-            <div id="inputGroup">
-              <input v-model='query' id="inputField"/>
-              <button v-on:click='search' id="inputButton">
-                Search
-              </button>
+            <div id="lessonNameInput">
+                <h3 id="lessonNameTitle"> Lesson Name </h3>
+                <div id="inputGroup">
+                    <input v-model='query' id="inputField" />
+                    <button v-on:click='search' id="inputButton">
+                        Search
+                    </button>
+                </div>
             </div>
-          </div>
+            <!-- </div> -->
 
-<!--          <hr style="width: 100%; border: 1px solid black"/>-->
+            <!--          <hr style="width: 100%; border: 1px solid black"/>-->
 
-          <div id="lessonNameInput">
-            <h3 id="lessonNameTitle"> Input Tags </h3>
-            <CreateTagsFormShowTemp ref="tempTags"/>
-            <button v-on:click="searchByTags()">Search</button>
-          </div>
+            <div id="lessonNameInput">
+                <h3 id="lessonNameTitle"> Input Tags </h3>
+                <CreateTagsFormShowTemp ref="tempTags" />
+                <button v-on:click="searchByTags()">Search</button>
+            </div>
 
         </aside>
 
-        <div class="verticalLine" />
+        <div class="verticalLine"></div>
 
         <div id="mainBody">
 
-          <LessonList :lessons="lessons"/>
+            <LessonList :lessons="lessons" />
 
         </div>
 
@@ -48,9 +49,10 @@ import LessonList from "./LessonList";
 export default {
     name: "LessonPage",
     components: {
-      LessonList,
-      CreateTagsFormShowTemp,
-      RatingComponent, TagComponent, CreateLessonForm, LessonComponent },
+        LessonList,
+        CreateTagsFormShowTemp,
+        RatingComponent, TagComponent, CreateLessonForm, LessonComponent
+    },
     mixins: { markdownMixin },
     data() {
         return {
@@ -171,55 +173,53 @@ export default {
 }
 
 main {
-  display: flex;
-  flex-direction: row;
-  gap: 32px;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
 }
 
 #searchBar {
-  height: fit-content;
-  flex-grow: 1;
-  padding-top: 2em;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 5.5em;
+    height: fit-content;
+    flex-grow: 1;
+    padding-top: 2em;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5.5em;
 }
 
 #mainBody {
-  flex-grow: 7;
-  padding-top: 2.5em;
+    flex-grow: 7;
+    padding-top: 2.5em;
 }
 
 #lessonNameInput {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 #lessonNameTitle {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 #inputGroup {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
 #inputField {
-  border-radius: var(--round-border-tiny);
-  border: var(--fuzzy-border);
+    border-radius: var(--round-border-tiny);
+    border: var(--fuzzy-border);
 }
 
 a {
-  color: var(--dark-font-color);
-  font-size: var(--h4);
-  text-decoration: none;
+    color: var(--dark-font-color);
+    font-size: var(--h4);
+    text-decoration: none;
 }
 
 .welcome-message {
     font-size: var(--h1);
     text-align: center;
 }
-
 </style>

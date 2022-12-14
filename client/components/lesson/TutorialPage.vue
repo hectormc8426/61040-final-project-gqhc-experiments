@@ -1,19 +1,17 @@
 <template>
     <main>
         <h2>
-            How to use the editor:
+            Editor Tutorial
         </h2>
         <p>
-            Hello there! This is a guide to help you use our editor to make lessons!
+            Hello there! This is a guide to help you use our editor to make lessons and showcases!
+        </p>
+        <p>
+            The text editor you see in the lesson page uses an alternate version of a markdown editor. Markdown is an
+            easy and clean language to format your text. You can treat it simply as a normal text editor, but you can do
+            some cool things with it.
         </p>
         <ul>
-            <li>
-                The text editor you see in the lesson page uses markdown editor. Markdown is an easy and clean language
-                to format your text.
-            </li>
-            <li>
-                You can treat it simply as a normal text editor, but you can do some cool things with it.
-            </li>
             <li>
                 If you want to bold your text (character, word, sentence, etc.), surround it with two */asterisk
                 symbols.
@@ -32,9 +30,9 @@
         </ul>
 
         <p>
-            For more information, visit the link below!
+            For more information, visit this link: <a href='https://www.markdowntutorial.com/'> Markdown Tutorial </a>
         </p>
-        <a href='https://www.markdowntutorial.com/'> Markdown Tutorial </a>
+
 
         <p>
             But normal markdown doesn't support videos. So we also have our own rules to accommodate!
